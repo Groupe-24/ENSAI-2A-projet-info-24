@@ -18,7 +18,8 @@ Semaine n° 2
 
 ### Ferret Maxime
 
--
+- Se connecter à l'API, créer un fichier python qui se connecte à l'api et qui requête les matchs sous forme de json
+- Lire les matchs (au format json) de l'api et extraire les données 
 
 
 ### Karim Hiba
