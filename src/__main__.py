@@ -3,7 +3,7 @@ import dotenv
 
 from utils.log_init import initialiser_logs
 
-from view.accueil.accueil_vue import AccueilVue
+from abstract_view.accueil_vue import AccueilVue
 
 
 if __name__ == "__main__":
