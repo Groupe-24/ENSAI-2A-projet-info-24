@@ -10,27 +10,24 @@ class Joueur_pro:
         pseudo du joueur
     mdp : str
         le mot de passe du joueur
-    age : int
-        age du joueur
     mail : str
         mail du joueur
-    fan_pokemon : bool
-        indique si le joueur est un fan de Pokemon
+    statut : str
+        statut du joueur
     """
 
-    def __init__(self, pseudo, age, mail, mdp=None, fan_pokemon=False, id_joueur=None):
+    def __init__(self, pseudo, mail, mdp=None, statut, id_joueur=None):
         """Constructeur"""
         self.id_joueur = id_joueur
         self.pseudo = pseudo
         self.mdp = mdp
-        self.age = age
         self.mail = mail
-        self.fan_pokemon = fan_pokemon
+        self.statut = statut
 
     def __str__(self):
         """Permet d'afficher les informations du joueur"""
-        return f"Joueur({self.pseudo}, {self.age} ans)"
+        return f"Joueur({self.pseudo}, {self.statut}.)"
 
     def as_list(self) -> list[str]:
         """Retourne les attributs du joueur dans une liste"""
-        return [self.pseudo, self.age, self.mail, self.fan_pokemon]
+        return [self.pseudo, self.statut, self.mail]
