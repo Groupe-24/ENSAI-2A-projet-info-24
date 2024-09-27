@@ -1,6 +1,6 @@
-class Joueur:
+class Joueur_pro:
     """
-    Classe représentant un Joueur
+    Classe représentant un Joueur professionnel
 
     Attributs
     ----------
