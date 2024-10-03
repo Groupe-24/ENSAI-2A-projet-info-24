@@ -12,27 +12,39 @@ classDiagram
     VueAbstraite : +afficher()
     VueAbstraite : +choisir_menu()
 
-    VisiteurVue ..> VisiteurService : Appelle
-    MenuOrganisateurVue ..> OrganisateurService : Appelle
-    ConnexionOrganisateurVue ..> OrganisateurService
-    Organisateur <.. OrganisateurService
-    MenuUtilisateurVue ..> UtilisateurService
-    ConnexionUtilisateurVue ..> UtilisateurService
-    Utilisateur <.. UtilisateurService
-    JoueurPro <.. UtilisateurService
-    ConnexionAdministrateurVue <.. AdministrateurService
-    MenuAdministrateurVue <.. AdministrateurService
-    Match <.. UtilisateurService
-    VisiteurService ..> MatchDAO
-    VisiteurService ..> JoueurProDAO
-    OrganisateurService ..> OrganisateurDAO
-    UtilisateurService ..> UtilisateurDAO
-    UtilisateurService ..> MatchDAO
-    Match <.. MatchDAO
-    UtilisateurService ..> JoueurProDAO
-    JoueurPro <.. JoueurProDAO
-    Utilisateur <.. UtilisateurDAO
-    Organisateur <.. OrganisateurDAO
+    MenuUtilisateurVue ..> UtilisateurService : appelle
+    ConnexionUtilisateurVue ..> UtilisateurService : appelle
+    Utilisateur <.. UtilisateurService : utilise
+    JoueurPro <.. UtilisateurService : utilise
+    Match <.. UtilisateurService : utilise
+    UtilisateurService ..> UtilisateurDAO : appelle
+    UtilisateurService ..> MatchDAO : appelle
+    Match <.. MatchDAO : utilise
+    UtilisateurService ..> JoueurProDAO : appelle
+    JoueurPro <.. JoueurProDAO : utilise
+    Utilisateur <.. UtilisateurDAO : utilise
+    UtilisateurService ..> OrganisateurDAO : appelle
+    Tournoi <.. UtilisateurService : utilise
+    Equipe <.. UtilisateurService : utilise
+    UtilisateurService ..> TournoiDAO : appelle
+    UtilisateurService ..> EquipeDAO : appelle
+    UtilisateurService ..> AdministrateurDAO : appelle
+    Equipe <.. EquipeDAO : utilise
+    Tournoi <.. TournoiDAO : utilise
+    VisiteurVue ..> UtilisateurService : appelle
+    MenuOrganisateurVue ..> UtilisateurService : appelle
+    ConnexionOrganisateurVue ..> UtilisateurService : appelle
+    ConnexionAdministrateurVue ..> UtilisateurService : appelle
+    MenuAdministrateurVue ..> UtilisateurService : appelle
+    class Tournoi{
+        +id_tournoi: String
+        +nom_tournoi: String
+        +nb_equipes: int
+        +taille_equipe: int
+        +prix: String
+        +matchs: List[Match]
+    }
+
     class JoueurPro{
         +id: String
         +pseudonyme: String
@@ -41,17 +53,19 @@ classDiagram
     class Match{
         +id_match: String
         +evenement: String
-        +equipe1: List[JoueurPro j1,JoueurPro j2,JoueurPro j3]
-        +equipe2: List[JoueurPro j1,JoueurPro j2,JoueurPro j3]
         +date: str
-        +goals1: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +goals2: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +score1: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +score2: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +assists1: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +assists2: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +saves1: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
-        +saves2: Dict[JoueurPro j1: int, JoueurPro j2: int, joueurPro j3: int]
+        +equipe1: Equipe
+        +equipe2: Equipe
+        +goals1: Dict[JoueurPro: int]
+        +goals2: Dict[JoueurPro: int]
+        +shoots1: Dict[JoueurPro: int]
+        +shoots2: Dict[JoueurPro: int]
+        +score1: Dict[JoueurPro: int]
+        +score2: Dict[JoueurPro: int]
+        +assists1: Dict[JoueurPro: int]
+        +assists2: Dict[JoueurPro: int]
+        +saves1: Dict[JoueurPro: int]
+        +saves2: Dict[JoueurPro: int]
     }
 
     class Utilisateur{
@@ -62,56 +76,69 @@ classDiagram
         +mdp: String
     }
 
-    class VisiteurService{
-        +afficher_calendrier()
-        +rechercher_match_par_date(date: String)
-        +rechercher_equipe(nom_equipe: String)
-        +rechercher_joueur(pseudonyme: String)
-    }
-
-    class OrganisateurService{
-        +se_connecter(id_organisateur: String, mdp: String)
-        +creer_tournoi(date: String, nb_equipes: String)
+    class Equipe{
+        +id_equipe: String
+        +nom: String
+        +joueurs: List[JoueurPro]
     }
 
     class UtilisateurService{
-        +creer_compte(id_utilisateur: String, nom: String, email: String, date_de_naissance: String, mdp: String)
-        +se_connecter(id_utilisateur: String, mdp: String)
-        +afficher_calendrier()
-        +rechercher_match_par_date(date: String)
-        +rechercher_equipe(nom_equipe: String)
-        +rechercher_joueur(pseudonyme: String)
-        +parier(id_match: String, montant: int)
-        +inscrire_tournoi(id_tournoi: String)
-        +supprimer_compte()
+        +creer_compte(id_utilisateur: String, nom: String, email: String, date_de_naissance: String, mdp: String) Utilisateur
+        +se_connecter_utilisateur(id_utilisateur: String, mdp: String) bool
+        +afficher_calendrier() List[Match]
+        +lister_equipes() List[Equipe]
+        +lister_tournois() List[Tournoi]
+        +rechercher_match_par_date(date: String) List[Match]
+        +rechercher_equipe(nom_equipe: String) List[Equipe]
+        +rechercher_joueur_pro(nom_joueur_pro: String) List[JoueurPro]
+        +parier(match: Match, montant: int) bool
+        +afficher_cote(match: Match) float
+        +inscrire_tournoi(tournoi: Tournoi) bool
+        +se_connecter_organisateur(id_organisateur: String, mdp: String) bool
+        +creer_tournoi(date: String, nom_tournoi: String, nb_equipes: int, prix: String) Tournoi
+        +modifier_match(match: Match, categorie: str, modification: int) Match
+        +supprimer_compte() bool
+        +se_connecter_administrateur(id_administrateur: String, mdp: String) bool
+        +supprimer_utilisateur(id_utilisateur: String) bool
     }
+
     class UtilisateurDAO{
-        +creer_compte(utilisateur: Utilisateur)
-        +se_connecter(id_utilisateur: String, mdp: String)
-        +inscrire_tournoi(id_tournoi: String)
-        +supprimer_compte()
-    }
-
-    class Organisateur{
-        +id_organisateur: String
-        +mdp: String
-    }
-
-    class AdministrateurService{
-        +se_connecter(id_administrateur: String, mdp: String)
-        +supprimer_utilisateur(id_utilisateur: String)
-
+        +creer_compte(id_utilisateur: String, nom: String, email: String, date_de_naissance: String, mdp: String) Utilisateur
+        +se_connecter_utilisateur(id_utilisateur: String, mdp: String) bool
+        +supprimer_compte() bool
+        +supprimer_utilisateur(utilisateur: Utilisateur) bool
     }
 
     class MatchDAO{
-        +rechercher_match_par_date(date: String)
-        +afficher_calendrier()
-        +creer_match()
-        +parier()
+        +rechercher_match_par_date(date: String) List[Match]
+        +afficher_calendrier() List[Match]
+        +creer_match() Match
+        +afficher_cote(match: Match) float
+        +parier(match: Match, montant: int) bool
+        +modifier_match(match: Match, categorie: str, modification: int) Match
     }
 
     class JoueurProDAO{
-        +rechercher_joueur(pseudonyme: String)
-        +rechercher_equipe(nom_equipe: String)
+        +rechercher_joueur_pro(nom_joueur_pro: String) List[JoueurPro]
+    }
+
+    class OrganisateurDAO{
+        +se_connecter_organisateur(id_organisateur: String, mdp: String) bool
+    }
+
+    class AdministrateurDAO{
+        +se_connecter_administrateur(id_administrateur: String, mdp: String) bool
+    }
+
+    class EquipeDAO{
+        +lister_equipes() List[Equipe]
+        +rechercher_equipe(nom_equipe: String) List[Equipe]
+    }
+
+    class TournoiDAO{
+        +creer_tournoi(date: String, nom_tournoi: String, nb_equipes: int, prix: String) Tournoi
+        +lister_tournois() List[Tournoi]
+        +rechercher_tournoi_nom(nom_tournoi: String) List[Tournoi]
+        +inscrire_tournoi(tournoi: Tournoi) bool
     }
 ```
