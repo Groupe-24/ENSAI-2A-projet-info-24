@@ -1,5 +1,4 @@
 ```mermaid
-
 classDiagram
     VueAbstraite <|-- VisiteurVue
     VueAbstraite <|-- MenuOrganisateurVue
@@ -15,20 +14,18 @@ classDiagram
     MenuUtilisateurVue ..> UtilisateurService : appelle
     ConnexionUtilisateurVue ..> UtilisateurService : appelle
     Utilisateur <.. UtilisateurService : utilise
-    JoueurPro <.. UtilisateurService : utilise
+    Joueur <.. UtilisateurService : utilise
     Match <.. UtilisateurService : utilise
     UtilisateurService ..> UtilisateurDAO : appelle
     UtilisateurService ..> MatchDAO : appelle
     Match <.. MatchDAO : utilise
-    UtilisateurService ..> JoueurProDAO : appelle
-    JoueurPro <.. JoueurProDAO : utilise
+    UtilisateurService ..> JoueurDAO : appelle
+    Joueur <.. JoueurDAO : utilise
     Utilisateur <.. UtilisateurDAO : utilise
-    UtilisateurService ..> OrganisateurDAO : appelle
     Tournoi <.. UtilisateurService : utilise
     Equipe <.. UtilisateurService : utilise
     UtilisateurService ..> TournoiDAO : appelle
     UtilisateurService ..> EquipeDAO : appelle
-    UtilisateurService ..> AdministrateurDAO : appelle
     Equipe <.. EquipeDAO : utilise
     Tournoi <.. TournoiDAO : utilise
     VisiteurVue ..> UtilisateurService : appelle
@@ -36,6 +33,7 @@ classDiagram
     ConnexionOrganisateurVue ..> UtilisateurService : appelle
     ConnexionAdministrateurVue ..> UtilisateurService : appelle
     MenuAdministrateurVue ..> UtilisateurService : appelle
+
     class Tournoi{
         +id_tournoi: String
         +nom_tournoi: String
@@ -43,11 +41,13 @@ classDiagram
         +taille_equipe: int
         +prix: String
         +matchs: List[Match]
+        +organisateur: Utilisateur
     }
 
-    class JoueurPro{
-        +id: String
+    class Joueur{
+        +id_joueur: String
         +pseudonyme: String
+        +utilisateur: Utilisateur
     }
 
     class Match{
@@ -56,16 +56,16 @@ classDiagram
         +date: str
         +equipe1: Equipe
         +equipe2: Equipe
-        +goals1: Dict[JoueurPro: int]
-        +goals2: Dict[JoueurPro: int]
-        +shoots1: Dict[JoueurPro: int]
-        +shoots2: Dict[JoueurPro: int]
-        +score1: Dict[JoueurPro: int]
-        +score2: Dict[JoueurPro: int]
-        +assists1: Dict[JoueurPro: int]
-        +assists2: Dict[JoueurPro: int]
-        +saves1: Dict[JoueurPro: int]
-        +saves2: Dict[JoueurPro: int]
+        +buts1: Dict[Joueur: int]
+        +buts2: Dict[Joueur: int]
+        +tirs1: Dict[Joueur: int]
+        +tirs2: Dict[Joueur: int]
+        +score1: Dict[Joueur: int]
+        +score2: Dict[Joueur: int]
+        +assists1: Dict[Joueur: int]
+        +assists2: Dict[Joueur: int]
+        +arrets1: Dict[Joueur: int]
+        +arrets2: Dict[Joueur: int]
     }
 
     class Utilisateur{
@@ -74,12 +74,14 @@ classDiagram
         +email: String
         +date_de_naissance: String
         +mdp: String
+        +administrateur: bool
+        +organisateur: bool
     }
 
     class Equipe{
         +id_equipe: String
         +nom: String
-        +joueurs: List[JoueurPro]
+        +joueurs: List[Joueur]
     }
 
     class UtilisateurService{
@@ -90,11 +92,11 @@ classDiagram
         +lister_tournois() List[Tournoi]
         +rechercher_match_par_date(date: String) List[Match]
         +rechercher_equipe(nom_equipe: String) List[Equipe]
-        +rechercher_joueur_pro(nom_joueur_pro: String) List[JoueurPro]
+        +rechercher_joueur_pro(nom_joueur_pro: String) List[Joueur]
         +parier(match: Match, montant: int) bool
         +afficher_cote(match: Match) float
         +inscrire_tournoi(tournoi: Tournoi) bool
-        +se_connecter_organisateur(id_organisateur: String, mdp: String) bool
+        +se_connecter_organisateur(id_utilisateur: String, mdp: String) bool
         +creer_tournoi(date: String, nom_tournoi: String, nb_equipes: int, prix: String) Tournoi
         +modifier_match(match: Match, categorie: str, modification: int) Match
         +supprimer_compte() bool
@@ -107,6 +109,8 @@ classDiagram
         +se_connecter_utilisateur(id_utilisateur: String, mdp: String) bool
         +supprimer_compte() bool
         +supprimer_utilisateur(utilisateur: Utilisateur) bool
+        +se_connecter_administrateur(id_utilisateur: String, mdp: String) bool
+        +se_connecter_organisateur(id_utilisateur: String, mdp: String) bool
     }
 
     class MatchDAO{
@@ -118,16 +122,8 @@ classDiagram
         +modifier_match(match: Match, categorie: str, modification: int) Match
     }
 
-    class JoueurProDAO{
-        +rechercher_joueur_pro(nom_joueur_pro: String) List[JoueurPro]
-    }
-
-    class OrganisateurDAO{
-        +se_connecter_organisateur(id_organisateur: String, mdp: String) bool
-    }
-
-    class AdministrateurDAO{
-        +se_connecter_administrateur(id_administrateur: String, mdp: String) bool
+    class JoueurDAO{
+        +rechercher_joueur(pseudonyme: String) List[Joueur]
     }
 
     class EquipeDAO{
