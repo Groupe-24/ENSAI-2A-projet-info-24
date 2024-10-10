@@ -97,7 +97,7 @@ classDiagram
         +lister_tournois() List[Tournoi]
         +rechercher_match_par_date(date: String) List[Match]
         +rechercher_equipe(nom_equipe: String) List[Equipe]
-        +rechercher_joueur_pro(nom_joueur_pro: String) List[Joueur]
+        +rechercher_joueur(pseudonyme: String) List[Joueur]
         +parier(match: Match, montant: int) bool
         +afficher_cote(match: Match) float
         +inscrire_tournoi(tournoi: Tournoi) bool
