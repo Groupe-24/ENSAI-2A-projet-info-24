@@ -7,7 +7,7 @@ CREATE TABLE joueur(
     date       VARCHAR(50),
     event          VARCHAR(256),
     blue_team           VARCHAR(50),
-    blue_players1          INVARCHAR(50)TEGER,
+    blue_players1          VARCHAR(50),
     blue_players2         VARCHAR(50),
     blue_players3  VARCHAR(50),
     orange_team    VARCHAR(50),
