@@ -1,31 +1,26 @@
 class Utilisateur:
-    """
-    Classe représentant un utilisateur
-
-    Attributs
-    ----------
-    id_utilisteur : int
-        identifiant de l'utilisateur
-    pseudo : str
-        pseudo de l'organisateur
-    mdp : str
-        le mot de passe de l'organisateur
-    statut : str
-        indique le statut
-    """
-
-    def __init__(self, pseudo, mdp=None, statut, id_utilisateur):
+    def __init__(self, id, nom, mail, ddn, mdp=None, administrateur=False, organisateur=False):
         """Constructeur"""
-        self.id_utilisateur = id_utilisateur
-        self.pseudo = pseudo
+        self.id_utilisateur = id
+        self.nom = nom
+        self.mail = mail
+        self.date_de_naissance = ddn
         self.mdp = mdp
-        self.statut = statut
-
+        self.administrateur = administrateur
+        self.organisateur = organisateur
 
     def __str__(self):
-        """Permet d'afficher les informations de l'organisateur"""
-        return f"Utilisateur({self.pseudo}.)"
+        """Permet d'afficher les informations de l'utilisateur"""
+        role = []
+        if self.administrateur:
+            role.append("Administrateur")
+        if self.organisateur:
+            role.append("Organisateur")
 
-    def as_list(self) -> list[str]:
-        """Retourne les attributs du joueur dans une liste"""
-        return [self.pseudo]
+        roles_str = ", ".join(role) if role else "Utilisateur"
+
+        return (
+            f"ID: {self.id_utilisateur}, Nom: {self.nom}, "
+            f"Mail: {self.mail}, Date de Naissance: {self.date_de_naissance}, "
+            f"Rôle: {roles_str}"
+        )
