@@ -1,5 +1,5 @@
 -----------------------------------------------------
--- Joueur
+-- Match
 -----------------------------------------------------
 
 CREATE TABLE match(
@@ -15,3 +15,5 @@ CREATE TABLE match(
     orange_players2          VARCHAR(50),
     orange_players3          VARCHAR(50)
 );
+
+
