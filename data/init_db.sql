@@ -1,9 +1,9 @@
 -----------------------------------------------------
 -- Joueur
 -----------------------------------------------------
-DROP TABLE IF EXISTS joueur CASCADE ;
-CREATE TABLE joueur(
-    id_joueur    SERIAL PRIMARY KEY,
+
+CREATE TABLE match(
+    id_joueur    VARCHAR PRIMARY KEY,
     date       VARCHAR(50),
     event          VARCHAR(256),
     blue_team           VARCHAR(50),
