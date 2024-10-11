@@ -1,8 +1,7 @@
 -----------------------------------------------------
 -- Match
 -----------------------------------------------------
-DROP TABLE IF EXISTS match CASCADE ;
-CREATE TABLE match (
+CREATE TABLE IF NOT EXISTS match (
     id_match    SERIAL PRIMARY KEY,
     date       VARCHAR(50),
     event          VARCHAR(256),

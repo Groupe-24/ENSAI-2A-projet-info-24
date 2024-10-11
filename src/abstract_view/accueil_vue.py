@@ -24,3 +24,11 @@ class AccueilVue(VueAbstraite):
                 "Quitter",
             ],
         ).execute()
+        match choix:
+            case "Quitter":
+                pass
+
+            case "Se connecter":
+                from view.accueil.connexion_vue import ConnexionVue
+
+                return ConnexionVue("Connexion à l'application")
