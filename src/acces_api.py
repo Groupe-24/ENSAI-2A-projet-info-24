@@ -38,7 +38,7 @@ if reponseMatches.status_code != 200:
 connection = DBConnection().connection
 cursor = connection.cursor()
 
-for match in responseMatches.json()["matches"]:
+for match in reponseMatches.json()["matches"]:
     cursor.execute(
         "INSERT INTO match(id_match, date, event, blue_team, blue_players1, blue_players2, blue_players3, orange_team, orange_players1, orange_players2, orange_players3) VALUES                     "
         "(%(id_match)s, %(date)s, %(event)s, %(blue_team)s, %(blue_players1)s, %(blue_players2)s, %(blue_players3)s, %(orange_team)s, %(orange_players1)s, %(orange_players2)s, %(orange_players3)s);",
