@@ -6,34 +6,34 @@ from dao.db_connection import DBConnection
 create_match_request = """
 DROP TABLE IF EXISTS Matches CASCADE;
 CREATE TABLE IF NOT EXISTS Matches (
-    Id_Matches VARCHAR(255) PRIMARY KEY,
+    Id_Matches VARCHAR PRIMARY KEY,
     Date DATE,
-    Id_Tournois VARCHAR(255),
-    Equipe_Orange VARCHAR(255),
-    Equipe_Bleu VARCHAR(255)
+    Id_Tournois VARCHAR,
+    Equipe_Orange VARCHAR,
+    Equipe_Bleu VARCHAR
 );
 """
 
 create_tournois_request = """ 
 DROP TABLE IF EXISTS Tournois CASCADE;
 CREATE TABLE IF NOT EXISTS Tournois (
-    Id_Tournois VARCHAR(255) PRIMARY KEY,
-    Titre VARCHAR(255),
+    Id_Tournois VARCHAR PRIMARY KEY,
+    Titre VARCHAR,
     Description TEXT,
     Date_Debut DATE,
     Date_Fin DATE,
-    Id_Organisateur VARCHAR(255),
-    Id_Equipe VARCHAR(255)
+    Id_Organisateur VARCHAR,
+    Id_Equipe VARCHAR
 );
 """
 
 create_paris_request = """ 
 DROP TABLE IF EXISTS Paris CASCADE;
 CREATE TABLE IF NOT EXISTS Paris (
-    Id_Paris VARCHAR(255) PRIMARY KEY,
-    Id_Matches VARCHAR(255),
-    Id_Equipe VARCHAR(255),
-    Id_Utilisateur VARCHAR(255),
+    Id_Paris VARCHAR PRIMARY KEY,
+    Id_Matches VARCHAR,
+    Id_Equipe VARCHAR,
+    Id_Utilisateur VARCHAR,
     Mise DECIMAL(10, 2),
     Gain DECIMAL(10, 2)
 );
@@ -42,11 +42,11 @@ CREATE TABLE IF NOT EXISTS Paris (
 create_utilisateurs_request = """ 
 DROP TABLE IF EXISTS Utilisateurs CASCADE;
 CREATE TABLE IF NOT EXISTS Utilisateurs (
-    Id_Utilisateur VARCHAR(255) PRIMARY KEY,
-    Pseudo VARCHAR(255),
-    Email VARCHAR(255),
-    Password VARCHAR(255),
-    Id_Joueur VARCHAR(255),
+    Id_Utilisateur VARCHAR PRIMARY KEY,
+    Pseudo VARCHAR,
+    Email VARCHAR,
+    Password VARCHAR,
+    Id_Joueur VARCHAR,
     Administrateur BOOLEAN
 );
 """
@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
 create_joueurs_request = """
 DROP TABLE IF EXISTS Joueurs CASCADE;
 CREATE TABLE IF NOT EXISTS Joueurs (
-    Id_Joueurs VARCHAR(255) PRIMARY KEY,
-    Pseudo VARCHAR(255),
-    Equipe VARCHAR(255),
+    Id_Joueurs VARCHAR PRIMARY KEY,
+    Pseudo VARCHAR,
+    Equipe VARCHAR,
     Professionnel BOOLEAN
 );
 """
@@ -64,10 +64,10 @@ CREATE TABLE IF NOT EXISTS Joueurs (
 create_statistiques_request = """
 DROP TABLE IF EXISTS Statistiques CASCADE;
 CREATE TABLE IF NOT EXISTS Statistiques (
-    Id_Statistique VARCHAR(255) PRIMARY KEY,
-    Joueur VARCHAR(255),
-    Match VARCHAR(255),
-    Equipe VARCHAR(255),
+    Id_Statistique VARCHAR PRIMARY KEY,
+    Joueur VARCHAR,
+    Match VARCHAR,
+    Equipe VARCHAR,
     But INT,
     Score_De_Match DECIMAL(10, 2),
     Consommation_Du_Boost DECIMAL(10, 2)
@@ -77,8 +77,8 @@ CREATE TABLE IF NOT EXISTS Statistiques (
 create_equipe_request = """ 
 DROP TABLE IF EXISTS Equipe CASCADE;
 CREATE TABLE IF NOT EXISTS Equipe (
-    Id_Equipe VARCHAR(255) PRIMARY KEY,
-    Nom VARCHAR(255)
+    Id_Equipe VARCHAR PRIMARY KEY,
+    Nom VARCHAR
 );
 """
 
