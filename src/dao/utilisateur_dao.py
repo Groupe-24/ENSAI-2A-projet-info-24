@@ -97,3 +97,11 @@ class UtilisateurDAO:
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(query, params)
             return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants
+
+    def is_in_utilisateur(self, id_utilisateur):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(
+                "SELECT EXISTS(SELECT 1 FROM Utilisateurs WHERE Id_Utilisateur = %s);",
+                (id_utilisateur,),
+            )
+            return cursor.fetchone()[0]  # Renvoie True ou False
