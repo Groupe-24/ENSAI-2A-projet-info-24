@@ -1,8 +1,14 @@
 -----------------------------------------------------
 -- Match
 -----------------------------------------------------
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS match (
     id_match    SERIAL PRIMARY KEY,
+=======
+
+CREATE TABLE match(
+    id_joueur    VARCHAR PRIMARY KEY,
+>>>>>>> 4e7af4dbf47bbfefc01cbc4b42b381abc05cd54f
     date       VARCHAR(50),
     event          VARCHAR(256),
     blue_team           VARCHAR(50),

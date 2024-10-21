@@ -38,6 +38,26 @@ if reponseMatches.status_code != 200:
 connection = DBConnection().connection
 cursor = connection.cursor()
 
+cursor.execute(
+    """
+    DROP TABLE IF EXISTS match CASCADE;
+    CREATE TABLE IF NOT EXISTS match (
+        id_match VARCHAR(255) PRIMARY KEY,
+        date TIMESTAMP,
+        event VARCHAR(255),
+        blue_team VARCHAR(255),
+        blue_players1 VARCHAR(255),
+        blue_players2 VARCHAR(255),
+        blue_players3 VARCHAR(255),
+        orange_team VARCHAR(255),
+        orange_players1 VARCHAR(255),
+        orange_players2 VARCHAR(255),
+        orange_players3 VARCHAR(255)
+    );
+"""
+)
+connection.commit()
+
 for match in reponseMatches.json()["matches"]:
     cursor.execute(
         "INSERT INTO match(id_match, date, event, blue_team, blue_players1, blue_players2, blue_players3, orange_team, orange_players1, orange_players2, orange_players3) VALUES                     "
@@ -56,3 +76,7 @@ for match in reponseMatches.json()["matches"]:
             "orange_players3": match["orange"]["players"][2],
         },
     )
+
+connection.commit()
+cursor.close()
+connection.close()
