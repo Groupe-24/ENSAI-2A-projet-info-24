@@ -1,3 +1,9 @@
+import regex
+
+from InquirerPy import inquirer
+from InquirerPy.validator import PasswordValidator, EmptyInputValidator
+
+from prompt_toolkit.validation import ValidationError, Validator
 from abstract_view.vue_abstraite import VueAbstraite
 
 
