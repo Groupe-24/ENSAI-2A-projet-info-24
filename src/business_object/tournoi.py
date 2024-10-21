@@ -3,7 +3,7 @@ class Tournoi:
         self, id, nom, nb_equipes, taille_equipe, prix, equipes=None, matchs=None, organisateur=None
     ):
         """Constructeur"""
-        self.id = id
+        self.id_tournoi = id
         self.nom = nom
         self.nb_equipes = nb_equipes
         self.taille_equipe = taille_equipe
