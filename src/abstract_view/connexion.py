@@ -1,9 +1,10 @@
 from InquirerPy import inquirer
-from service.utilisateur_service import UtilisateurService
+
+# from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
 
 
-from service.joueur_service import JoueurService
+# from service.joueur_service import JoueurService
 
 
 class ConnexionVue(VueAbstraite):

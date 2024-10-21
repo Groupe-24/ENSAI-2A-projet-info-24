@@ -29,6 +29,6 @@ class AccueilVue(VueAbstraite):
                 pass
 
             case "Se connecter":
-                from view.accueil.connexion import ConnexionVue
+                from abstract_view.connexion import ConnexionVue
 
                 return ConnexionVue("Connexion à l'application")
