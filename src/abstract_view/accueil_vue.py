@@ -21,6 +21,7 @@ class AccueilVue(VueAbstraite):
             message="Faites votre choix : ",
             choices=[
                 "Se connecter",
+                "Créer un compte",
                 "Quitter",
             ],
         ).execute()
@@ -32,3 +33,6 @@ class AccueilVue(VueAbstraite):
                 from abstract_view.connexion import ConnexionVue
 
                 return ConnexionVue("Connexion à l'application")
+
+            case "Créer un compte":
+                from abstract_view.inscription import Inscription
