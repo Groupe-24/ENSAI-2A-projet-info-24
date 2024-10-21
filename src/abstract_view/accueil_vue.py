@@ -22,6 +22,7 @@ class AccueilVue(VueAbstraite):
             choices=[
                 "Se connecter",
                 "Créer un compte",
+                "Consulter le calendrier et les statistiques",
                 "Quitter",
             ],
         ).execute()
@@ -35,8 +36,11 @@ class AccueilVue(VueAbstraite):
                 return ConnexionVue("Connexion à l'application")
 
             case "Créer un compte":
-                print("raphael le boulet")
                 from abstract_view.inscription import InscriptionVue
 
-                print("hellooooooow")
                 return InscriptionVue("Inscription à l'application")
+
+            case "Consulter le calendrier et les statistiques":
+                from abstract_view.visiteur_vue import VisiteurVue
+
+                return VisiteurVue("Que souhaitez vous faire ?")
