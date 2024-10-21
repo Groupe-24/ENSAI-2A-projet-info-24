@@ -35,4 +35,6 @@ class AccueilVue(VueAbstraite):
                 return ConnexionVue("Connexion à l'application")
 
             case "Créer un compte":
-                from abstract_view.inscription import Inscription
+                from abstract_view.inscription import InscriptionVue
+
+                return InscriptionVue("Inscription à l'application")
