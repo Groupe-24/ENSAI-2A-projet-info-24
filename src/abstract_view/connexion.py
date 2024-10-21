@@ -1,5 +1,5 @@
 from InquirerPy import inquirer
-
+from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
 from view.session import Session
 
