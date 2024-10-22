@@ -1,8 +1,14 @@
+print("helooooo")
 from business_object.users.utilisateur import Utilisateur
+
+print("k")
 
 
 class UtilisateurService:
+    print("kk")
+
     def __init__(self, utilisateurDao):
+        print("hh")
         self.utilisateurDao = utilisateurDao
 
     def creer_compte(self, pseudo, nom, mail, ddn, mdp):
@@ -11,30 +17,34 @@ class UtilisateurService:
         return utilisateur
 
     def se_connecter_utilisateur(self, pseudo, mdp):
-        utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
-        if utili and utili.pseudo == pseudo:
-            return utili.mdp == mdp
+        utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
+        if utili[0]["pseudo"] == pseudo:
+            return utili[0]["password"] == mdp
         return False
 
     def supprimer_utilisateur(self, utilisateur):
         return self.utilisateurDao.delete_utilisateur(utilisateur.pseudo)
 
     def se_connecter_administrateur(self, pseudo, mdp):
-        utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
-        if utili and utili.administrateur:
-            if utili.pseudo == pseudo:
-                return utili.mdp == mdp
+        utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
+        if utili[0]["administrateur"]:
+            if utili[0]["pseudo"] == pseudo:
+                return utili[0]["password"] == mdp
         return False
 
     def se_connecter_organisateur(self, pseudo, mdp):
-        utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
-        if utili.organisateur:
-            if utili.pseudo == pseudo:
-                return utili.mdp == mdp
+        utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
+        if utili[0]["organisateur"]:
+            if utili[0]["pseudo"] == pseudo:
+                return utili[0]["password"] == mdp
         return False
 
     def connection_ok(self, pseudo, mdp):
-        utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
+        print("cc")
+        utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
+        print("ccc")
+        print(utili)
+        print(utili[0]["pseudo"])
         if utili is None:
             return False
         return (
