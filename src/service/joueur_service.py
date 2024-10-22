@@ -1,5 +1,4 @@
-from dao.joueur_dao import JoueursDao
-from business_oject.joueur import Joueur
+from business_object.users.joueur import Joueur
 
 
 class JoueurService:
@@ -7,7 +6,17 @@ class JoueurService:
         self.joueur_dao = joueur_dao
 
     def rechercher_joueur(self, pseudo):
-        """Rechercher un joueur par son pseudo"""
+        """Rechercher un joueur par son pseudo
+
+        Parameters
+        ----------
+        pseudo : str
+            Pseudo du joueur à chercher
+
+        Return
+        ------
+        list[Joueur]
+        """
         resultat = self.joueur_dao.get_joueur_by_parameters(pseudo=pseudo)
         liste_joueur = []
         if resultat:
