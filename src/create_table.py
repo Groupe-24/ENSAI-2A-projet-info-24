@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     Password VARCHAR,
     Id_Joueur VARCHAR,
     Administrateur BOOLEAN,
+    Organisateur BOOLEAN,
     Date_de_naissance DATE
 );
 """
