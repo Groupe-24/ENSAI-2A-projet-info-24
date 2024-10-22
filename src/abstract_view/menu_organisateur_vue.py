@@ -8,7 +8,7 @@ class MenuOrganisateurVue(VueAbstraite):
     """Menu des organisateurs"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\Vue organisateur\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "Vue organisateur\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",

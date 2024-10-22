@@ -8,7 +8,7 @@ class MenuAdministrateurVue(VueAbstraite):
     """Menu des administrateurs"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\Vue administrateur\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "Vue administrateur\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
