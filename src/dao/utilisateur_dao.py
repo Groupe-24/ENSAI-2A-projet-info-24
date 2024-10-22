@@ -8,13 +8,21 @@ class UtilisateurDAO:
         self.connection = DBConnection().connection
 
     def insert_utilisateur(
-        self, id_utilisateur, pseudo, email, password, id_joueur, administrateur
+        self, id_utilisateur, pseudo, email, password, id_joueur, administrateur, date_de_naissance
     ):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur) "
-                "VALUES (%s, %s, %s, %s, %s, %s);",
-                (id_utilisateur, pseudo, email, password, id_joueur, administrateur),
+                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur, Date_de_naissance) "
+                "VALUES (%s, %s, %s, %s, %s, %s, %s);",
+                (
+                    id_utilisateur,
+                    pseudo,
+                    email,
+                    password,
+                    id_joueur,
+                    administrateur,
+                    date_de_naissance,
+                ),
             )
         self.connection.commit()
 
@@ -33,6 +41,7 @@ class UtilisateurDAO:
         password=None,
         id_joueur=None,
         administrateur=None,
+        date_de_naissance=None,
     ):
         with closing(self.connection.cursor()) as cursor:
             # Créer la liste des colonnes à mettre à jour
@@ -53,6 +62,9 @@ class UtilisateurDAO:
             if administrateur is not None:
                 updates.append("Administrateur = %s")
                 params.append(administrateur)
+            if date_de_naissance is not None:
+                updates.append("Date_de_naissance = %s")
+                params.append(date_de_naissance)
 
             params.append(id_utilisateur)  # Ajouter l'ID utilisateur à la fin des paramètres
             update_query = (
@@ -72,7 +84,7 @@ class UtilisateurDAO:
             return cursor.fetchall()  # Récupérer tous les utilisateurs
 
     def get_utilisateur_by_parameters(
-        self, pseudo=None, email=None, administrateur=None, id_joueur=None
+        self, pseudo=None, email=None, administrateur=None, id_joueur=None, date_de_naissance=None
     ):
         query = "SELECT * FROM Utilisateurs WHERE 1=1"
         params = []
@@ -93,6 +105,10 @@ class UtilisateurDAO:
         if id_joueur is not None:
             query += " AND Id_Joueur = %s"
             params.append(id_joueur)
+
+        if date_de_naissance is not None:
+            query += " AND Date_de_naissance = %s"
+            params.append(date_de_naissance)
 
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(query, params)

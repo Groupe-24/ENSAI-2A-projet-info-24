@@ -62,3 +62,8 @@ class MatchDAO:
                 "SELECT EXISTS(SELECT 1 FROM Matches WHERE Id_Matches = %s);", (id_match,)
             )
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def calendrier(self, Date, id_tournois=None):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Matches WHERE Date > %s ORDER BY Date);", (Date,))
+            return cursor.fetchall()

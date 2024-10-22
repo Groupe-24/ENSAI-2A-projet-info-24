@@ -19,13 +19,19 @@ def generate_unique_id(data):
 #     generate_unique_id("olivier"), "olivier", "olivierfdanel@gmail.com", "chips", None, False
 # )
 
-# UtilisateurDAO(DBConnection()).insert_utilisateur(
-#     generate_unique_id("Raphael"), "Raphael", "RaphaelfBorny@gmail.com", "ketchup", None, False
-# )
+UtilisateurDAO(DBConnection()).insert_utilisateur(
+    generate_unique_id("Raphael"),
+    "Raphael",
+    "RaphaelfBorny@gmail.com",
+    "ketchup",
+    None,
+    False,
+    "01/01/2020",
+)
 
 # print(UtilisateurDAO(DBConnection()).get_utilisateur_by_id(generate_unique_id("olivier")))
 
 
-print(UtilisateurDAO(DBConnection()).delete_utilisateur(generate_unique_id("Raphael")))
+# print(UtilisateurDAO(DBConnection()).delete_utilisateur(generate_unique_id("Raphael")))
 
 print(UtilisateurDAO(DBConnection()).list_utilisateurs())
