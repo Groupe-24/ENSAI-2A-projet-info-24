@@ -16,7 +16,7 @@ class ConnexionVue(VueAbstraite):
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
         # Appel du service pour trouver le joueur
-        utilisateur = UtilisateurService().se_connecter(pseudo, mdp)
+        utilisateur = UtilisateurService().se_connecter_utilisateur(pseudo, mdp)
 
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
         if utilisateur:
