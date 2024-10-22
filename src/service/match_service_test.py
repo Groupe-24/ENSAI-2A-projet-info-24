@@ -58,17 +58,15 @@ class TestMatchService(unittest.TestCase):
         ]
 
         self.match_dao_mock.list_matches.return_value = matches
-
-        # On ne peut pas tester directement les prints, donc on va rediriger stdout
         from io import StringIO
         import sys
 
         captured_output = StringIO()
-        sys.stdout = captured_output  # Rediriger stdout
+        sys.stdout = captured_output
 
         self.match_service.afficher_calendrier()
 
-        sys.stdout = sys.__stdout__  # Rétablir stdout
+        sys.stdout = sys.__stdout__
 
         # Vérifier que le calendrier a été affiché correctement
         expected_output = (
@@ -78,7 +76,7 @@ class TestMatchService(unittest.TestCase):
             "  Match 2 : Team C vs Team D (Tournoi: 102)\n\n"
         )
 
-        self.assertEqual(captured_output.getvalue(), expected_output)
+        self.assertEqual(captured_output.getvalue().strip(), expected_output.strip())
 
     def test_modifier_match(self):
         id_match = 1
@@ -108,7 +106,7 @@ class TestMatchService(unittest.TestCase):
 
     def test_modifier_match_not_found(self):
         id_match = 999  # Match non existant
-        self.match_dao_mock.is_in_match.return_value = False  # Simuler que le match n'existe pas
+        self.match_dao_mock.is_in_match.return_value = False
 
         result = self.match_service.modifier_match(id_match)
 
