@@ -1,16 +1,11 @@
-print("a")
 from InquirerPy import inquirer
 
-print("b")
-from abstract_view.vue_abstraite import VueAbstraite
 
-print("c")
+from abstract_view.vue_abstraite import VueAbstraite
 
 
 class VisiteurVue(VueAbstraite):
     """Vue des visiteurs non authentifiés"""
-
-    print("12")
 
     def choisir_menu(self):
         print("\n" + "-" * 25 + "\VisiteurVue\n" + "-" * 25 + "\n")
@@ -33,7 +28,3 @@ class VisiteurVue(VueAbstraite):
 
             case "Consulter les statistiques":
                 pass
-
-        from abstract_view.accueil_vue import AccueilVue
-
-        return AccueilVue(message)
