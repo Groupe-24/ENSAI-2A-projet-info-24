@@ -23,24 +23,25 @@ class MatchService:
             id_tournoi = match[2]
             equipe_orange = match[3]
             equipe_bleu = match[4]
-        if date not in calendrier:
-            calendrier[date] = []
-        calendrier[date].append(
-            {
-                "Id_Match": id_match,
-                "Tournoi": id_tournoi,
-                "Equipe_Orange": equipe_orange,
-                "Equipe_Bleu": equipe_bleu,
-            }
-        )
+            if date not in calendrier:
+                calendrier[date] = []
+            calendrier[date].append(
+                {
+                    "Id_Match": id_match,
+                    "Tournoi": id_tournoi,
+                    "Equipe_Orange": equipe_orange,
+                    "Equipe_Bleu": equipe_bleu,
+                }
+            )
 
-    output = ""
-    for date, matchs in sorted(calendrier.items()):
-        output += f"Date : {date}\n"
-        for match in matchs:
-            output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs {match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
-        output += "\n"  # Retournons à la ligne après chaque date
-    print(output)
+        output = ""
+        for date, matchs in sorted(calendrier.items()):
+            output += f"Date : {date}\n"
+            for match in matchs:
+                output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs {match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
+            output += "\n"  # Assurer un retour à la ligne après chaque date
+
+        print(output)
 
     def creer_match(
         self, id_match=None, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None
