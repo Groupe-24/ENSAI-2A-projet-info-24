@@ -42,6 +42,6 @@ class AccueilVue(VueAbstraite):
 
             case "Consulter le calendrier et les statistiques":
                 print("azaza")
-                from abstract_view.visiteur_vue import VisiteurVue
+                from abstract_view.menu_visiteur_vue import VisiteurVue
 
                 return VisiteurVue("Que souhaitez vous faire ?")

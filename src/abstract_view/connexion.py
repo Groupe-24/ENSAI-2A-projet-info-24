@@ -19,8 +19,20 @@ class ConnexionVue(VueAbstraite):
         utilisateur = UtilisateurService().se_connecter(pseudo, mdp)
 
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
-        if joueur:
-            message = f"Vous êtes connecté sous le pseudo {joueur.pseudo}"
+        if utilisateur:
+            message = f"Vous êtes connecté sous le pseudo {utilisateur.pseudo}"
+
+            if utilisateur.administrateur:
+
+                from abstract_view.menu_aministrateur_vue import MenuAdministrateurVue
+
+                return MenuAdministrateurVue(message)
+
+            if utilisateur.organisateur:
+
+                from abstract_view.menu_organisateur_vue import MenuOrganisateurVue
+
+                return MenuOrganisateurVue(message)
 
             from abstract_view.menu_utilisateur_vue import MenuUtilisateurVue
 
