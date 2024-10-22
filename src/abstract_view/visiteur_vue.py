@@ -12,8 +12,8 @@ class VisiteurVue(VueAbstraite):
 
     print("12")
 
-    def choix_visiteur(self):
-        print("\n" + "-" * 50 + "\VisiteurVue\n" + "-" * 50 + "\n")
+    def choisir_menu(self):
+        print("\n" + "-" * 25 + "\VisiteurVue\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
@@ -23,6 +23,7 @@ class VisiteurVue(VueAbstraite):
                 "Quitter",
             ],
         ).execute()
+
         match choix:
             case "Quitter":
                 pass
@@ -32,3 +33,7 @@ class VisiteurVue(VueAbstraite):
 
             case "Consulter les statistiques":
                 pass
+
+        from abstract_view.accueil_vue import AccueilVue
+
+        return AccueilVue(message)
