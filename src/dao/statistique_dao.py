@@ -4,8 +4,8 @@ from contextlib import closing
 
 # Classe pour la table Statistiques
 class StatistiquesDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection.connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_statistique(
         self, id_statistique, joueur, match, equipe, goals, assists, saves, shots, score

@@ -4,7 +4,7 @@ from contextlib import closing
 
 class UtilisateurDAO:
 
-    def __init__(self, db_connection):
+    def __init__(self):
         self.connection = DBConnection().connection
 
     def insert_utilisateur(

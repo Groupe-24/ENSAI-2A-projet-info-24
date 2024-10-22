@@ -4,8 +4,8 @@ from contextlib import closing
 
 # Classe pour la table Paris
 class ParisDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_pari(self, id_pari, id_match, id_equipe, id_utilisateur, mise, gain):
         with closing(self.connection.cursor()) as cursor:

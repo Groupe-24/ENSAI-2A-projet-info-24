@@ -4,8 +4,8 @@ from contextlib import closing
 
 # Classe pour la table Joueurs
 class JoueursDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_joueur(self, id_joueur=None, pseudo=None, equipe=None, professionnel=None):
         with closing(self.connection.cursor()) as cursor:
@@ -77,7 +77,7 @@ class JoueursDAO:
             params.append(administrateur)
 
         if id_joueur is not None:
-            query += " AND Id_Joueur = %s"
+            query += " AND Id_Joueurs = %s"
             params.append(id_joueur)
 
         with closing(self.connection.cursor()) as cursor:
@@ -86,7 +86,33 @@ class JoueursDAO:
 
     def is_in_joueur(self, id_joueur):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM Joueurs WHERE Id_Joueurs = %s);", (id_joueur,)
-            )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+            try:
+                # Vérifier si la table est vide
+                cursor.execute("SELECT COUNT(*) FROM Joueurs;")
+                count_result = cursor.fetchone()
+
+                # Afficher le résultat pour le débogage
+                print(f"Résultat du COUNT: {count_result}")
+
+                # Vérifiez si count_result est bien une liste ou un tuple
+                if count_result is None or len(count_result) == 0:
+                    return True  # La table est vide, renvoyer True
+
+                # Vérifier si la table est vide
+                if count_result[0] == 0:
+                    return True  # La table est vide, renvoyer True
+
+                # Vérifier si le joueur existe
+                cursor.execute(
+                    "SELECT EXISTS(SELECT 1 FROM Joueurs WHERE Id_Joueur = %s);", (id_joueur,)
+                )
+                result = cursor.fetchone()
+
+                # Assurez-vous que result n'est pas None
+                return (
+                    result[0] if result else False
+                )  # Renvoie True si le joueur existe, sinon False
+
+            except Exception as e:
+                print(f"Erreur lors de l'exécution de la requête: {e}")
+                return False  # Renvoie False en cas d'erreur

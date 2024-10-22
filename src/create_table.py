@@ -71,7 +71,8 @@ CREATE TABLE IF NOT EXISTS Statistiques (
     Equipe VARCHAR,
     Goals INT,
     Shots INT,
-    Assits INT,
+    Assists INT,
+    Score INT,
     Saves INT
 );
 """
