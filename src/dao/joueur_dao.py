@@ -57,10 +57,10 @@ class JoueursDAO:
             cursor.execute("SELECT * FROM Joueurs;")  # Correction ici
             return cursor.fetchall()  # Récupérer tous les joueurs
 
-    def get_utilisateur_by_parameters(
-        self, pseudo=None, email=None, administrateur=None, id_joueur=None
+    def get_joueur_by_parameters(
+        self, id_joueur=None, pseudo=None, equipe=None, professionnel=None
     ):
-        query = "SELECT * FROM Utilisateurs WHERE 1=1"
+        query = "SELECT * FROM Joueurs WHERE 1=1"
         params = []
 
         # Construction dynamique de la requête
@@ -68,13 +68,13 @@ class JoueursDAO:
             query += " AND Pseudo = %s"
             params.append(pseudo)
 
-        if email is not None:
-            query += " AND Email = %s"
-            params.append(email)
+        if equipe is not None:
+            query += " AND Equipe = %s"
+            params.append(equipe)
 
-        if administrateur is not None:
-            query += " AND Administrateur = %s"
-            params.append(administrateur)
+        if professionnel is not None:
+            query += " AND Professionnel = %s"
+            params.append(professionnel)
 
         if id_joueur is not None:
             query += " AND Id_Joueur = %s"

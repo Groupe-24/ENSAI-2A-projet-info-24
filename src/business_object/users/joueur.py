@@ -12,7 +12,7 @@ class Joueur:
         objet de la classe utilisateur
     """
 
-    def __init__(self, pseudo, utilisateur, id_joueur=None):
+    def __init__(self, pseudo, utilisateur=None, id_joueur=None):
         """Constructeur"""
         self.id_joueur = id_joueur
         self.pseudo = pseudo
