@@ -41,6 +41,7 @@ class AccueilVue(VueAbstraite):
                 return InscriptionVue("Inscription à l'application")
 
             case "Consulter le calendrier et les statistiques":
+                print("azaza")
                 from abstract_view.visiteur_vue import VisiteurVue
 
                 return VisiteurVue("Que souhaitez vous faire ?")
