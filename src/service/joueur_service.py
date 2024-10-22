@@ -1,5 +1,4 @@
-from dao.joueur_dao import JoueursDao
-from business_oject.joueur import Joueur
+from business_object.users.joueur import Joueur
 
 
 class JoueurService:

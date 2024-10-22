@@ -12,11 +12,13 @@ class Joueur:
         objet de la classe utilisateur
     """
 
-    def __init__(self, pseudo, utilisateur=None, id_joueur=None):
+    def __init__(self, pseudo, utilisateur=None, equipe=None, id_joueur=None, professionnel=None):
         """Constructeur"""
         self.id_joueur = id_joueur
         self.pseudo = pseudo
         self.utilisateur = utilisateur
+        self.equipe = equipe
+        self.professionnel = professionnel
 
     def __str__(self):
         """Permet d'afficher les informations du joueur"""

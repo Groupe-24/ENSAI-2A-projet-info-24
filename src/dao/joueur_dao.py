@@ -1,11 +1,11 @@
-from db_connection import DBConnection
+from dao.db_connection import DBConnection
 from contextlib import closing
 
 
 # Classe pour la table Joueurs
 class JoueursDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_joueur(self, id_joueur=None, pseudo=None, equipe=None, professionnel=None):
         with closing(self.connection.cursor()) as cursor:
