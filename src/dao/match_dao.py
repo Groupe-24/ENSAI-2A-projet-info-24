@@ -62,3 +62,8 @@ class MatchDAO:
                 "SELECT EXISTS(SELECT 1 FROM Matches WHERE Id_Matches = %s);", (id_match,)
             )
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def get_match_by_date(self, date):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Matches WHERE DATE=%s;", (date,))
+            return cursor.fetchall()

@@ -12,7 +12,8 @@ class UtilisateurDAO:
     ):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur) "
+                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur,"
+                " Administrateur) "
                 "VALUES (%s, %s, %s, %s, %s, %s);",
                 (id_utilisateur, pseudo, email, password, id_joueur, administrateur),
             )
