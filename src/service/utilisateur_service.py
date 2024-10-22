@@ -32,3 +32,13 @@ class UtilisateurService:
             if utili.pseudo == pseudo:
                 return utili.mdp == mdp
         return False
+
+    def connection_ok(self, pseudo, mdp):
+        utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
+        if utili is None:
+            return False
+        return (
+            self.se_connecter_utilisateur(pseudo, mdp)
+            or self.se_connecter_administrateur(pseudo, mdp)
+            or self.se_connecter_organisateur(pseudo, mdp)
+        )

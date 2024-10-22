@@ -102,6 +102,40 @@ class TestUtilisateurService(unittest.TestCase):
         # Assert that the login as organizer was successful
         self.assertTrue(result)
 
+    def test_connection_ok(self):
+        # Set up test data
+        pseudo = "user123"
+        mdp = "password"
+        mock_user = MagicMock(pseudo=pseudo, mdp=mdp)
+        mock_admin = MagicMock(pseudo=pseudo, mdp=mdp, administrateur=True)
+        mock_organizer = MagicMock(pseudo=pseudo, mdp=mdp, organisateur=True)
+
+        # Test for normal user login
+        self.mock_utilisateurDao.get_utilisateur_by_id.return_value = mock_user
+        result = self.utilisateur_service.connection_ok(pseudo, mdp)
+        self.assertTrue(result)
+
+        # Test for administrator login
+        self.mock_utilisateurDao.get_utilisateur_by_id.return_value = mock_admin
+        result = self.utilisateur_service.connection_ok(pseudo, mdp)
+        self.assertTrue(result)
+
+        # Test for organizer login
+        self.mock_utilisateurDao.get_utilisateur_by_id.return_value = mock_organizer
+        result = self.utilisateur_service.connection_ok(pseudo, mdp)
+        self.assertTrue(result)
+
+        # Test for failed login (user does not exist)
+        self.mock_utilisateurDao.get_utilisateur_by_id.return_value = None
+        result = self.utilisateur_service.connection_ok(pseudo, mdp)
+        self.assertFalse(result)
+
+        # Test for failed login (incorrect password)
+        self.mock_utilisateurDao.get_utilisateur_by_id.return_value = mock_user
+        mock_user.mdp = "wrongpassword"
+        result = self.utilisateur_service.connection_ok(pseudo, mdp)
+        self.assertFalse(result)
+
 
 if __name__ == "__main__":
     unittest.main()
