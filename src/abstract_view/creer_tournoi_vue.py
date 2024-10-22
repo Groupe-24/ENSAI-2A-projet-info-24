@@ -4,17 +4,17 @@ from InquirerPy import inquirer
 from abstract_view.vue_abstraite import VueAbstraite
 
 
-class MenuAdministrateurVue(VueAbstraite):
-    """Menu des administrateurs"""
+class CreationTournoiVue(VueAbstraite):
+    """Menu de la création des tournois"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\Vue administrateur\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "\Vue création tournoi\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Supprimer un utilisateur",
-                "Supprimer un tournoi",
+                "Ajouter une équipe",
+                "Définir le calendrier",
                 "Quitter",
             ],
         ).execute()
@@ -23,8 +23,8 @@ class MenuAdministrateurVue(VueAbstraite):
             case "Quitter":
                 pass
 
-            case "Supprimer un utilisateur":
+            case "Ajouter une équipe":
                 pass
 
-            case "Supprimer un tournoi":
+            case "Définir le calendrier":
                 pass
