@@ -12,8 +12,8 @@ class UtilisateurDAO:
     ):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur, Date_de_naissance) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s);",
+                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur, Organisateur, Date_de_naissance) "
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
                 (
                     id_utilisateur,
                     pseudo,
@@ -21,6 +21,7 @@ class UtilisateurDAO:
                     password,
                     id_joueur,
                     administrateur,
+                    organisateur,
                     date_de_naissance,
                 ),
             )
@@ -41,6 +42,7 @@ class UtilisateurDAO:
         password=None,
         id_joueur=None,
         administrateur=None,
+        organisateur=None,
         date_de_naissance=None,
     ):
         with closing(self.connection.cursor()) as cursor:
@@ -62,6 +64,9 @@ class UtilisateurDAO:
             if administrateur is not None:
                 updates.append("Administrateur = %s")
                 params.append(administrateur)
+            if organisateur is not None:
+                updates.append("Organisateur = %s")
+                params.append(organisateur)
             if date_de_naissance is not None:
                 updates.append("Date_de_naissance = %s")
                 params.append(date_de_naissance)
@@ -84,7 +89,13 @@ class UtilisateurDAO:
             return cursor.fetchall()  # Récupérer tous les utilisateurs
 
     def get_utilisateur_by_parameters(
-        self, pseudo=None, email=None, administrateur=None, id_joueur=None, date_de_naissance=None
+        self,
+        pseudo=None,
+        email=None,
+        administrateur=None,
+        organisateur=None,
+        id_joueur=None,
+        date_de_naissance=None,
     ):
         query = "SELECT * FROM Utilisateurs WHERE 1=1"
         params = []
@@ -101,6 +112,10 @@ class UtilisateurDAO:
         if administrateur is not None:
             query += " AND Administrateur = %s"
             params.append(administrateur)
+
+        if organisateur is not None:
+            query += " AND Organisateur = %s"
+            params.append(organisateur)
 
         if id_joueur is not None:
             query += " AND Id_Joueur = %s"
