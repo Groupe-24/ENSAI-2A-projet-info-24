@@ -1,17 +1,17 @@
 class Match:
-    def __init__(self, id_match, evenement, date, equipe1, equipe2):
+    def __init__(self, id_match, date, id_tournoi, equipe_orange, equipe_bleu):
         """Constructeur"""
         self.id_match = id_match
-        self.evenement = evenement
+        self.id_tournoi = id_tournoi
         self.date = date
-        self.equipe1 = equipe1
-        self.equipe2 = equipe2
+        self.equipe_orange = equipe_orange
+        self.equipe_bleu = equipe_bleu
 
     def __str__(self):
         """Permet d'afficher les informations d'un match"""
 
         return (
-            f"Match ID: {self.id}\n"
-            f"Événement: {self.evenement} - Date: {self.date}\n"
-            f"{self.equipe1.nom} vs {self.equipe2.nom}\n\n"
+            f"Match ID: {self.id_match}\n"
+            f"Événement: {self.id_tournoi} - Date: {self.date}\n"
+            f"{self.equipe_orange.nom} vs {self.equipe_bleu.nom}\n\n"
         )
