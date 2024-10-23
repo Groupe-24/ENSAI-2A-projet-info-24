@@ -4,8 +4,8 @@ from contextlib import closing
 
 # Classe pour la table Tournoi
 class TournoiDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_tournoi(
         self,
@@ -19,7 +19,8 @@ class TournoiDAO:
     ):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Tournois(Id_Tournois, Titre, Description, Date_Debut, Date_Fin, Id_Organisateur, Id_Equipe) VALUES (%s, %s, %s, %s, %s, %s, %s);",
+                "INSERT INTO Tournois(Id_Tournois, Titre, Description, Date_Debut, Date_Fin, "
+                "Id_Organisateur, Id_Equipe) VALUES (%s, %s, %s, %s, %s, %s, %s);",
                 (id_tournoi, titre, description, date_debut, date_fin, id_organisateur, id_equipe),
             )
             self.connection.commit()
