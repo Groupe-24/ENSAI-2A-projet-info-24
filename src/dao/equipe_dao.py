@@ -20,6 +20,11 @@ class EquipeDAO:
             cursor.execute("SELECT * FROM Equipe WHERE Id_Equipe = %s;", (id_equipe,))
             return cursor.fetchone()  # Retourne une seule équipe
 
+    def get_equipe_by_nom(self, nom):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Equipe WHERE Nom = %s;", (nom,))
+            return cursor.fetchone()
+
     def update_equipe(self, id_equipe, nom=None):
         with closing(self.connection.cursor()) as cursor:
             updates = []
@@ -44,8 +49,20 @@ class EquipeDAO:
             return cursor.fetchall()  # Récupérer toutes les équipes
 
     def is_in_equipe(self, id_equipe):
-        with closing(self.connection.cursor()) as cursor:
-            cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM Equipe WHERE Id_Equipe = %s);", (id_equipe,)
-            )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+        # with closing(self.connection.cursor()) as cursor:
+        #     cursor.execute(
+        #         "SELECT EXISTS(SELECT 1 FROM Equipe WHERE Id_Equipe = %s);", (id_equipe,)
+        #     )
+        #     return cursor.fetchone()[0]  # Renvoie True ou False
+        a = self.get_equipe_by_id(id_equipe=id_equipe)
+        if a is None:
+            return False
+        else:
+            return True
+
+    def is_in_equipe_by_name(self, nom):
+        a = self.get_equipe_by_nom(nom=nom)
+        if a is None:
+            return False
+        else:
+            return True
