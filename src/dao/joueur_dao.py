@@ -23,6 +23,13 @@ class JoueursDAO:
             )  # Correction du nom de colonne
             return cursor.fetchone()  # Retourne un seul joueur
 
+    def get_joueur_by_pseudo(self, pseudo):
+        with closing(self.connection.cursor()) as cursor:  # Correction ici
+            cursor.execute(
+                "SELECT * FROM Joueurs WHERE Pseudo = %s;", (pseudo,)
+            )  # Correction du nom de colonne
+            return cursor.fetchone()  # Retourne un seul joueur
+
     def update_joueur(self, id_joueur, pseudo=None, equipe=None, professionnel=None):
         with closing(self.connection.cursor()) as cursor:
             # Créer la liste des colonnes à mettre à jour
@@ -85,34 +92,15 @@ class JoueursDAO:
             return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants
 
     def is_in_joueur(self, id_joueur):
-        with closing(self.connection.cursor()) as cursor:
-            try:
-                # Vérifier si la table est vide
-                cursor.execute("SELECT COUNT(*) FROM Joueurs;")
-                count_result = cursor.fetchone()
+        a = self.get_joueur_by_id(id_joueur=id_joueur)
+        if a is None:
+            False
+        else:
+            True
 
-                # Afficher le résultat pour le débogage
-                print(f"Résultat du COUNT: {count_result}")
-
-                # Vérifiez si count_result est bien une liste ou un tuple
-                if count_result is None or len(count_result) == 0:
-                    return True  # La table est vide, renvoyer True
-
-                # Vérifier si la table est vide
-                if count_result[0] == 0:
-                    return True  # La table est vide, renvoyer True
-
-                # Vérifier si le joueur existe
-                cursor.execute(
-                    "SELECT EXISTS(SELECT 1 FROM Joueurs WHERE Id_Joueur = %s);", (id_joueur,)
-                )
-                result = cursor.fetchone()
-
-                # Assurez-vous que result n'est pas None
-                return (
-                    result[0] if result else False
-                )  # Renvoie True si le joueur existe, sinon False
-
-            except Exception as e:
-                print(f"Erreur lors de l'exécution de la requête: {e}")
-                return False  # Renvoie False en cas d'erreur
+    def is_in_joueur_by_pseudo(self, pseudo):
+        a = self.get_joueur_by_pseudo(pseudo)
+        if a is None:
+            False
+        else:
+            True
