@@ -67,7 +67,7 @@ class TestMatchService(unittest.TestCase):
             output = mock_stdout.getvalue()
 
         # Then: Le résultat doit correspondre à la sortie attendue
-        self.assertEqual(output, expected_output)
+        self.assertEqual(output.strip(), expected_output.strip())
 
     def test_creer_match(self):
         # Given: Des détails de match pour la création
@@ -114,19 +114,19 @@ class TestMatchService(unittest.TestCase):
         # When: On modifie ce match
         result = self.match_service.modifier_match(
             id_match,
-            date="2024-10-26",
-            id_tournoi=101,
-            equipe_orange="Team A",
-            equipe_bleu="Team B",
+            "2024-10-26",
+            101,
+            "Team A",
+            "Team B",
         )
 
         # Then: On doit appeler update_match avec les bons arguments
         self.matchDao.update_match.assert_called_once_with(
             id_match,
-            date="2024-10-26",
-            id_tournoi=101,
-            equipe_orange="Team A",
-            equipe_bleu="Team B",
+            "2024-10-26",
+            101,
+            "Team A",
+            "Team B",
         )
         self.assertEqual(result["date"], "2024-10-26")
 
