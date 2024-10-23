@@ -8,7 +8,7 @@ class CreationTournoiVue(VueAbstraite):
     """Menu de la création des tournois"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\Vue création tournoi\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "\nVue création tournoi\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
