@@ -8,7 +8,7 @@ class VisiteurVue(VueAbstraite):
     """Vue des visiteurs non authentifiés"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\VisiteurVue\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "\nVisiteurVue\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",

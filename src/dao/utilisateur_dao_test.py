@@ -1,4 +1,5 @@
 from utilisateur_dao import UtilisateurDAO
+from pari_dao import ParisDAO
 from db_connection import DBConnection
 import hashlib
 
@@ -29,10 +30,10 @@ def generate_unique_id(data):
 #     True,
 # )
 
-UtilisateurDAO().update_utilisateur(
-    UtilisateurDAO().get_utilisateur_by_parameters(pseudo="Raphael")[0]["id_utilisateur"],
-    organisateur=True,
-)
+# UtilisateurDAO().update_utilisateur(
+#     UtilisateurDAO().get_utilisateur_by_parameters(pseudo="Raphael")[0]["id_utilisateur"],
+#     organisateur=True,
+# )
 
 
 # print(UtilisateurDAO(DBConnection()).get_utilisateur_by_id(generate_unique_id("olivier")))

@@ -7,7 +7,7 @@ class MenuUtilisateurVue(VueAbstraite):
     """Menu des utilisateurs authentifiés"""
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "Vue utilisateur\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "\nVue utilisateur\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",

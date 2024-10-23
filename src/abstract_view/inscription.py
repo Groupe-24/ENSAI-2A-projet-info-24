@@ -6,13 +6,19 @@ from prompt_toolkit.validation import ValidationError, Validator
 
 from abstract_view.vue_abstraite import VueAbstraite
 
+from service.utilisateur_service import UtilisateurService
+
+from dao.utilisateur_dao import UtilisateurDAO
+
+from dao.db_connection import DBConnection
+
 
 class InscriptionVue(VueAbstraite):
 
     def choisir_menu(self):
         # Demande à l'utilisateur de saisir pseudo, mot de passe...
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-        if JoueurService().pseudo_deja_utilise(pseudo):
+        if not UtilisateurService(UtilisateurDAO()).utilisateur_present(pseudo=pseudo):
             from abstract_view.accueil_vue import AccueilVue
 
             return AccueilVue(f"Le pseudo {pseudo} est déjà utilisé.")
@@ -27,21 +33,36 @@ class InscriptionVue(VueAbstraite):
             ),
         ).execute()
 
-        equipe = inquirer.text(message="De quelle équipe faites vous partie ?")
+        mail = inquirer.text(message="Quel est votre mail ?")
 
-        professionnel = inquirer.confirm(
-            message="Êtes vous un joueur professionnel ? : ",
-            confirm_letter="o",
-            reject_letter="n",
+        date_naissance = inquirer.text(message="Quel est votre date de naissance ?")
+
+        admin = inquirer.confirm(
+            message="Êtes vous un administrateur ? : ",
+            confirm_letter="oui",
+            reject_letter="non",
+        ).execute()
+
+        orga = inquirer.confirm(
+            message="Êtes vous un organisateur ? : ",
+            confirm_letter="oui",
+            reject_letter="non",
         ).execute()
 
         # Appel du service pour créer le joueur
-        joueur = JoueurService().creer(pseudo, mdp, equipe, professionnel)
+        utilisateur = UtilisateurService(UtilisateurDAO()).creer_compte(
+            pseudo=pseudo,
+            mail=mail,
+            ddn=date_naissance,
+            mdp=mdp,
+            administrateur=admin,
+            organisataeur=orga,
+        )
 
-        # Si le joueur a été créé
-        if joueur:
+        # Si l'Utilisateur a été créé
+        if utilisateur:
             message = (
-                f"Votre compte {joueur.pseudo} a été créé. Vous pouvez maintenant vous connecter."
+                f"Votre compte {utilisateur[0]["pseudo"]} a été créé. Vous pouvez maintenant vous connecter."
             )
         else:
             message = "Erreur de connexion (pseudo ou mot de passe invalide)"
