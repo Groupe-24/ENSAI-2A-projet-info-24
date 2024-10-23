@@ -18,7 +18,7 @@ class InscriptionVue(VueAbstraite):
     def choisir_menu(self):
         # Demande à l'utilisateur de saisir pseudo, mot de passe...
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-        if not UtilisateurService(UtilisateurDAO()).utilisateur_present(pseudo=pseudo):
+        if not UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo=pseudo):
             from abstract_view.accueil_vue import AccueilVue
 
             return AccueilVue(f"Le pseudo {pseudo} est déjà utilisé.")
@@ -33,9 +33,9 @@ class InscriptionVue(VueAbstraite):
             ),
         ).execute()
 
-        mail = inquirer.text(message="Quel est votre mail ?")
+        mail = inquirer.text(message="Quel est votre mail ?").execute()
 
-        date_naissance = inquirer.text(message="Quel est votre date de naissance ?")
+        date_naissance = inquirer.text(message="Quel est votre date de naissance ?").execute()
 
         admin = inquirer.confirm(
             message="Êtes vous un administrateur ? : ",
@@ -61,9 +61,7 @@ class InscriptionVue(VueAbstraite):
 
         # Si l'Utilisateur a été créé
         if utilisateur:
-            message = (
-                f"Votre compte {utilisateur[0]["pseudo"]} a été créé. Vous pouvez maintenant vous connecter."
-            )
+            message = f"Votre compte {utilisateur[0]['pseudo']} a été créé. Vous pouvez maintenant vous connecter."
         else:
             message = "Erreur de connexion (pseudo ou mot de passe invalide)"
 

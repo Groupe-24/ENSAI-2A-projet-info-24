@@ -38,6 +38,7 @@ class AccueilVue(VueAbstraite):
             case "Créer un compte":
                 from abstract_view.inscription import InscriptionVue
 
+                print("olivier arrive à retravailler")
                 return InscriptionVue("Inscription à l'application")
 
             case "Consulter le calendrier et les statistiques":
