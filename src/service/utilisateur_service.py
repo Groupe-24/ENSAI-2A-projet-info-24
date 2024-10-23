@@ -1,4 +1,3 @@
-print("helooooo")
 from business_object.users.utilisateur import Utilisateur
 
 print("k")
