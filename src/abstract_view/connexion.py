@@ -16,13 +16,16 @@ class ConnexionVue(VueAbstraite):
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
         # Appel du service pour trouver le joueur
-        utilisateur = UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp)
+        print("probleme connexion")
+        UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp)
+        print(UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp))
+        print("WGHATTTTTTTT")
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
-        if utilisateur:
+        if UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp):
             message = f"Vous êtes connecté sous le pseudo {pseudo}"
             if UtilisateurService(UtilisateurDAO()).se_connecter_administrateur(pseudo, mdp):
 
-                from abstract_view.menu_aministrateur_vue import MenuAdministrateurVue
+                from abstract_view.menu_administrateur_vue import MenuAdministrateurVue
 
                 return MenuAdministrateurVue(message)
 
