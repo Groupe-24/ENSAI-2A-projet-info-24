@@ -1,11 +1,11 @@
-from db_connection import DBConnection
+from dao.db_connection import DBConnection
 from contextlib import closing
 
 
 # Classe pour la table Match
 class MatchDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_match(
         self, id_match=None, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None

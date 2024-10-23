@@ -12,7 +12,7 @@ class UtilisateurService:
 
     def se_connecter_utilisateur(self, pseudo, mdp):
         utili = self.utilisateurDao.get_utilisateur_by_id(pseudo)
-        if utili and utili.pseudo == pseudo:
+        if utili and utili == pseudo:
             return utili.mdp == mdp
         return False
 

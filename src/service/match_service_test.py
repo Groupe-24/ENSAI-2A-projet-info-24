@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import MagicMock
-from business_object.match import Match
 from match_service import MatchService
 
 
@@ -58,15 +57,17 @@ class TestMatchService(unittest.TestCase):
         ]
 
         self.match_dao_mock.list_matches.return_value = matches
+
+        # On ne peut pas tester directement les prints, donc on va rediriger stdout
         from io import StringIO
         import sys
 
         captured_output = StringIO()
-        sys.stdout = captured_output
+        sys.stdout = captured_output  # Rediriger stdout
 
         self.match_service.afficher_calendrier()
 
-        sys.stdout = sys.__stdout__
+        sys.stdout = sys.__stdout__  # Rétablir stdout
 
         # Vérifier que le calendrier a été affiché correctement
         expected_output = (
@@ -106,7 +107,7 @@ class TestMatchService(unittest.TestCase):
 
     def test_modifier_match_not_found(self):
         id_match = 999  # Match non existant
-        self.match_dao_mock.is_in_match.return_value = False
+        self.match_dao_mock.is_in_match.return_value = False  # Simuler que le match n'existe pas
 
         result = self.match_service.modifier_match(id_match)
 
