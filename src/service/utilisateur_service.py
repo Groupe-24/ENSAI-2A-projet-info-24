@@ -11,11 +11,9 @@ class UtilisateurService:
         print("hh")
         self.utilisateurDao = utilisateurDao
 
-    def creer_compte(self, pseudo, nom, mail, ddn, mdp, administrateur, organisateur):
-        utilisateur = Utilisateur(pseudo, nom, mail, ddn, mdp, administrateur, organisateur)
-        self.utilisateurDao.insert_utilisateur(
-            pseudo, nom, mail, ddn, mdp, administrateur, organisateur
-        )
+    def creer_compte(self, pseudo, mail, ddn, mdp, administrateur, organisateur):
+        utilisateur = Utilisateur(pseudo, mail, ddn, mdp, administrateur, organisateur)
+        self.utilisateurDao.insert_utilisateur(pseudo, mail, ddn, mdp, administrateur, organisateur)
         return utilisateur
 
     def se_connecter_utilisateur(self, pseudo, mdp):

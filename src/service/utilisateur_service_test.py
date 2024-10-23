@@ -12,7 +12,6 @@ class TestUtilisateurService(unittest.TestCase):
     def test_creer_compte(self):
         # Given
         pseudo = "test_user"
-        nom = "Test User"
         mail = "test@example.com"
         ddn = "2000-01-01"
         mdp = "secure_password"
@@ -21,16 +20,15 @@ class TestUtilisateurService(unittest.TestCase):
 
         # When
         utilisateur = self.utilisateur_service.creer_compte(
-            pseudo, nom, mail, ddn, mdp, administrateur, organisateur
+            pseudo, mail, ddn, mdp, administrateur, organisateur
         )
 
         # Then
         self.utilisateurDao.insert_utilisateur.assert_called_once_with(
-            pseudo, nom, mail, ddn, mdp, administrateur, organisateur
+            pseudo, mail, ddn, mdp, administrateur, organisateur
         )
         self.assertIsInstance(utilisateur, Utilisateur)
         self.assertEqual(utilisateur.pseudo, pseudo)
-        self.assertEqual(utilisateur.nom, nom)
         self.assertEqual(utilisateur.mail, mail)
         self.assertEqual(utilisateur.date_de_naissance, ddn)
         self.assertEqual(utilisateur.mdp, mdp)
@@ -45,7 +43,6 @@ class TestUtilisateurService(unittest.TestCase):
         with self.assertRaises(Exception):
             self.utilisateur_service.creer_compte(
                 "test_user",
-                "Test User",
                 "test@example.com",
                 "2000-01-01",
                 "secure_password",
@@ -99,12 +96,12 @@ class TestUtilisateurService(unittest.TestCase):
         # THEN
         self.assertFalse(result)
 
-    def test_pseudo_existe(self):
+    def test_pseudo_exist(self):
         # Given
         self.utilisateurDao.get_utilisateur_by_parameters.return_value = {"pseudo": "existing_user"}
 
         # When
-        result = self.utilisateur_service.pseudo_existe("existing_user")
+        result = self.utilisateur_service.pseudo_exist("existing_user")
 
         # Then
         self.assertTrue(result)
@@ -114,7 +111,7 @@ class TestUtilisateurService(unittest.TestCase):
         self.utilisateurDao.get_utilisateur_by_parameters.return_value = None
 
         # When
-        result = self.utilisateur_service.pseudo_existe("new_user")
+        result = self.utilisateur_service.pseudo_exist("new_user")
 
         # Then
         self.assertFalse(result)
@@ -125,7 +122,7 @@ class TestUtilisateurService(unittest.TestCase):
 
         # When / Then
         with self.assertRaises(Exception):
-            self.utilisateur_service.pseudo_existe("any_user")
+            self.utilisateur_service.pseudo_exist("any_user")
 
 
 if __name__ == "__main__":
