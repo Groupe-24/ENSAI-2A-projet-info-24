@@ -57,5 +57,5 @@ class UtilisateurService:
             or self.se_connecter_organisateur(pseudo, mdp)
         )
 
-    def pseudo_existe(self, pseudo):
+    def pseudo_exist(self, pseudo):
         return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo) is not None
