@@ -7,7 +7,7 @@ class MatchService:
 
     def rechercher_match_par_date(self, date):
         matches = self.matchDao.get_match_by_date(date)
-        if matches:  # Vérifier si la liste de matches n'est pas vide
+        if matches:
             return matches
         else:
             return "Il n'existe pas de matches à cette date-là."
@@ -41,7 +41,7 @@ class MatchService:
                 output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs {match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
             output += "\n"  # Assurer un retour à la ligne après chaque date
 
-        print(output)
+        print(output.strip())
 
     def creer_match(
         self, id_match=None, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None

@@ -11,15 +11,17 @@ class UtilisateurService:
         print("hh")
         self.utilisateurDao = utilisateurDao
 
-    def creer_compte(self, pseudo, nom, mail, ddn, mdp):
-        utilisateur = Utilisateur(pseudo, nom, mail, ddn, mdp, False, False)
-        self.utilisateurDao.insert_utilisateur(pseudo, nom, mail, ddn, mdp)
+    def creer_compte(self, pseudo, nom, mail, ddn, mdp, administrateur, organisateur):
+        utilisateur = Utilisateur(pseudo, nom, mail, ddn, mdp, administrateur, organisateur)
+        self.utilisateurDao.insert_utilisateur(
+            pseudo, nom, mail, ddn, mdp, administrateur, organisateur
+        )
         return utilisateur
 
     def se_connecter_utilisateur(self, pseudo, mdp):
 
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
-        if utili[0]["pseudo"] == pseudo:
+        if utili is not None and len(utili) > 0 and utili[0]["pseudo"] == pseudo:
             return utili[0]["password"] == mdp
 
         return False
@@ -54,3 +56,6 @@ class UtilisateurService:
             or self.se_connecter_administrateur(pseudo, mdp)
             or self.se_connecter_organisateur(pseudo, mdp)
         )
+
+    def pseudo_existe(self, pseudo):
+        return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo) is not None
