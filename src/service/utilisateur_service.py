@@ -47,6 +47,9 @@ class UtilisateurService:
     def supprimer_utilisateur(self, utilisateur):
         return self.utilisateurDao.delete_utilisateur(utilisateur.pseudo)
 
+    def supprimer_utilisateur_by_pseudo(self, pseudo):
+        return self.utilisateurDao.delete_utilisateur(pseudo)
+
     def se_connecter_administrateur(self, pseudo, mdp):
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
         if utili[0]["administrateur"]:
