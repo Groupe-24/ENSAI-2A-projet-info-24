@@ -49,12 +49,8 @@ class UtilisateurService:
         return False
 
     def connection_ok(self, pseudo, mdp):
-        print("cc")
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
-        print("ccc")
-        print(utili)
-        print(utili[0]["pseudo"])
-        if utili is None:
+        if utili == []:
             return False
         return (
             self.se_connecter_utilisateur(pseudo, mdp)
