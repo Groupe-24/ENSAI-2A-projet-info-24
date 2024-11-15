@@ -1,28 +1,13 @@
 from business_object.users.utilisateur import Utilisateur
 
-print("k")
-
 
 class UtilisateurService:
-    print("kk")
 
     def __init__(self, utilisateurDao):
-        print("raarara")
         self.utilisateurDao = utilisateurDao
-        print("aaaa")
 
     def creer_compte(self, pseudo, mail, ddn, mdp, administrateur, organisateur):
-        print("aaaaaaaaa")
         utilisateur = Utilisateur(pseudo, mail, ddn, mdp, administrateur, organisateur)
-        print("bbbbbbb")
-        print(utilisateur)
-        print(pseudo)
-        print(mail)
-        print(ddn)
-        print(mdp)
-        print(type(administrateur))
-        print(type(True))
-        print(organisateur)
         self.utilisateurDao.insert_utilisateur(
             pseudo,
             mail,
@@ -33,7 +18,6 @@ class UtilisateurService:
             None,
             None,
         )
-        print("ccccccccccccccccccs")
         return utilisateur
 
     def se_connecter_utilisateur(self, pseudo, mdp):
