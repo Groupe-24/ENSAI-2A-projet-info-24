@@ -1,28 +1,18 @@
 from unittest.mock import MagicMock
-from service.tournoi_service import TournoiService
-from dao.tournoi_dao import TournoiDAO
-from business_object.tournoi import Tournoi
+from service.pari_service import PariService
+from dao.pari_dao import PariDAO
 
 
-def test_creer_tournoi():
+def test_parier():
     """Test de la création d'un tournoi"""
 
     # GIVEN
-    tournoi_dao_mock = TournoiDAO()
-    tournoi_dao_mock.insert_tournoi = MagicMock()
-
-    organisateur_mock = MagicMock()
-    organisateur_mock.pseudo = "organisateur_test"
-
-    tournoi_service = TournoiService(tournoi_dao_mock)
+    pari_dao = PariDAO()
+    pari_service = PariService(pari_dao)
 
     # WHEN
-    tournoi = tournoi_service.creer_tournoi(
-        titre="Tournoi Test",
-        description="Description du tournoi",
-        date_debut="2024-01-01",
-        date_fin="2024-01-02",
-        organisateur=organisateur_mock,
+    pari = pari_service.parier(
+        match=MagicMock, equipe=MagicMock, utilisateur=MagicMock, mise=150, gain=None
     )
 
     # THEN
@@ -99,38 +89,6 @@ def test_rechercher_tournoi_nom():
     assert len(result) == 1
     assert result[0].titre == "Tournoi Recherche"
     assert result[0].id_tournoi == "2"
-
-
-def test_supprimer_tournoi():
-    """Test de la suppression d'un tournoi"""
-
-    # GIVEN
-    tournoi_dao_mock = TournoiDAO()
-    tournoi_dao_mock.insert_tournoi = MagicMock()
-
-    organisateur_mock = MagicMock()
-    organisateur_mock.pseudo = "organisateur_test"
-
-    tournoi_service = TournoiService(tournoi_dao_mock)
-    tournoi1 = tournoi_service.creer_tournoi(
-        titre="Tournoi Test",
-        description="Description du tournoi",
-        date_debut="2024-01-01",
-        date_fin="2024-01-02",
-        organisateur=organisateur_mock,
-    )
-    tournoi2 = Tournoi(
-        id_tournoi="132",
-        titre="Tournoi Test 2",
-        description="Description du tournoi",
-        date_debut="2024-01-01",
-        date_fin="2024-01-02",
-        organisateur=organisateur_mock,
-    )
-    # WHEN
-    tournoi_service.supprimer_tournoi(tournoi1)
-    tournoi_service.supprimer_tournoi(tournoi2)
-    # THEN
 
 
 if __name__ == "__main__":
