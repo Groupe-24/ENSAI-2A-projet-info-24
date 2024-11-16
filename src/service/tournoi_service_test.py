@@ -101,36 +101,72 @@ def test_rechercher_tournoi_nom():
     assert result[0].id_tournoi == "2"
 
 
-def test_supprimer_tournoi():
-    """Test de la suppression d'un tournoi"""
+def test_supprimer_tournoi_existant():
+    """Test de la suppression d'un tournoi existant"""
 
     # GIVEN
     tournoi_dao_mock = TournoiDAO()
-    tournoi_dao_mock.insert_tournoi = MagicMock()
+    tournoi_dao_mock.get_tournoi_by_id = MagicMock(
+        return_value={"id_tournoi": "1", "titre": "Tournoi 1"}
+    )
+    tournoi_dao_mock.delete_tournoi = MagicMock()
 
     organisateur_mock = MagicMock()
     organisateur_mock.pseudo = "organisateur_test"
 
     tournoi_service = TournoiService(tournoi_dao_mock)
-    tournoi1 = tournoi_service.creer_tournoi(
+    tournoi = Tournoi(
+        id_tournoi="1",
         titre="Tournoi Test",
         description="Description du tournoi",
         date_debut="2024-01-01",
         date_fin="2024-01-02",
         organisateur=organisateur_mock,
     )
-    tournoi2 = Tournoi(
-        id_tournoi="132",
-        titre="Tournoi Test 2",
+
+    # WHEN
+    resultat = tournoi_service.supprimer_tournoi(tournoi)
+
+    # THEN
+    assert resultat == "Le tournoi a bien été supprimé."
+    tournoi_dao_mock.delete_tournoi.assert_called_once_with("1")
+
+
+def test_supprimer_tournoi_inexistant():
+    """Test de la suppression d'un tournoi inexistant"""
+
+    # GIVEN
+    tournoi_dao_mock = TournoiDAO()
+
+    # Simuler un tournoi inexistant (None)
+    tournoi_dao_mock.get_tournoi_by_id = MagicMock(return_value=None)
+
+    # Mock de la méthode delete_tournoi
+    tournoi_dao_mock.delete_tournoi = MagicMock()
+
+    organisateur_mock = MagicMock()
+    organisateur_mock.pseudo = "organisateur_test"
+
+    tournoi_service = TournoiService(tournoi_dao_mock)
+
+    # Créer un tournoi avec un ID fictif
+    tournoi = Tournoi(
+        id_tournoi="999",
+        titre="Tournoi Inexistant",
         description="Description du tournoi",
         date_debut="2024-01-01",
         date_fin="2024-01-02",
         organisateur=organisateur_mock,
     )
+
     # WHEN
-    tournoi_service.supprimer_tournoi(tournoi1)
-    tournoi_service.supprimer_tournoi(tournoi2)
+    resultat = tournoi_service.supprimer_tournoi(tournoi)
+
     # THEN
+    assert resultat == "Le tournoi spécifié n'existe pas."
+
+    # Vérifier que delete_tournoi n'a pas été appelé
+    tournoi_dao_mock.delete_tournoi.assert_not_called()
 
 
 if __name__ == "__main__":
