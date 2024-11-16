@@ -34,7 +34,7 @@ class PariService:
         id_equipe_bleu = match.equipe_bleu.id_equipe
         id_equipe_orange = match.equipe_orange.id_equipe
 
-        resultat = self.pari_dao.liste_pari_match(match.id_match)
+        resultat = self.pari_dao.list_pari_match(match.id_match)
 
         paris_equipe_bleu = paris_equipe_orange = 0
         if resultat:
@@ -66,3 +66,14 @@ class PariService:
         cotes = self.afficher_cote(match)
         couleur = cotes[equipe.id_equipe]
         return (cotes["cote_equipe_" + couleur] + 1) * mise
+
+    def supprimer_pari(self, pari):
+        """Supprimer un pari
+
+        pari: Pari
+        """
+        resultat = self.pari_dao.exists_by_id(pari.id_pari)
+        if not resultat:
+            return "Le pari n'existe pas."
+        self.pari_dao.delete_pari(pari.id_pari)
+        return "Le pari a bien été supprimé."

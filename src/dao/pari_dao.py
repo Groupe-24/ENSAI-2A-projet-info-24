@@ -1,4 +1,4 @@
-from db_connection import DBConnection
+from dao.db_connection import DBConnection
 from contextlib import closing
 
 
@@ -63,3 +63,8 @@ class PariDAO:
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT EXISTS(SELECT 1 FROM Paris WHERE Id_Paris = %s);", (id_pari,))
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def list_pari_match(self, id_match):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Paris WHERE id_matches = %s);", (id_match,))
+            return cursor.fetchall()
