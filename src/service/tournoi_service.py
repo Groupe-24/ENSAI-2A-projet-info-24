@@ -65,3 +65,11 @@ class TournoiService:
                 )
                 liste_tournois.append(tournoi)
         return liste_tournois
+
+    def supprimer_tournoi(self, tournoi):
+        resultat = self.tournoi_dao.get_tournoi_by_id(tournoi.id_tournoi)
+        if resultat:
+            self.tournoi_dao.delete_tournoi(tournoi.id_tournoi)
+        else:
+            return "Le tournoi spécifié n'existe pas."
+        return "Le tournoi a bien été supprimé."

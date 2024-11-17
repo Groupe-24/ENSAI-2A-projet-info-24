@@ -1,4 +1,4 @@
-from db_connection import DBConnection
+from dao.db_connection import DBConnection
 from contextlib import closing
 
 

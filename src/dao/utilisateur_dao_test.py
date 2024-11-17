@@ -2,6 +2,7 @@ from utilisateur_dao import UtilisateurDAO
 from pari_dao import ParisDAO
 from db_connection import DBConnection
 import hashlib
+from uuid import uuid4
 
 # pas des vrais tests mais permet de vérifier le fonctionnement du code
 
@@ -19,16 +20,17 @@ def generate_unique_id(data):
 # UtilisateurDAO(DBConnection()).insert_utilisateur(
 #     generate_unique_id("olivier"), "olivier", "olivierfdanel@gmail.com", "chips", None, True, False
 # )
-
-# UtilisateurDAO().insert_utilisateur(
-#     generate_unique_id("Raphael"),
-#     "Raphael",
-#     "RaphaelfBorny@gmail.com",
-#     "ketchup",
-#     None,
-#     False,
-#     True,
-# )
+id_utilisateur = str(uuid4())
+UtilisateurDAO().insert_utilisateur(
+    "al",
+    "RaphaelfBorny@gmail.com",
+    "12",
+    "ketchup",
+    True,
+    False,
+    id_utilisateur,
+    None,
+)
 
 # UtilisateurDAO().update_utilisateur(
 #     UtilisateurDAO().get_utilisateur_by_parameters(pseudo="Raphael")[0]["id_utilisateur"],

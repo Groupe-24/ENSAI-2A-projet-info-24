@@ -18,7 +18,7 @@ class InscriptionVue(VueAbstraite):
     def choisir_menu(self):
         # Demande à l'utilisateur de saisir pseudo, mot de passe...
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-        if not UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo=pseudo):
+        if UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo=pseudo):
             from abstract_view.accueil_vue import AccueilVue
 
             return AccueilVue(f"Le pseudo {pseudo} est déjà utilisé.")
@@ -39,29 +39,30 @@ class InscriptionVue(VueAbstraite):
 
         admin = inquirer.confirm(
             message="Êtes vous un administrateur ? : ",
-            confirm_letter="oui",
-            reject_letter="non",
+            confirm_letter="o",
+            reject_letter="n",
         ).execute()
 
         orga = inquirer.confirm(
             message="Êtes vous un organisateur ? : ",
-            confirm_letter="oui",
-            reject_letter="non",
+            confirm_letter="o",
+            reject_letter="n",
         ).execute()
-
-        # Appel du service pour créer le joueur
+        print("yoyo")
+        # Appel du service pour créer l'utilisateur
         utilisateur = UtilisateurService(UtilisateurDAO()).creer_compte(
             pseudo=pseudo,
             mail=mail,
             ddn=date_naissance,
             mdp=mdp,
             administrateur=admin,
-            organisataeur=orga,
+            organisateur=orga,
         )
-
+        print("ddddddddddddddddddd")
+        print(utilisateur)
         # Si l'Utilisateur a été créé
-        if utilisateur:
-            message = f"Votre compte {utilisateur[0]['pseudo']} a été créé. Vous pouvez maintenant vous connecter."
+        if UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo=pseudo):
+            message = f"Votre compte {utilisateur.pseudo} a été créé. Vous pouvez maintenant vous connecter."
         else:
             message = "Erreur de connexion (pseudo ou mot de passe invalide)"
 

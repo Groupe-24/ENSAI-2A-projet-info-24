@@ -110,7 +110,7 @@ if reponseMatches.status_code != 200:
 
 for match in reponseMatches.json()["matches"]:
     cursor.execute(
-        "INSERT INTO Matches(Id_Matches, Date, Id_Tournois, Equipe_Bleu, Equipe_Orange) VALUES                     "
+        "INSERT INTO Matches(Id_Matches, Date, Id_Tournois, Equipe_Bleu, Equipe_Orange) VALUES"
         "(%(Id_Matches)s, %(Date)s, %(Id_Tournois)s, %(Equipe_Bleu)s, %(Equipe_Orange)s);",
         {
             "Id_Matches": match["id_match"],
