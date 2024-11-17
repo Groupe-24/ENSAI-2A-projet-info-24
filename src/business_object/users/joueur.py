@@ -8,22 +8,19 @@ class Joueur:
         identifiant
     pseudo : str
         pseudo du joueur
-    utilisateur : Utilisateur
-        objet de la classe utilisateur
+    equipe: str
+        equipe du joueur
+    professionnel: booléen
+        si c'est un joueur professionnel ou pas
     """
 
-    def __init__(self, pseudo, utilisateur=None, equipe=None, id_joueur=None, professionnel=None):
+    def __init__(self, pseudo, equipe=None, id_joueur=None, professionnel=None):
         """Constructeur"""
         self.id_joueur = id_joueur
         self.pseudo = pseudo
-        self.utilisateur = utilisateur
         self.equipe = equipe
         self.professionnel = professionnel
 
     def __str__(self):
         """Permet d'afficher les informations du joueur"""
-        return f"Joueur({self.pseudo},{self.utilisateur}.)"
-
-    def as_list(self) -> list[str]:
-        """Retourne les attributs du joueur dans une liste"""
-        return [self.pseudo, self.utilisateur, self.mail]
+        return f"Joueur({self.pseudo},{self.id_joueur},{self.equipe},{self.professionnel}.)"
