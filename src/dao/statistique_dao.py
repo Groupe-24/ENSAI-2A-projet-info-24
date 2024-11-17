@@ -82,3 +82,24 @@ class StatistiquesDAO:
                 (id_statistique,),
             )
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def statistique_equipe(self, equipe):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(
+                "SELECT equipe,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY equipe WHERE equipe=%s"
+            )
+            return cursor.fetchone()
+
+    def statistique_match(self, match):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(
+                "SELECT match,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY match WHERE match=%s"
+            )
+            return cursor.fetchall()
+
+    def statistique_joueur(self, joueur):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(
+                "SELECT joueur,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY joueur WHERE joueur=%s"
+            )
+            return cursor.fetchone()
