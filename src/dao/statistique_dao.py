@@ -2,7 +2,6 @@ from db_connection import DBConnection
 from contextlib import closing
 
 
-# Classe pour la table Statistiques
 class StatistiquesDAO:
     def __init__(self, db_connection):
         self.connection = db_connection
@@ -86,20 +85,26 @@ class StatistiquesDAO:
     def statistique_equipe(self, equipe):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT equipe,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY equipe WHERE equipe=%s"
+                "SELECT Equipe, SUM(But), SUM(Score_De_Match) "
+                "FROM Statistiques WHERE Equipe = %s GROUP BY Equipe;",
+                (equipe,),
             )
             return cursor.fetchone()
 
     def statistique_match(self, match):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT match,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY match WHERE match=%s"
+                "SELECT Match, SUM(But), SUM(Score_De_Match) "
+                "FROM Statistiques WHERE Match = %s GROUP BY Match;",
+                (match,),
             )
             return cursor.fetchall()
 
     def statistique_joueur(self, joueur):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT joueur,SUM(but),SUM(score_de_match) FROM Statistiques GROUP BY joueur WHERE joueur=%s"
+                "SELECT Joueur, SUM(But), SUM(Score_De_Match) "
+                "FROM Statistiques WHERE Joueur = %s GROUP BY Joueur;",
+                (joueur,),
             )
             return cursor.fetchone()
