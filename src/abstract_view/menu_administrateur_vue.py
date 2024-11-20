@@ -2,7 +2,6 @@ from InquirerPy import inquirer
 from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.utilisateur_dao import UtilisateurDAO
-from dao.db_connection import DBConnection
 
 
 class MenuAdministrateurVue(VueAbstraite):

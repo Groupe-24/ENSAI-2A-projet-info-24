@@ -22,7 +22,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=organisateur["id_utilisateur"],
         )
         self.tournoi_dao.insert_tournoi(
             id_tournoi=id_tournoi,
@@ -30,7 +30,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=organisateur["id_utilisateur"],
         )
         return tournoi
 

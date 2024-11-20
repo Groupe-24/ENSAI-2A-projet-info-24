@@ -60,3 +60,6 @@ class UtilisateurService:
 
     def pseudo_exist(self, pseudo):
         return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo) != []
+
+    def return_utilisateur(self, pseudo):
+        return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)

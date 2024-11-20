@@ -2,7 +2,6 @@ from InquirerPy import inquirer
 from service.match_service import MatchService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.match_dao import MatchDAO
-from dao.db_connection import DBConnection
 
 
 class MenuOrganisateurVue(VueAbstraite):
@@ -14,7 +13,6 @@ class MenuOrganisateurVue(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Ajouter des informations à un match",
                 "Modifier les informations d'un match",
                 "Créer un tournoi",
                 "Quitter",
@@ -23,9 +21,6 @@ class MenuOrganisateurVue(VueAbstraite):
 
         match choix:
             case "Quitter":
-                pass
-
-            case "Ajouter des informations à un match":
                 pass
 
             case "Modifier les informations d'un match":
