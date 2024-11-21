@@ -4,6 +4,7 @@ from abstract_view.vue_abstraite import VueAbstraite
 from dao.tournoi_dao import TournoiDAO
 from dao.utilisateur_dao import UtilisateurDAO
 from service.utilisateur_service import UtilisateurService
+from business_object.users.utilisateur import Utilisateur
 
 
 class CreationTournoiVue(VueAbstraite):
@@ -34,16 +35,15 @@ class CreationTournoiVue(VueAbstraite):
                     message="Saisir la date de début du tournoi : "
                 ).execute()
                 Date_fin = inquirer.text(message="Saisir la date de fin du tournoi : ").execute()
-                Organisateur = UtilisateurService(UtilisateurDAO()).return_utilisateur(
-                    pseudo=Pseudo_orga
-                )
-                print(Organisateur)
+                Orga1 = UtilisateurService(UtilisateurDAO()).return_utilisateur(pseudo=Pseudo_orga)
+                print(Orga1[0]["pseudo"])
+                print(Orga1[0]["email"])
                 TournoiService(TournoiDAO()).creer_tournoi(
                     titre=Titre,
                     description=Description,
                     date_debut=Date_debut,
                     date_fin=Date_fin,
-                    organisateur=Organisateur[0],
+                    organisateur=Orga1[0],
                 )
 
             case "Voir les tournois":
