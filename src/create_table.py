@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     Password VARCHAR,
     Id_Joueur VARCHAR,
     Administrateur BOOLEAN,
-    Organisateur BOOLEAN
+    Organisateur BOOLEAN,
+    Date_de_naissance DATE
 );
 """
 
@@ -70,9 +71,11 @@ CREATE TABLE IF NOT EXISTS Statistiques (
     Joueur VARCHAR,
     Match VARCHAR,
     Equipe VARCHAR,
-    But INT,
-    Score_De_Match DECIMAL(10, 2),
-    Consommation_Du_Boost DECIMAL(10, 2)
+    Goals INT,
+    Shots INT,
+    Assists INT,
+    Score INT,
+    Saves INT
 );
 """
 

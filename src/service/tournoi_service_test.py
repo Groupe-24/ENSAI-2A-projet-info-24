@@ -132,15 +132,12 @@ def test_supprimer_tournoi():
     assert resultat == "Le tournoi a bien été supprimé."
     tournoi_dao_mock.delete_tournoi.assert_called_once_with("1")
 
-    # Réinitialiser les mocks pour le second test
-    tournoi_dao_mock.reset_mock()
-
     # Test 2 : tournoi inexistant
     # GIVEN
+    tournoi_dao_mock.reset_mock()
     tournoi_dao_mock.get_tournoi_by_id = MagicMock(return_value=None)
     tournoi_service = TournoiService(tournoi_dao_mock)
 
-    # Créer un tournoi avec un ID fictif
     tournoi = Tournoi(
         id_tournoi="999",
         titre="Tournoi Inexistant",
@@ -155,8 +152,6 @@ def test_supprimer_tournoi():
 
     # THEN
     assert resultat == "Le tournoi spécifié n'existe pas."
-
-    # Vérifier que delete_tournoi n'a pas été appelé dans ce cas
     tournoi_dao_mock.delete_tournoi.assert_not_called()
 
 

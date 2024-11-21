@@ -57,13 +57,18 @@ class MatchDAO:
             return cursor.fetchall()  # Récupérer tous les matchs
 
     def is_in_match(self, id_match):
-        with closing(self.connection.cursor()) as cursor:
-            cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM Matches WHERE Id_Matches = %s);", (id_match,)
-            )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+        # with closing(self.connection.cursor()) as cursor:
+        #     cursor.execute(
+        #         "SELECT EXISTS(SELECT 1 FROM Matches WHERE Id_Matches = %s);", (id_match,)
+        #     )
+        #     return cursor.fetchone()[0]  # Renvoie True ou False
+        a = self.get_match_by_id(id_match=id_match)
+        if a is None:
+            return False
+        else:
+            return True
 
-    def get_match_by_date(self, date):
+    def calendrier(self, Date, id_tournois=None):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute("SELECT * FROM Matches WHERE DATE=%s;", (date,))
+            cursor.execute("SELECT * FROM Matches WHERE Date > %s ORDER BY Date);", (Date,))
             return cursor.fetchall()

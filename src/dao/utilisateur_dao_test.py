@@ -20,23 +20,16 @@ def generate_unique_id(data):
 # UtilisateurDAO(DBConnection()).insert_utilisateur(
 #     generate_unique_id("olivier"), "olivier", "olivierfdanel@gmail.com", "chips", None, True, False
 # )
-id_utilisateur = str(uuid4())
-UtilisateurDAO().insert_utilisateur(
-    "al",
+
+UtilisateurDAO(DBConnection()).insert_utilisateur(
+    generate_unique_id("Raphael"),
+    "Raphael",
     "RaphaelfBorny@gmail.com",
-    "12",
     "ketchup",
-    True,
-    False,
-    id_utilisateur,
     None,
+    False,
+    "01/01/2020",
 )
-
-# UtilisateurDAO().update_utilisateur(
-#     UtilisateurDAO().get_utilisateur_by_parameters(pseudo="Raphael")[0]["id_utilisateur"],
-#     organisateur=True,
-# )
-
 
 # print(UtilisateurDAO(DBConnection()).get_utilisateur_by_id(generate_unique_id("olivier")))
 

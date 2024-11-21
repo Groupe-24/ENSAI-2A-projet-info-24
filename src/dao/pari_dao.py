@@ -3,7 +3,7 @@ from contextlib import closing
 
 
 # Classe pour la table Paris
-class PariDAO:
+class ParisDAO:
     def __init__(self):
         self.connection = DBConnection().connection
 
