@@ -2,8 +2,8 @@ from business_object.match import Match
 
 
 class MatchService:
-    def __init__(self, match_dao):
-        self.match_dao = match_dao
+    def __init__(self, matchDao):
+        self.matchDao = matchDao
 
     def rechercher_match_par_date(self, date):
         matches = self.matchDao.get_match_by_date(date)
@@ -68,6 +68,6 @@ class MatchService:
         return f"Match avec l'ID {id_match} supprimé avec succès."
 
 
-from dao.match_dao import MatchDAO
+# from dao.match_dao import MatchDAO
 
-MatchService(MatchDAO()).afficher_calendrier()
+# MatchService(MatchDAO()).afficher_calendrier()
