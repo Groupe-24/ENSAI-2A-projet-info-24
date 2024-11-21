@@ -35,15 +35,22 @@ class CreationTournoiVue(VueAbstraite):
                     message="Saisir la date de début du tournoi : "
                 ).execute()
                 Date_fin = inquirer.text(message="Saisir la date de fin du tournoi : ").execute()
-                Orga1 = UtilisateurService(UtilisateurDAO()).return_utilisateur(pseudo=Pseudo_orga)
-                print(Orga1[0]["pseudo"])
-                print(Orga1[0]["email"])
+                Orga = UtilisateurService(UtilisateurDAO()).return_utilisateur(pseudo=Pseudo_orga)
+                Organisateur = Utilisateur(
+                    Pseudo_orga,
+                    Orga[0]["email"],
+                    ddn=Orga[0]["date_naissance"],
+                    mdp=Orga[0]["password"],
+                    administrateur=False,
+                    organisateur=True,
+                )
+
                 TournoiService(TournoiDAO()).creer_tournoi(
                     titre=Titre,
                     description=Description,
                     date_debut=Date_debut,
                     date_fin=Date_fin,
-                    organisateur=Orga1[0],
+                    organisateur=Organisateur,
                 )
 
             case "Voir les tournois":
