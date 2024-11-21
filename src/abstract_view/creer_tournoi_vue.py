@@ -57,7 +57,7 @@ class CreationTournoiVue(VueAbstraite):
                 return CreationTournoiVue("Retour au Menu de Création des Tournois")
 
             case "Voir les tournois":
-                TournoiService(TournoiDAO()).lister_tournois()
+                print(TournoiService(TournoiDAO()).lister_tournois())
 
                 return CreationTournoiVue("Retour au Menu de Création des Tournois")
 
