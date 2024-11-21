@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
-
-
+from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
+from dao.utilisateur_dao import UtilisateurDAO
 
 
 class MenuAdministrateurVue(VueAbstraite):
@@ -24,7 +24,21 @@ class MenuAdministrateurVue(VueAbstraite):
                 pass
 
             case "Supprimer un utilisateur":
-                pass
+
+                pseudo = inquirer.text(
+                    message="Entrez le pseudo du joueur à supprimer : "
+                ).execute()
+
+                if UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo):
+                    UtilisateurService(UtilisateurDAO()).supprimer_utilisateur_by_pseudo(pseudo)
+
+                    message = "L'utilisateur à été supprimé avec succès"
+
+                    return MenuAdministrateurVue(message)
+                else:
+                    message = "L'utilisateur que vous voulez supprimer n'existe pas"
+
+                    return MenuAdministrateurVue(message)
 
             case "Supprimer un tournoi":
                 pass

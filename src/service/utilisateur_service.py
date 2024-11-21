@@ -10,13 +10,12 @@ class UtilisateurService:
         utilisateur = Utilisateur(pseudo, id, mail, ddn, mdp, administrateur, organisateur)
         self.utilisateurDao.insert_utilisateur(
             pseudo,
-            id,
             mail,
             ddn,
             mdp,
             administrateur,
             organisateur,
-            None,
+            id,
             None,
         )
         return utilisateur
@@ -31,6 +30,9 @@ class UtilisateurService:
 
     def supprimer_utilisateur(self, utilisateur):
         return self.utilisateurDao.delete_utilisateur(utilisateur.pseudo)
+
+    def supprimer_utilisateur_by_pseudo(self, pseudo):
+        return self.utilisateurDao.delete_utilisateur(pseudo)
 
     def se_connecter_administrateur(self, pseudo, mdp):
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
@@ -47,12 +49,8 @@ class UtilisateurService:
         return False
 
     def connection_ok(self, pseudo, mdp):
-        print("cc")
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
-        print("ccc")
-        print(utili)
-        print(utili[0]["pseudo"])
-        if utili is None:
+        if utili == []:
             return False
         return (
             self.se_connecter_utilisateur(pseudo, mdp)
@@ -62,3 +60,6 @@ class UtilisateurService:
 
     def pseudo_exist(self, pseudo):
         return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo) != []
+
+    def return_utilisateur(self, pseudo):
+        return self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
