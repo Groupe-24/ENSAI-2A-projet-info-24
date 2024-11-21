@@ -10,14 +10,14 @@ class UtilisateurService:
     def creer_compte(self, pseudo, id, mail, ddn, mdp, administrateur, organisateur):
         utilisateur = Utilisateur(pseudo, id, mail, ddn, mdp, administrateur, organisateur)
         self.utilisateurDao.insert_utilisateur(
+            id_utilisateur=id,
             pseudo=pseudo,
             email=mail,
-            date_de_naissance=ddn,
             password=mdp,
+            id_joueur=None,
             administrateur=administrateur,
             organisateur=organisateur,
-            id_utilisateur=id,
-            id_joueur=None,
+            date_de_naissance=ddn,
         )
         return utilisateur
 
