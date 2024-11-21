@@ -149,3 +149,14 @@ class UtilisateurDAO:
                 (id_utilisateur,),
             )
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+
+# UtilisateurDAO().insert_utilisateur(
+#     id_utilisateur="1234",
+#     pseudo="user",
+#     email="user@email.com",
+#     password="AZERTY123",
+#     administrateur=False,
+#     organisateur=False,
+#     date_de_naissance="23/07/2002",
+# )

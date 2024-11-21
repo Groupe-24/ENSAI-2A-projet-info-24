@@ -65,3 +65,8 @@ class MatchService:
             return "Le match n'existe pas."
         self.matchDao.delete_match(id_match)
         return f"Match avec l'ID {id_match} supprimé avec succès."
+
+
+from dao.match_dao import MatchDAO
+
+MatchService(MatchDAO()).afficher_calendrier()

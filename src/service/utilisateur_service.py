@@ -1,4 +1,5 @@
 from business_object.users.utilisateur import Utilisateur
+from dao.utilisateur_dao import UtilisateurDAO
 
 
 class UtilisateurService:
@@ -9,14 +10,14 @@ class UtilisateurService:
     def creer_compte(self, pseudo, id, mail, ddn, mdp, administrateur, organisateur):
         utilisateur = Utilisateur(pseudo, id, mail, ddn, mdp, administrateur, organisateur)
         self.utilisateurDao.insert_utilisateur(
-            pseudo,
-            mail,
-            ddn,
-            mdp,
-            administrateur,
-            organisateur,
-            id,
-            None,
+            pseudo=pseudo,
+            email=mail,
+            date_de_naissance=ddn,
+            password=mdp,
+            administrateur=administrateur,
+            organisateur=organisateur,
+            id_utilisateur=id,
+            id_joueur=None,
         )
         return utilisateur
 
@@ -29,10 +30,10 @@ class UtilisateurService:
         return False
 
     def supprimer_utilisateur(self, utilisateur):
-        return self.utilisateurDao.delete_utilisateur(utilisateur.pseudo)
+        return self.utilisateurDao.delete_utilisateur(pseudo=utilisateur.pseudo)
 
     def supprimer_utilisateur_by_pseudo(self, pseudo):
-        return self.utilisateurDao.delete_utilisateur(pseudo)
+        return self.utilisateurDao.delete_utilisateur(pseudo=pseudo)
 
     def se_connecter_administrateur(self, pseudo, mdp):
         utili = self.utilisateurDao.get_utilisateur_by_parameters(pseudo=pseudo)
@@ -53,9 +54,9 @@ class UtilisateurService:
         if utili == []:
             return False
         return (
-            self.se_connecter_utilisateur(pseudo, mdp)
-            or self.se_connecter_administrateur(pseudo, mdp)
-            or self.se_connecter_organisateur(pseudo, mdp)
+            self.se_connecter_utilisateur(pseudo=pseudo, mdp=mdp)
+            or self.se_connecter_administrateur(pseudo=pseudo, mdp=mdp)
+            or self.se_connecter_organisateur(pseudo=pseudo, mdp=mdp)
         )
 
     def pseudo_exist(self, pseudo):
