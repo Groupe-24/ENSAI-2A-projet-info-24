@@ -1,7 +1,8 @@
 class Utilisateur:
-    def __init__(self, pseudo, mail, ddn, mdp=None, administrateur=False, organisateur=False):
+    def __init__(self, pseudo, id, mail, ddn, mdp=None, administrateur=False, organisateur=False):
         """Constructeur"""
         self.pseudo = pseudo
+        self.id = id
         self.mail = mail
         self.date_de_naissance = ddn
         self.mdp = mdp
