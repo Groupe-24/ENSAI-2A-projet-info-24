@@ -6,10 +6,11 @@ class UtilisateurService:
     def __init__(self, utilisateurDao):
         self.utilisateurDao = utilisateurDao
 
-    def creer_compte(self, pseudo, mail, ddn, mdp, administrateur, organisateur):
-        utilisateur = Utilisateur(pseudo, mail, ddn, mdp, administrateur, organisateur)
+    def creer_compte(self, pseudo, id, mail, ddn, mdp, administrateur, organisateur):
+        utilisateur = Utilisateur(pseudo, id, mail, ddn, mdp, administrateur, organisateur)
         self.utilisateurDao.insert_utilisateur(
             pseudo,
+            id,
             mail,
             ddn,
             mdp,
