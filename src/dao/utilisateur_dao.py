@@ -1,5 +1,6 @@
 from db_connection import DBConnection
 from contextlib import closing
+from uuid import uuid4
 
 
 class UtilisateurDAO:
@@ -8,8 +9,18 @@ class UtilisateurDAO:
         self.connection = DBConnection().connection
 
     def insert_utilisateur(
-        self, id_utilisateur, pseudo, email, password, id_joueur, administrateur, date_de_naissance
+        self,
+        id_utilisateur=None,
+        pseudo=None,
+        email=None,
+        password=None,
+        id_joueur=None,
+        administrateur=None,
+        date_de_naissance=None,
+        organisateur=None,
     ):
+        if id_utilisateur is None:
+            id_utilisateur = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur, Organisateur, Date_de_naissance) "

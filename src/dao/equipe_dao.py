@@ -1,6 +1,6 @@
 from db_connection import DBConnection
 from contextlib import closing
-
+from uuid import uuid4()
 
 # Classe pour la table Équipe
 class EquipeDAO:
@@ -8,6 +8,8 @@ class EquipeDAO:
         self.connection = DBConnection().connection
 
     def insert_equipe(self, id_equipe=None, nom=None):
+        if id_equipe is None:
+            id_equipe = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Equipe(Id_Equipe, Nom) VALUES (%s, %s);",

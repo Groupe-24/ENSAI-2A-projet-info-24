@@ -1,5 +1,6 @@
 from db_connection import DBConnection
 from contextlib import closing
+from uuid import uuid4
 
 
 # Classe pour la table Match
@@ -10,6 +11,8 @@ class MatchDAO:
     def insert_match(
         self, id_match=None, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None
     ):
+        if id_match is None:
+            id_match = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Matches(Id_Matches, Date, Id_Tournois, Equipe_Orange, Equipe_Bleu) VALUES (%s, %s, %s, %s, %s);",
