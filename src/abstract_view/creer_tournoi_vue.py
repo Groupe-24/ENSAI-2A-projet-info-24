@@ -38,6 +38,7 @@ class CreationTournoiVue(VueAbstraite):
                 Orga = UtilisateurService(UtilisateurDAO()).return_utilisateur(pseudo=Pseudo_orga)
                 Organisateur = Utilisateur(
                     Pseudo_orga,
+                    Orga[0]["id_utilisateur"],
                     Orga[0]["email"],
                     ddn=Orga[0]["date_naissance"],
                     mdp=Orga[0]["password"],
@@ -53,8 +54,12 @@ class CreationTournoiVue(VueAbstraite):
                     organisateur=Organisateur,
                 )
 
+                return CreationTournoiVue("Retour au Menu de Création des Tournois")
+
             case "Voir les tournois":
-                pass
+                TournoiService(TournoiDAO()).lister_tournois()
+
+                return CreationTournoiVue("Retour au Menu de Création des Tournois")
 
             case "Chercher un tournoi par nom":
                 pass

@@ -57,12 +57,12 @@ class InscriptionVue(VueAbstraite):
         # Appel du service pour créer l'utilisateur
         utilisateur = UtilisateurService(UtilisateurDAO()).creer_compte(
             pseudo=pseudo,
+            id=None,
             mail=mail,
             ddn=date_naissance,
             mdp=mdp,
             administrateur=admin,
             organisateur=orga,
-            id=None,
         )
 
         # Si l'Utilisateur a été créé

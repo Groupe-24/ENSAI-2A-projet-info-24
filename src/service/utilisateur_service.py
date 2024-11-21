@@ -10,13 +10,12 @@ class UtilisateurService:
         utilisateur = Utilisateur(pseudo, id, mail, ddn, mdp, administrateur, organisateur)
         self.utilisateurDao.insert_utilisateur(
             pseudo,
-            id,
             mail,
             ddn,
             mdp,
             administrateur,
             organisateur,
-            None,
+            id,
             None,
         )
         return utilisateur

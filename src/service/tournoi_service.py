@@ -22,7 +22,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=organisateur.id,
         )
         self.tournoi_dao.insert_tournoi(
             id_tournoi=id_tournoi,
@@ -30,7 +30,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=organisateur.id,
         )
         return tournoi
 
@@ -40,12 +40,12 @@ class TournoiService:
         if resultat:
             for un_tournoi in resultat:
                 tournoi = Tournoi(
-                    id_tournoi=un_tournoi["id_tournoi"],
+                    id_tournoi=un_tournoi["id_tournois"],
                     titre=un_tournoi["titre"],
                     description=un_tournoi["description"],
                     date_debut=un_tournoi["date_debut"],
                     date_fin=un_tournoi["date_fin"],
-                    organisateur=un_tournoi["id_organisateur"],
+                    id_organisateur=un_tournoi["id_organisateur"],
                 )
                 liste_tournois.append(tournoi)
         return liste_tournois
@@ -61,7 +61,7 @@ class TournoiService:
                     description=un_tournoi["description"],
                     date_debut=un_tournoi["date_debut"],
                     date_fin=un_tournoi["date_fin"],
-                    organisateur=un_tournoi["id_organisateur"],
+                    id_organisateur=un_tournoi["id_organisateur"],
                 )
                 liste_tournois.append(tournoi)
         return liste_tournois
