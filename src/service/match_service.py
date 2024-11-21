@@ -38,7 +38,8 @@ class MatchService:
         for date, matchs in sorted(calendrier.items()):
             output += f"Date : {date}\n"
             for match in matchs:
-                output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs {match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
+                output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs "
+                f"{match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
             output += "\n"  # Assurer un retour à la ligne après chaque date
 
         print(output.strip())

@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import MagicMock
-from business_object.pari import Pari
 from service.pari_service import PariService
 from io import StringIO
 import sys
@@ -8,13 +7,9 @@ import sys
 
 class TestPariService(unittest.TestCase):
     def setUp(self):
-        """Initialisation avant chaque test"""
-        # Création du mock pour PariDAO
         self.pari_dao = MagicMock()
-        # Création du service avec le mock de PariDAO
         self.pari_service = PariService(self.pari_dao)
 
-        # Mocks communs pour les tests
         self.match_mock = MagicMock()
         self.match_mock.id_match = "1"
         self.match_mock.equipe_bleu.id_equipe = "bleu_id"
@@ -32,18 +27,7 @@ class TestPariService(unittest.TestCase):
         mise = 100
         gain = 200
 
-        # Créer un pari simulé
-        id_pari = "123"
-        pari_mock = Pari(
-            id_pari=id_pari,
-            match=self.match_mock,
-            equipe=self.equipe_mock,
-            utilisateur=self.utilisateur_mock,
-            mise=mise,
-            gain=gain,
-        )
-
-        self.pari_dao.insert_pari.return_value = None  # Pas de retour attendu pour l'insertion
+        self.pari_dao.insert_pari.return_value = None
 
         # WHEN
         pari = self.pari_service.parier(
@@ -63,9 +47,8 @@ class TestPariService(unittest.TestCase):
         self.assertEqual(pari.gain, gain)
 
     def test_afficher_cote(self):
-        """Test de l'affichage des cotes"""
+        """Test de l'affichage de la cote d'un match"""
         # GIVEN
-        # Simuler des paris
         self.pari_dao.list_pari_match.return_value = [
             {"id_equipe": "bleu_id", "mise": 50},
             {"id_equipe": "orange_id", "mise": 50},
@@ -75,8 +58,8 @@ class TestPariService(unittest.TestCase):
         cotes = self.pari_service.afficher_cote(self.match_mock)
 
         # THEN
-        self.assertEqual(cotes["cote_equipe_bleu"], 0.5)
-        self.assertEqual(cotes["cote_equipe_orange"], 0.5)
+        self.assertEqual(cotes["cote_equipe_bleu"], 2)
+        self.assertEqual(cotes["cote_equipe_orange"], 2)
 
     def test_gain_potentiel(self):
         """Test du calcul du gain potentiel"""

@@ -6,48 +6,51 @@ import io
 
 class TestMatchService(unittest.TestCase):
     def setUp(self):
-        # Given
-        self.matchDao = Mock()
-        self.match_service = MatchService(self.matchDao)
+        self.match_dao = Mock()
+        self.match_service = MatchService(self.match_dao)
 
     def test_rechercher_match_par_date(self):
-        # Given: Une date et des matches existants
+        """Test de la recherche d'un match existant selon une date"""
+        # Given
         date = "2024-10-25"
         self.matchDao.get_match_by_date.return_value = [
             {"id_match": 1, "equipe_orange": "Team A", "equipe_bleu": "Team B"}
         ]
 
-        # When: On recherche les matches par date
+        # When
         result = self.match_service.rechercher_match_par_date(date)
 
-        # Then: Le résultat doit être les matches trouvés
+        # Then
         self.assertEqual(
             result, [{"id_match": 1, "equipe_orange": "Team A", "equipe_bleu": "Team B"}]
         )
 
     def test_rechercher_match_par_date_aucun_match(self):
-        # Given: Une date sans matches
+        """Test de la recherche d'un match inexistant selon une date"""
+        # Given
         date = "2024-10-25"
         self.matchDao.get_match_by_date.return_value = []
 
-        # When: On recherche les matches par date
+        # When
         result = self.match_service.rechercher_match_par_date(date)
 
-        # Then: On doit recevoir un message indiquant qu'aucun match n'existe
+        # Then
         self.assertEqual(result, "Il n'existe pas de matches à cette date-là.")
 
     def test_afficher_calendrier_aucun_match(self):
-        # Given: Aucun match prévu
+        """Test de l'affichage du calendrier des matchs vide"""
+        # Given
         self.matchDao.list_matches.return_value = []
 
-        # When: On affiche le calendrier
+        # When
         result = self.match_service.afficher_calendrier()
 
-        # Then: Le résultat doit indiquer qu'il n'y a aucun match
+        # Then
         self.assertEqual(result, "Aucun match prévu.")
 
     def test_afficher_calendrier_avec_match(self):
-        # Given: Des matches prévus
+        """Test de l'affichage du calendrier des matchs avec des valeurs"""
+        # Given
         matches = [
             (1, "2024-10-25", 101, "Team A", "Team B"),
             (2, "2024-10-26", 102, "Team C", "Team D"),
@@ -61,46 +64,49 @@ class TestMatchService(unittest.TestCase):
             "  Match 2 : Team C vs Team D (Tournoi: 102)\n\n"
         )
 
-        # When: On affiche le calendrier
+        # When
         with unittest.mock.patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
             self.match_service.afficher_calendrier()
             output = mock_stdout.getvalue()
 
-        # Then: Le résultat doit correspondre à la sortie attendue
+        # Then
         self.assertEqual(output.strip(), expected_output.strip())
 
     def test_creer_match(self):
-        # Given: Des détails de match pour la création
+        """Test de la création d'un match"""
+        # Given
         id_match = 1
         date = "2024-10-25"
         id_tournoi = 101
         equipe_orange = "Team A"
         equipe_bleu = "Team B"
 
-        # When: On crée un match
+        # When
         match = self.match_service.creer_match(
             id_match, date, id_tournoi, equipe_orange, equipe_bleu
         )
 
-        # Then: On doit appeler insert_match avec les bons arguments
+        # Then
         self.matchDao.insert_match.assert_called_once_with(
             id_match, date, id_tournoi, equipe_orange, equipe_bleu
         )
-        self.assertIsNotNone(match)  # Vérifier que l'objet match a été créé
+        self.assertIsNotNone(match)
 
     def test_modifier_match_inexistant(self):
-        # Given: Un ID de match inexistant
+        """test de la modification d'un match inexistant"""
+        # Given
         id_match = 1
         self.matchDao.is_in_match.return_value = False
 
-        # When: On essaie de modifier ce match
+        # When
         result = self.match_service.modifier_match(id_match)
 
-        # Then: On doit recevoir un message indiquant que le match n'existe pas
+        # Then
         self.assertEqual(result, "Le match n'existe pas.")
 
     def test_modifier_match_existant(self):
-        # Given: Un match existant
+        """Test de la modification d'un match existant"""
+        # Given
         id_match = 1
         self.matchDao.is_in_match.return_value = True
         self.matchDao.get_match_by_id.return_value = {
@@ -111,7 +117,7 @@ class TestMatchService(unittest.TestCase):
             "equipe_bleu": "Team B",
         }
 
-        # When: On modifie ce match
+        # When
         result = self.match_service.modifier_match(
             id_match,
             "2024-10-26",
@@ -120,7 +126,7 @@ class TestMatchService(unittest.TestCase):
             "Team B",
         )
 
-        # Then: On doit appeler update_match avec les bons arguments
+        # Then
         self.matchDao.update_match.assert_called_once_with(
             id_match,
             "2024-10-26",
@@ -131,17 +137,28 @@ class TestMatchService(unittest.TestCase):
         self.assertEqual(result["date"], "2024-10-26")
 
     def test_supprimer_match_existant(self):
+        """Test de la suppresion d'un match existant"""
+        # Given
         id_match = 1
         self.matchDao.is_in_match.return_value = True
         self.matchDao.delete_match.return_value = None
+
+        # When
         result = self.match_service.supprimer_match(id_match)
+
+        # Then
         self.assertEqual(result, f"Match avec l'ID {id_match} supprimé avec succès.")
         self.matchDao.delete_match.assert_called_once_with(id_match)
 
     def test_supprimer_match_inexistant(self):
+        """Test de la suppression d'un match inexistant"""
+        # Given
         id_match = 1
         self.matchDao.is_in_match.return_value = False
+        # When
         result = self.match_service.supprimer_match(id_match)
+
+        # Then
         self.assertEqual(result, "Le match n'existe pas.")
         self.matchDao.delete_match.assert_not_called()
 
