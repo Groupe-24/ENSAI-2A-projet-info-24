@@ -30,6 +30,11 @@ class TournoiDAO:
             cursor.execute("SELECT * FROM Tournois WHERE Id_Tournois = %s;", (id_tournoi,))
             return cursor.fetchone()  # Retourne un seul tournoi
 
+    def get_tournoi_by_titre(self, titre):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Tournois WHERE Titre = %s;", (titre,))
+            return cursor.fetchall()  # Retourne tous les tournois
+
     def update_tournoi(
         self,
         id_tournoi,

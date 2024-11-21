@@ -29,7 +29,7 @@ class CreationTournoiVue(VueAbstraite):
 
             case "Créer un tournoi":
                 Pseudo_orga = inquirer.text(message="Veuillez saisir votre pseudo").execute()
-                Titre = inquirer.text(message="Saisir le titre du tournoi : ").execute()
+                Titre = inquirer.text(message="Saisir le nom du tournoi : ").execute()
                 Description = inquirer.text(message="Saisir la description du tournoi : ").execute()
                 Date_debut = inquirer.text(
                     message="Saisir la date de début du tournoi : "
@@ -62,4 +62,7 @@ class CreationTournoiVue(VueAbstraite):
                 return CreationTournoiVue("Retour au Menu de Création des Tournois")
 
             case "Chercher un tournoi par nom":
-                pass
+                titre = inquirer.text(message="Saisir le nom du tournoi : ").execute()
+                print(TournoiService(TournoiDAO()).rechercher_tournoi_titre(nom=titre))
+
+                return CreationTournoiVue("Retour au Menu de Création des Tournois")
