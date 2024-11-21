@@ -9,7 +9,15 @@ class UtilisateurDAO:
         self.connection = DBConnection().connection
 
     def insert_utilisateur(
-        self, id_utilisateur, pseudo, email, password, id_joueur, administrateur, date_de_naissance
+        self,
+        id_utilisateur,
+        pseudo,
+        email,
+        password,
+        id_joueur,
+        administrateur,
+        organisateur,
+        date_de_naissance,
     ):
         with closing(self.connection.cursor()) as cursor:
             print("maybe")
