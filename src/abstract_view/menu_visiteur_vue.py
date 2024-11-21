@@ -1,6 +1,6 @@
 from InquirerPy import inquirer
-
-
+from service.match_service import MatchService
+from dao.match_dao import MatchDAO
 from abstract_view.vue_abstraite import VueAbstraite
 
 
@@ -24,7 +24,7 @@ class VisiteurVue(VueAbstraite):
                 pass
 
             case "Consulter le Calendrier":
-                pass
+                MatchService(MatchDAO()).afficher_calendrier()
 
             case "Consulter les statistiques":
                 pass

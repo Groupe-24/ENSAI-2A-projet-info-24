@@ -3,7 +3,7 @@ from InquirerPy import inquirer
 from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.utilisateur_dao import UtilisateurDAO
-from dao.db_connection import DBConnection
+
 
 # from service.joueur_service import JoueurService
 
@@ -15,12 +15,9 @@ class ConnexionVue(VueAbstraite):
         # Demande à l'utilisateur de saisir pseudo et mot de passe
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
-        # Appel du service pour trouver le joueur
-        print("probleme connexion")
-        UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp)
-        print(UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp))
-        print("WGHATTTTTTTT")
+
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
+
         if UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp):
             message = f"Vous êtes connecté sous le pseudo {pseudo}"
             if UtilisateurService(UtilisateurDAO()).se_connecter_administrateur(pseudo, mdp):

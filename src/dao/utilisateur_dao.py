@@ -81,9 +81,9 @@ class UtilisateurDAO:
             cursor.execute(update_query, params)
         self.connection.commit()
 
-    def delete_utilisateur(self, id_utilisateur):
+    def delete_utilisateur(self, pseudo):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute("DELETE FROM Utilisateurs WHERE Id_Utilisateur = %s;", (id_utilisateur,))
+            cursor.execute("DELETE FROM Utilisateurs WHERE Pseudo = %s;", (pseudo,))
         self.connection.commit()
 
     def list_utilisateurs(self):
