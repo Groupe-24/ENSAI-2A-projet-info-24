@@ -115,8 +115,7 @@ alter_statements = [
     """,
     """
     ALTER TABLE Tournois
-    ADD CONSTRAINT fk_organisateur FOREIGN KEY (Id_Organisateur) REFERENCES Utilisateurs(Id_Utilisateur),
-    ADD CONSTRAINT fk_equipe FOREIGN KEY (Id_Equipe) REFERENCES Equipe(Id_Equipe);
+    ADD CONSTRAINT fk_organisateur FOREIGN KEY (Id_Organisateur) REFERENCES Utilisateurs(Id_Utilisateur);
     """,
     """
     ALTER TABLE Paris

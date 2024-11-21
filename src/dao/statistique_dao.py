@@ -102,7 +102,7 @@ class StatistiquesDAO:
     def statistique_equipe(self, equipe):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT Equipe, SUM(But), SUM(Score_De_Match) "
+                "SELECT Equipe, SUM(Goals), SUM(Score),SUM(assists),SUM(Saves),SUM(Saves),SUM(Shots)"
                 "FROM Statistiques WHERE Equipe = %s GROUP BY Equipe;",
                 (equipe,),
             )
@@ -111,7 +111,7 @@ class StatistiquesDAO:
     def statistique_match(self, match):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT Match, SUM(But), SUM(Score_De_Match) "
+                "SELECT Match,SUM(Goals), SUM(Score),SUM(assists),SUM(Saves),SUM(Saves),SUM(Shots)"
                 "FROM Statistiques WHERE Match = %s GROUP BY Match;",
                 (match,),
             )
@@ -120,7 +120,7 @@ class StatistiquesDAO:
     def statistique_joueur(self, joueur):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT Joueur, SUM(But), SUM(Score_De_Match) "
+                "SELECT Joueur,SUM(Goals), SUM(Score),SUM(assists),SUM(Saves),SUM(Saves),SUM(Shots)"
                 "FROM Statistiques WHERE Joueur = %s GROUP BY Joueur;",
                 (joueur,),
             )

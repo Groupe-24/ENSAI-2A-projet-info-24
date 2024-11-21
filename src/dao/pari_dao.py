@@ -1,5 +1,6 @@
 from dao.db_connection import DBConnection
 from contextlib import closing
+from uuid import uuid4
 
 
 # Classe pour la table Paris
@@ -7,7 +8,9 @@ class ParisDAO:
     def __init__(self):
         self.connection = DBConnection().connection
 
-    def insert_pari(self, id_pari, id_match, id_equipe, id_utilisateur, mise, gain):
+    def insert_pari(self, id_pari = None, id_match, id_equipe, id_utilisateur, mise, gain):
+        if id_pari is None:
+            id_pari = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Paris(Id_Paris, Id_Matches, Id_Equipe, Id_Utilisateur, Mise, Gain) "

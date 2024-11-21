@@ -10,15 +10,17 @@ class UtilisateurDAO:
 
     def insert_utilisateur(
         self,
-        id_utilisateur,
-        pseudo,
-        email,
-        password,
-        id_joueur,
-        administrateur,
-        organisateur,
-        date_de_naissance,
+        id_utilisateur=None,
+        pseudo=None,
+        email=None,
+        password=None,
+        id_joueur=None,
+        administrateur=None,
+        organisateur=None,
+        date_de_naissance=None,
     ):
+        if id_utilisateur is None:
+            id_utilisateur = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             print("maybe")
             cursor.execute(
