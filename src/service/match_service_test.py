@@ -130,6 +130,21 @@ class TestMatchService(unittest.TestCase):
         )
         self.assertEqual(result["date"], "2024-10-26")
 
+    def test_supprimer_match_existant(self):
+        id_match = 1
+        self.matchDao.is_in_match.return_value = True
+        self.matchDao.delete_match.return_value = None
+        result = self.match_service.supprimer_match(id_match)
+        self.assertEqual(result, f"Match avec l'ID {id_match} supprimé avec succès.")
+        self.matchDao.delete_match.assert_called_once_with(id_match)
+
+    def test_supprimer_match_inexistant(self):
+        id_match = 1
+        self.matchDao.is_in_match.return_value = False
+        result = self.match_service.supprimer_match(id_match)
+        self.assertEqual(result, "Le match n'existe pas.")
+        self.matchDao.delete_match.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
