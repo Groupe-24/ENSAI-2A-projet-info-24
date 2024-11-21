@@ -1,13 +1,10 @@
 import requests
-from dao.db_connection import DBConnection
-from datetime import date, datetime
 from dao.equipe_dao import EquipeDAO
 from dao.joueur_dao import JoueursDAO
 from dao.match_dao import MatchDAO
-from dao.pari_dao import ParisDAO
 from dao.statistique_dao import StatistiquesDAO
-from dao.utilisateur_dao import UtilisateurDAO
 from dao.tournoi_dao import TournoiDAO
+from datetime import *
 from uuid import uuid4
 
 reponseMatches_init = requests.get("https://api.rlcstatistics.net/matches?page=1000&page_size=30")
