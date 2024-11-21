@@ -120,7 +120,7 @@ class EquipeService:
         return liste_equipe
 
     def lister_equipes_par_tournoi(self, id_tournoi):
-        """Lister les équipes selon leur tournoi
+        """Lister les équipes d'un tournoi
 
         Parameters
         ----------
@@ -131,8 +131,11 @@ class EquipeService:
         ------
         list[Equipe]
         """
-        equipes = self.equipe_dao.list_equipes_by_tournament(id_tournoi)
-        if equipes:
-            return equipes
-        else:
-            return "Aucune équipe n'est inscrite à ce tournoi"
+        equipes = self.equipe_dao.list_equipes_by_tournoi(id_tournoi)
+        if not equipes:
+            raise ValueError("Aucune équipe n'est inscrite à ce tournoi.")
+        liste_equipe = []
+        for une_equipe in equipes:
+            equipe = Equipe(id_equipe=une_equipe["id_equipe"], nom=une_equipe["nom"])
+            liste_equipe.append(equipe)
+        return liste_equipe

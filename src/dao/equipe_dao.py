@@ -4,8 +4,8 @@ from contextlib import closing
 
 # Classe pour la table Équipe
 class EquipeDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_equipe(self, id_equipe=None, nom=None):
         with closing(self.connection.cursor()) as cursor:
@@ -49,3 +49,14 @@ class EquipeDAO:
                 "SELECT EXISTS(SELECT 1 FROM Equipe WHERE Id_Equipe = %s);", (id_equipe,)
             )
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def list_equipes_by_tournoi(self, id_tournoi):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(
+                "SELECT e.Id_Equipe, e.Nom "
+                "FROM Equipe e, Tournoi t "
+                "WHERE e.Id_Equipe = t.Id_Equipe "
+                "AND t.Id_Tournoi = %s;",
+                (id_tournoi,),
+            )
+            return cursor.fetchall()

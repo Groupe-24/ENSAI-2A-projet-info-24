@@ -13,16 +13,12 @@ class PariService:
         -----------
         match: Match
             Le match à parier
-
         equipe: Equipe
             L'équipe à parier
-
         utilisateur: Utilisateur
             L'utilisateur qui pari
-
         mise: int
             La mise du pari
-
         gain: int
             None par defaut, le gain potentiel
 
@@ -59,7 +55,9 @@ class PariService:
 
         Return:
         -------
-        dict
+        dict{'match': id_match (str),
+             id_equipe_bleu (str): cote_equipe_bleue (float),
+             id_equipe_orange (str): cote_equipe_orange (float)}
         """
         id_equipe_bleu = match.equipe_bleu.id_equipe
         id_equipe_orange = match.equipe_orange.id_equipe
