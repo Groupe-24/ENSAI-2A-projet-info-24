@@ -1,0 +1,2 @@
+from statistique_dao import StatistiquesDAO
+from db_connection import DBConnection

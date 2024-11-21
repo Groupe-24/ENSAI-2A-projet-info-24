@@ -23,6 +23,13 @@ class JoueursDAO:
             )  # Correction du nom de colonne
             return cursor.fetchone()  # Retourne un seul joueur
 
+    def get_joueur_by_pseudo(self, pseudo):
+        with closing(self.connection.cursor()) as cursor:  # Correction ici
+            cursor.execute(
+                "SELECT * FROM Joueurs WHERE Pseudo = %s;", (pseudo,)
+            )  # Correction du nom de colonne
+            return cursor.fetchone()  # Retourne un seul joueur
+
     def update_joueur(self, id_joueur, pseudo=None, equipe=None, professionnel=None):
         with closing(self.connection.cursor()) as cursor:
             # Créer la liste des colonnes à mettre à jour
@@ -77,7 +84,7 @@ class JoueursDAO:
             params.append(professionnel)
 
         if id_joueur is not None:
-            query += " AND Id_Joueur = %s"
+            query += " AND Id_Joueurs = %s"
             params.append(id_joueur)
 
         with closing(self.connection.cursor()) as cursor:
@@ -85,8 +92,15 @@ class JoueursDAO:
             return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants
 
     def is_in_joueur(self, id_joueur):
-        with closing(self.connection.cursor()) as cursor:
-            cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM Joueurs WHERE Id_Joueurs = %s);", (id_joueur,)
-            )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+        a = self.get_joueur_by_id(id_joueur=id_joueur)
+        if a is None:
+            False
+        else:
+            True
+
+    def is_in_joueur_by_pseudo(self, pseudo):
+        a = self.get_joueur_by_pseudo(pseudo)
+        if a is None:
+            False
+        else:
+            True

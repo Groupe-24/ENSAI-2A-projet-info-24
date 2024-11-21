@@ -78,8 +78,8 @@ class TournoiDAO:
             return cursor.fetchall()  # Récupérer tous les tournois
 
     def is_in_tournoi(self, id_tournoi):
-        with closing(self.connection.cursor()) as cursor:
-            cursor.execute(
-                "SELECT EXISTS(SELECT 1 FROM Tournois WHERE Id_Tournois = %s);", (id_tournoi,)
-            )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+        table = self.get_tournoi_by_id(id_tournoi=id_tournoi)
+        if table is None:
+            return False
+        else:
+            return True
