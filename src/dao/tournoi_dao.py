@@ -1,5 +1,6 @@
 from dao.db_connection import DBConnection
 from contextlib import closing
+from uuid import uuid4
 
 
 # Classe pour la table Tournoi
@@ -17,6 +18,8 @@ class TournoiDAO:
         id_organisateur=None,
         id_equipe=None,
     ):
+        if id_tournoi is None:
+            id_tournoi = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Tournois(Id_Tournois, Titre, Description, Date_Debut, Date_Fin, "
