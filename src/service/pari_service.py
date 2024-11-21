@@ -126,7 +126,6 @@ class PariService:
         """
         resultat = self.pari_dao.exists_by_id(pari.id_pari)
         if not resultat:
-            print("Le pari n'existe pas.")
-            return
+            raise ValueError("Le pari n'existe pas.")
         self.pari_dao.delete_pari(pari.id_pari)
         print("Le pari a bien été supprimé.")
