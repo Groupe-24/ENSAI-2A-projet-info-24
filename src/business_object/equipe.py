@@ -3,7 +3,7 @@ class Equipe:
     Classe représentant une Equipe.
 
     Attributs
-    ----------
+    ---------
     id_equipe : int
         Identifiant de l'équipe
     nom : str

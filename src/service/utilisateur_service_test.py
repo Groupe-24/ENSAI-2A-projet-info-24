@@ -6,121 +6,114 @@ from service.utilisateur_service import UtilisateurService
 
 class TestUtilisateurService(unittest.TestCase):
     def setUp(self):
-        self.utilisateurDao = MagicMock()  # Mock du DAO
-        self.utilisateur_service = UtilisateurService(self.utilisateurDao)  # Service à tester
+        self.utilisateurDao = MagicMock()
+        self.utilisateur_service = UtilisateurService(self.utilisateurDao)
+
+        # GIVEN
+        self.pseudo = "test_user"
+        self.mail = "test@example.com"
+        self.ddn = "2000-01-01"
+        self.mdp = "secure_password"
+        self.administrateur = False
+        self.organisateur = False
+
+        self.mock_user = [{"pseudo": self.pseudo, "password": self.mdp}]
 
     def test_creer_compte(self):
-        # Given
-        pseudo = "test_user"
-        mail = "test@example.com"
-        ddn = "2000-01-01"
-        mdp = "secure_password"
-        administrateur = False
-        organisateur = False
-
-        # When
+        """Test de la création d'un compte utilisateur"""
+        # WHEN
         utilisateur = self.utilisateur_service.creer_compte(
-            pseudo, mail, ddn, mdp, administrateur, organisateur
+            self.pseudo, self.mail, self.ddn, self.mdp, self.administrateur, self.organisateur
         )
 
-        # Then
+        # THEN
         self.utilisateurDao.insert_utilisateur.assert_called_once_with(
-            pseudo, mail, ddn, mdp, administrateur, organisateur
+            self.pseudo, self.mail, self.ddn, self.mdp, self.administrateur, self.organisateur
         )
         self.assertIsInstance(utilisateur, Utilisateur)
-        self.assertEqual(utilisateur.pseudo, pseudo)
-        self.assertEqual(utilisateur.mail, mail)
-        self.assertEqual(utilisateur.date_de_naissance, ddn)
-        self.assertEqual(utilisateur.mdp, mdp)
-        self.assertEqual(utilisateur.administrateur, administrateur)
-        self.assertEqual(utilisateur.organisateur, organisateur)
+        self.assertEqual(utilisateur.pseudo, self.pseudo)
+        self.assertEqual(utilisateur.mail, self.mail)
+        self.assertEqual(utilisateur.date_de_naissance, self.ddn)
+        self.assertEqual(utilisateur.mdp, self.mdp)
+        self.assertEqual(utilisateur.administrateur, self.administrateur)
+        self.assertEqual(utilisateur.organisateur, self.organisateur)
 
     def test_creer_compte_echec_insertion(self):
-        # Given
+        """Test d'un échec d'insertion lors de la création de compte"""
+        # GIVEN
         self.utilisateurDao.insert_utilisateur.side_effect = Exception("Insertion failed")
 
-        # When / Then
+        # WHEN / THEN
         with self.assertRaises(Exception):
             self.utilisateur_service.creer_compte(
-                "test_user",
-                "test@example.com",
-                "2000-01-01",
-                "secure_password",
-                False,
-                False,
+                self.pseudo, self.mail, self.ddn, self.mdp, self.administrateur, self.organisateur
             )
 
     def test_se_connecter_utilisateur_succes(self):
-        """Test de connexion réussie d'un utilisateur"""
+        """Test de la connexion réussie d'un utilisateur"""
         # GIVEN
-        pseudo = "testUser"
-        mdp = "password123"
-        mock_user = [{"pseudo": pseudo, "password": mdp}]  # Simule un utilisateur dans la BD
-        self.utilisateurDao.get_utilisateur_by_parameters.return_value = mock_user
+        self.utilisateurDao.get_utilisateur_by_parameters.return_value = self.mock_user
 
         # WHEN
-        result = self.utilisateur_service.se_connecter_utilisateur(pseudo, mdp)
+        result = self.utilisateur_service.se_connecter_utilisateur(self.pseudo, self.mdp)
 
-        # THEN
-        self.utilisateurDao.get_utilisateur_by_parameters.assert_called_with(pseudo=pseudo)
+        # THEN: Vérifications
+        self.utilisateurDao.get_utilisateur_by_parameters.assert_called_with(pseudo=self.pseudo)
         self.assertTrue(result)
 
     def test_se_connecter_utilisateur_echec(self):
-        """Test de connexion échouée d'un utilisateur (mauvais mot de passe)"""
-        # GIVEN
-        pseudo = "testUser"
-        mdp = "wrongPassword"
-        mock_user = [
-            {"pseudo": pseudo, "password": "password123"}
-        ]  # Simule un utilisateur dans la BD
-        self.utilisateurDao.get_utilisateur_by_parameters.return_value = mock_user
+        """Test de la connexion échouée d'un utilisateur (mauvais mot de passe)"""
+        # GIVEN: Simuler un utilisateur avec un mauvais mot de passe
+        wrong_mdp = "wrongPassword"
+        self.utilisateurDao.get_utilisateur_by_parameters.return_value = [
+            {"pseudo": self.pseudo, "password": "password123"}
+        ]
 
-        # WHEN
-        result = self.utilisateur_service.se_connecter_utilisateur(pseudo, mdp)
+        # WHEN: Connexion avec un mot de passe incorrect
+        result = self.utilisateur_service.se_connecter_utilisateur(self.pseudo, wrong_mdp)
 
-        # THEN
+        # THEN: Vérification de l'échec de la connexion
         self.assertFalse(result)
 
     def test_se_connecter_utilisateur_non_existant(self):
-        """Test de connexion échouée avec un utilisateur non existant"""
-        # GIVEN
-        pseudo = "nonExistantUser"
-        mdp = "password123"
-        self.utilisateurDao.get_utilisateur_by_parameters.return_value = (
-            []
-        )  # Aucun utilisateur trouvé
+        """Test de la connexion échouée avec un utilisateur non existant"""
+        # GIVEN: Aucun utilisateur trouvé pour le pseudo donné
+        self.utilisateurDao.get_utilisateur_by_parameters.return_value = []
 
-        # WHEN
-        result = self.utilisateur_service.se_connecter_utilisateur(pseudo, mdp)
+        # WHEN: Connexion avec un pseudo inexistant
+        result = self.utilisateur_service.se_connecter_utilisateur("nonExistantUser", self.mdp)
 
-        # THEN
+        # THEN: Vérification de l'échec
         self.assertFalse(result)
 
     def test_pseudo_exist(self):
-        # Given
+        """Test de vérification de l'existence d'un pseudo"""
+        # GIVEN: Un utilisateur avec le pseudo "existing_user"
         self.utilisateurDao.get_utilisateur_by_parameters.return_value = {"pseudo": "existing_user"}
 
-        # When
+        # WHEN: Vérification de l'existence du pseudo
         result = self.utilisateur_service.pseudo_exist("existing_user")
 
-        # Then
+        # THEN: Vérification que le pseudo existe
         self.assertTrue(result)
 
     def test_pseudo_n_existe_pas(self):
-        # Given
+        """Test de vérification de l'absence d'un pseudo"""
+        # GIVEN: Aucun utilisateur trouvé pour le pseudo "new_user"
         self.utilisateurDao.get_utilisateur_by_parameters.return_value = None
 
-        # When
+        # WHEN: Vérification de l'existence du pseudo
         result = self.utilisateur_service.pseudo_exist("new_user")
 
-        # Then
+        # THEN: Vérification que le pseudo n'existe pas
         self.assertFalse(result)
 
     def test_gestion_exception(self):
-        # Given
+        """Test de la gestion des exceptions"""
+        # GIVEN: Une erreur de base de données
         self.utilisateurDao.get_utilisateur_by_parameters.side_effect = Exception("DB error")
 
-        # When / Then
+        # WHEN / THEN: Vérification que l'exception est levée
         with self.assertRaises(Exception):
             self.utilisateur_service.pseudo_exist("any_user")
 

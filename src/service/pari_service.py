@@ -13,16 +13,12 @@ class PariService:
         -----------
         match: Match
             Le match à parier
-
         equipe: Equipe
             L'équipe à parier
-
         utilisateur: Utilisateur
             L'utilisateur qui pari
-
         mise: int
             La mise du pari
-
         gain: int
             None par defaut, le gain potentiel
 
@@ -59,7 +55,9 @@ class PariService:
 
         Return:
         -------
-        dict
+        dict{'match': id_match (str),
+             id_equipe_bleu (str): cote_equipe_bleue (float),
+             id_equipe_orange (str): cote_equipe_orange (float)}
         """
         id_equipe_bleu = match.equipe_bleu.id_equipe
         id_equipe_orange = match.equipe_orange.id_equipe
@@ -76,10 +74,10 @@ class PariService:
 
         total_paris = paris_equipe_bleu + paris_equipe_orange
         if total_paris == 0:
-            cote_equipe_bleu = cote_equipe_orange = 1.0  # Exemple: cotes par défaut égales
+            cote_equipe_bleu = cote_equipe_orange = None
         else:
-            cote_equipe_bleu = paris_equipe_bleu / total_paris
-            cote_equipe_orange = paris_equipe_orange / total_paris
+            cote_equipe_bleu = total_paris / paris_equipe_bleu
+            cote_equipe_orange = total_paris / paris_equipe_orange
 
         print(
             f"Cote equipe bleu : {cote_equipe_bleu}\n" f"Cote equipe orange : {cote_equipe_orange}"
@@ -111,9 +109,10 @@ class PariService:
         if equipe.id_equipe not in [match.equipe_orange.id_equipe, match.equipe_bleu.id_equipe]:
             raise ValueError("L'équipe doit jouer dans le match spécifié.")
         cotes = self.afficher_cote(match)
-        if "cote_equipe_" + equipe.id_equipe not in cotes:
+        nom_equipe = "bleu" if equipe.id_equipe == match.equipe_bleu.id_equipe else "orange"
+        if f"cote_equipe_{nom_equipe}" not in cotes:
             raise KeyError(f"L'équipe {equipe.id_equipe} n'a pas de cote pour ce match.")
-        cote = cotes["cote_equipe_" + equipe.id_equipe]
+        cote = cotes[f"cote_equipe_{nom_equipe}"]
         return (cote + 1) * mise
 
     def supprimer_pari(self, pari):

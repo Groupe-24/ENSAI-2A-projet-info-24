@@ -1,6 +1,7 @@
 from db_connection import DBConnection
 from contextlib import closing
-from uuid import uuid4()
+from uuid import uuid4
+
 
 # Classe pour la table Équipe
 class EquipeDAO:
