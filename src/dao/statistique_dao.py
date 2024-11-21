@@ -1,5 +1,6 @@
 from db_connection import DBConnection
 from contextlib import closing
+from uuid import uuid4
 
 
 # Classe pour la table Statistiques
@@ -8,8 +9,10 @@ class StatistiquesDAO:
         self.connection = DBConnection().connection
 
     def insert_statistique(
-        self, id_statistique, joueur, match, equipe, goals, assists, saves, shots, score
+        self, id_statistique = None, joueur, match, equipe, goals, assists, saves, shots, score
     ):
+        if id_statistique is None:
+            id_statistique = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Statistiques(Id_Statistique, Joueur, Match, Equipe, Goals, Assists, Saves, Shots, Score) "
