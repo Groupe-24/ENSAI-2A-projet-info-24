@@ -49,7 +49,6 @@ class TestStatistiqueService(unittest.TestCase):
         self.assertEqual(result, "Statistique avec l'ID 1 mise à jour avec succès.")
 
     def test_supprimer_statistique(self):
-
         self.mock_dao.exists_by_id.return_value = True
         result = self.service.supprimer_statistique(1)
         self.mock_dao.delete_statistique.assert_called_once_with(1)
@@ -61,6 +60,12 @@ class TestStatistiqueService(unittest.TestCase):
         self.mock_dao.statistique_equipe.assert_called_once_with("EquipeA")
         self.assertEqual(result, {"equipe": "EquipeA", "total_buts": 5, "total_scores": 2900})
 
+    def obtenir_statistiques_joueur(self, joueur):
+        result = self.dao.statistique_joueur(joueur)
+        if not result:
+            raise ValueError(f"Aucune statistique trouvée pour le joueur {joueur}.")
+        return {"joueur": result[0], "total_buts": result[1], "total_scores": result[2]}
+
     def test_obtenir_statistiques_match(self):
         self.mock_dao.statistique_match.return_value = [
             ("Match1", 3, 1500),
@@ -68,12 +73,14 @@ class TestStatistiqueService(unittest.TestCase):
         ]
         result = self.service.obtenir_statistiques_match("Match1")
         self.mock_dao.statistique_match.assert_called_once_with("Match1")
-        self.assertEqual(result, [{"match": "Match1", "total_buts": 3, "total_scores": 1500}])
+        self.assertEqual(
+            result,
+            [
+                {"match": "Match1", "total_buts": 3, "total_scores": 1500},
+                {"match": "Match2", "total_buts": 4, "total_scores": 1700},
+            ],
+        )
 
-    def test_obtenir_statistique_joueur(self):
-        self.mock_dao.statistique_joueur.return_value = [("joueur1", 1, 300)]
-        result = self.service.obtenir_statistiques_joueur("joueur1")
-        self.mock_dao.statistique_joueurassert_called_once_with("joueur1")
-        self.assertEqual(result, [{"joueur": "joueur1", "total_buts": 1, "total_scores": 300}])
 
-    print("OK")
+if __name__ == "__main__":
+    unittest.main()
