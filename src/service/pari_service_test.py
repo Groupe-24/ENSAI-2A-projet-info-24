@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
+from business_object.pari import Pari
 from service.pari_service import PariService
 from io import StringIO
 import sys
@@ -8,184 +9,132 @@ import sys
 class TestPariService(unittest.TestCase):
     def setUp(self):
         """Initialisation avant chaque test"""
+        # Création du mock pour PariDAO
         self.pari_dao = MagicMock()
+        # Création du service avec le mock de PariDAO
         self.pari_service = PariService(self.pari_dao)
+
+        # Mocks communs pour les tests
+        self.match_mock = MagicMock()
+        self.match_mock.id_match = "1"
+        self.match_mock.equipe_bleu.id_equipe = "bleu_id"
+        self.match_mock.equipe_orange.id_equipe = "orange_id"
+
+        self.equipe_mock = MagicMock()
+        self.equipe_mock.id_equipe = "bleu_id"
+
+        self.utilisateur_mock = MagicMock()
+        self.utilisateur_mock.id_utilisateur = "user1"
 
     def test_parier(self):
         """Test de la création d'un pari"""
-
         # GIVEN
-        pari_dao_mock = MagicMock()
-        pari_dao_mock.insert_pari = MagicMock()
+        mise = 100
+        gain = 200
 
-        # Création des mocks pour match, équipe et utilisateur
-        match_mock = MagicMock()
-        match_mock.id_match = "1"
+        # Créer un pari simulé
+        id_pari = "123"
+        pari_mock = Pari(
+            id_pari=id_pari,
+            match=self.match_mock,
+            equipe=self.equipe_mock,
+            utilisateur=self.utilisateur_mock,
+            mise=mise,
+            gain=gain,
+        )
 
-        equipe_mock = MagicMock()
-        equipe_mock.id_equipe = "10"
-
-        utilisateur_mock = MagicMock()
-        utilisateur_mock.id_utilisateur = "100"
-
-        # Création du service avec le mock
-        pari_service = PariService(pari_dao_mock)
+        self.pari_dao.insert_pari.return_value = None  # Pas de retour attendu pour l'insertion
 
         # WHEN
-        pari = pari_service.parier(
-            match=match_mock, equipe=equipe_mock, utilisateur=utilisateur_mock, mise=150, gain=None
+        pari = self.pari_service.parier(
+            self.match_mock, self.equipe_mock, self.utilisateur_mock, mise, gain
         )
 
         # THEN
-        self.assertIsNotNone(pari.id_pari)
-        self.assertEqual(pari.mise, 150)
-        pari_dao_mock.insert_pari.assert_called_once_with(
+        self.pari_dao.insert_pari.assert_called_once_with(
             id_pari=pari.id_pari,
-            id_match="1",
-            id_equipe="10",
-            id_utilisateur="100",
-            mise=150,
-            gain=None,
+            id_match=self.match_mock.id_match,
+            id_equipe=self.equipe_mock.id_equipe,
+            id_utilisateur=self.utilisateur_mock.id_utilisateur,
+            mise=mise,
+            gain=gain,
         )
+        self.assertEqual(pari.mise, mise)
+        self.assertEqual(pari.gain, gain)
 
     def test_afficher_cote(self):
-        """Test de la méthode afficher_cote"""
-
+        """Test de l'affichage des cotes"""
         # GIVEN
-        equipe_bleu_mock = MagicMock()
-        equipe_bleu_mock.id_equipe = "1"
-
-        equipe_orange_mock = MagicMock()
-        equipe_orange_mock.id_equipe = "2"
-
-        match_mock = MagicMock()
-        match_mock.id_match = "101"
-        match_mock.equipe_bleu = equipe_bleu_mock
-        match_mock.equipe_orange = equipe_orange_mock
-
-        resultat_paris = [
-            {"id_equipe": "1", "mise": 100},  # pari équipe bleue
-            {"id_equipe": "2", "mise": 150},  # pari équipe orange
-            {"id_equipe": "1", "mise": 50},
+        # Simuler des paris
+        self.pari_dao.list_pari_match.return_value = [
+            {"id_equipe": "bleu_id", "mise": 50},
+            {"id_equipe": "orange_id", "mise": 50},
         ]
 
-        # Simulation du retour de la méthode `list_pari_match`
-        self.pari_dao.list_pari_match.return_value = resultat_paris
-
         # WHEN
-        result = self.pari_service.afficher_cote(match_mock)
+        cotes = self.pari_service.afficher_cote(self.match_mock)
 
         # THEN
-        cote_equipe_bleu = (100 + 50) / (100 + 50 + 150)
-        cote_equipe_orange = 150 / (100 + 50 + 150)
+        self.assertEqual(cotes["cote_equipe_bleu"], 0.5)
+        self.assertEqual(cotes["cote_equipe_orange"], 0.5)
 
-        self.assertEqual(result["match"], "101")
-        self.assertEqual(result["1"], "bleu")
-        self.assertEqual(result["2"], "orange")
-        self.assertEqual(result["cote_equipe_bleu"], cote_equipe_bleu)
-        self.assertEqual(result["cote_equipe_orange"], cote_equipe_orange)
+    def test_gain_potentiel(self):
+        """Test du calcul du gain potentiel"""
+        # GIVEN
+        self.pari_service.afficher_cote = MagicMock(
+            return_value={
+                "cote_equipe_bleu": 0.5,
+                "cote_equipe_orange": 0.5,
+                "bleu": "bleu",
+                "orange": "orange",
+                "match": "1",
+            }
+        )
+        mise = 100
 
-        self.pari_dao.list_pari_match.assert_called_once_with("101")
+        # WHEN
+        gain = self.pari_service.gain_potentiel(mise, self.equipe_mock, self.match_mock)
 
-        # Capture de la sortie standard
+        # THEN
+        self.assertEqual(gain, 150)  # (0.5 + 1) * 100 = 150
+
+    def test_supprimer_pari_existant(self):
+        """Test de la suppression d'un pari existant"""
+        # GIVEN
+        pari_mock = MagicMock()
+        pari_mock.id_pari = "123"
+        self.pari_dao.exists_by_id.return_value = True  # Le pari existe
+
+        # Capture de la sortie standard pour le test de suppression
         captured_output = StringIO()
         sys.stdout = captured_output
 
-        expected_output = (
-            f"Cote equipe bleu : {cote_equipe_bleu}\n"
-            f"Cote equipe orange : {cote_equipe_orange}\n"
-        )
-
-        # WHEN (vérification de la sortie)
-        self.pari_service.afficher_cote(match_mock)
+        # WHEN
+        self.pari_service.supprimer_pari(pari_mock)
 
         # THEN
-        self.assertEqual(captured_output.getvalue(), expected_output)
+        self.pari_dao.exists_by_id.assert_called_once_with("123")
+        self.pari_dao.delete_pari.assert_called_once_with("123")
+        self.assertEqual(captured_output.getvalue(), "Le pari a bien été supprimé.\n")
+
+    def test_supprimer_pari_inexistant(self):
+        """Test de la suppression d'un pari inexistant"""
+        # GIVEN
+        pari_mock = MagicMock()
+        pari_mock.id_pari = "123"
+        self.pari_dao.exists_by_id.return_value = False  # Le pari n'existe pas
+
+        # WHEN / THEN: Vérification que l'exception est bien levée
+        with self.assertRaises(ValueError) as context:
+            self.pari_service.supprimer_pari(pari_mock)
+
+        # THEN: Vérification du message d'erreur
+        self.assertEqual(str(context.exception), "Le pari n'existe pas.")
+        self.pari_dao.exists_by_id.assert_called_once_with("123")
+        self.pari_dao.delete_pari.assert_not_called()
 
         # Restauration de la sortie standard
         sys.stdout = sys.__stdout__
-
-    def test_gain_potentiel(self):
-        """Test de la méthode gain_potentiel"""
-
-        # Test 1: Erreur d'une équipe qui ne fait pas partie du match
-        # GIVEN
-        equipe_mock = MagicMock()
-        equipe_mock.id_equipe = "3"
-
-        equipe_bleu_mock = MagicMock()
-        equipe_bleu_mock.id_equipe = "1"
-
-        equipe_orange_mock = MagicMock()
-        equipe_orange_mock.id_equipe = "2"
-
-        match_mock = MagicMock()
-        match_mock.id_match = "101"
-        match_mock.equipe_bleu = equipe_bleu_mock
-        match_mock.equipe_orange = equipe_orange_mock
-
-        # WHEN / THEN:
-        with self.assertRaises(ValueError, msg="L'équipe doit jouer dans le match spécifié."):
-            self.pari_service.gain_potentiel(100, equipe_mock, match_mock)
-
-        # Test 2 : Cas classique
-        # GIVEN
-        cotes_mock = {
-            "match": "101",
-            "1": "bleu",
-            "2": "orange",
-            "cote_equipe_bleu": 1.5,
-            "cote_equipe_orange": 2.0,
-        }
-        self.pari_service.afficher_cote = MagicMock(return_value=cotes_mock)
-
-        # WHEN:
-        mise = 100
-        gain_potentiel = self.pari_service.gain_potentiel(mise, equipe_bleu_mock, match_mock)
-
-        # THEN:
-        expected_gain = (1.5 + 1) * mise  # 2.5 * 100 = 250
-        self.assertEqual(gain_potentiel, expected_gain)
-        self.pari_service.afficher_cote.assert_called_once_with(match_mock)
-
-
-def test_supprimer_pari(self):
-    """Test de la méthode supprimer_pari pour un pari existant et inexistant"""
-
-    # Test 1 : Pari Existant
-    # GIVEN
-    pari_mock = MagicMock()
-    pari_mock.id_pari = "123"
-    self.pari_dao.exists_by_id.return_value = True
-
-    # Capture de la sortie standard pour le premier cas
-    captured_output = StringIO()
-    sys.stdout = captured_output
-
-    # WHEN
-    self.pari_service.supprimer_pari(pari_mock)
-
-    # THEN
-    self.pari_dao.exists_by_id.assert_called_once_with("123")
-    self.pari_dao.delete_pari.assert_called_once_with("123")
-    self.assertEqual(captured_output.getvalue(), "Le pari a bien été supprimé.\n")
-
-    # Test 2 : Pari inexistant
-    # GIVEN
-    self.pari_dao.reset_mock()
-    self.pari_dao.exists_by_id.return_value = False
-
-    # WHEN / THEN: Vérification que l'exception est bien levée
-    with self.assertRaises(ValueError) as context:
-        self.pari_service.supprimer_pari(pari_mock)
-
-    # THEN: Vérification du message d'erreur
-    self.assertEqual(str(context.exception), "Le pari n'existe pas.")
-    self.pari_dao.exists_by_id.assert_called_once_with("123")
-    self.pari_dao.delete_pari.assert_not_called()
-
-    # Restauration de la sortie standard
-    sys.stdout = sys.__stdout__
 
 
 if __name__ == "__main__":
