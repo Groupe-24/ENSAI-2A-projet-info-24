@@ -48,24 +48,24 @@ class TournoiService:
                     id_organisateur=un_tournoi["id_organisateur"],
                     id_equipe=un_tournoi["id_equipe"],
                 )
-                liste_tournois.append(tournoi.titre)
+                liste_tournois.append(print(tournoi))
         return liste_tournois
 
-    def rechercher_tournoi_nom(self, nom):
-        resultat = self.tournoi_dao.tournoi_par_nom(nom)
+    def rechercher_tournoi_titre(self, nom):
+        resultat = self.tournoi_dao.get_tournoi_by_titre(nom)
         liste_tournois = []
         if resultat:
             for un_tournoi in resultat:
                 tournoi = Tournoi(
-                    id_tournoi=un_tournoi["id_tournoi"],
+                    id_tournoi=un_tournoi["id_tournois"],
                     titre=un_tournoi["titre"],
                     description=un_tournoi["description"],
                     date_debut=un_tournoi["date_debut"],
                     date_fin=un_tournoi["date_fin"],
-                    organisateur=un_tournoi["id_organisateur"],
+                    id_organisateur=un_tournoi["id_organisateur"],
                     id_equipe=un_tournoi["id_equipe"],
                 )
-                liste_tournois.append(tournoi)
+                liste_tournois.append(print(tournoi))
         return liste_tournois
 
     def supprimer_tournoi(self, tournoi):
