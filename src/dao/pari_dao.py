@@ -1,11 +1,11 @@
-from db_connection import DBConnection
+from dao.db_connection import DBConnection
 from contextlib import closing
 
 
 # Classe pour la table Paris
-class ParisDAO:
-    def __init__(self, db_connection):
-        self.connection = db_connection
+class PariDAO:
+    def __init__(self):
+        self.connection = DBConnection().connection
 
     def insert_pari(self, id_pari, id_match, id_equipe, id_utilisateur, mise, gain):
         with closing(self.connection.cursor()) as cursor:
@@ -63,3 +63,8 @@ class ParisDAO:
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT EXISTS(SELECT 1 FROM Paris WHERE Id_Paris = %s);", (id_pari,))
             return cursor.fetchone()[0]  # Renvoie True ou False
+
+    def list_pari_match(self, id_match):
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute("SELECT * FROM Paris WHERE id_matches = %s);", (id_match,))
+            return cursor.fetchall()

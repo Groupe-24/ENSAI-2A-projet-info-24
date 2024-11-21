@@ -59,3 +59,9 @@ class MatchService:
         self.matchDao.update_match(id_match, date, id_tournoi, equipe_orange, equipe_bleu)
         match = self.matchDao.get_match_by_id(id_match)
         return match
+
+    def supprimer_match(self, id_match):
+        if not self.matchDao.is_in_match(id_match):
+            return "Le match n'existe pas."
+        self.matchDao.delete_match(id_match)
+        return f"Match avec l'ID {id_match} supprimé avec succès."

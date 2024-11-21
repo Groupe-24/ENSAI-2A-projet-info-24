@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock
 from service.tournoi_service import TournoiService
 from dao.tournoi_dao import TournoiDAO
+from business_object.tournoi import Tournoi
 
 
 def test_creer_tournoi():
@@ -98,6 +99,65 @@ def test_rechercher_tournoi_nom():
     assert len(result) == 1
     assert result[0].titre == "Tournoi Recherche"
     assert result[0].id_tournoi == "2"
+
+
+def test_supprimer_tournoi():
+    """Test de la suppression d'un tournoi"""
+
+    # Test 1 : tournoi existant
+    # GIVEN
+    tournoi_dao_mock = MagicMock(TournoiDAO)
+    tournoi_dao_mock.get_tournoi_by_id = MagicMock(
+        return_value={"id_tournoi": "1", "titre": "Tournoi 1"}
+    )
+    tournoi_dao_mock.delete_tournoi = MagicMock()
+
+    organisateur_mock = MagicMock()
+    organisateur_mock.pseudo = "organisateur_test"
+
+    tournoi_service = TournoiService(tournoi_dao_mock)
+    tournoi = Tournoi(
+        id_tournoi="1",
+        titre="Tournoi Test",
+        description="Description du tournoi",
+        date_debut="2024-01-01",
+        date_fin="2024-01-02",
+        organisateur=organisateur_mock,
+    )
+
+    # WHEN
+    resultat = tournoi_service.supprimer_tournoi(tournoi)
+
+    # THEN
+    assert resultat == "Le tournoi a bien été supprimé."
+    tournoi_dao_mock.delete_tournoi.assert_called_once_with("1")
+
+    # Réinitialiser les mocks pour le second test
+    tournoi_dao_mock.reset_mock()
+
+    # Test 2 : tournoi inexistant
+    # GIVEN
+    tournoi_dao_mock.get_tournoi_by_id = MagicMock(return_value=None)
+    tournoi_service = TournoiService(tournoi_dao_mock)
+
+    # Créer un tournoi avec un ID fictif
+    tournoi = Tournoi(
+        id_tournoi="999",
+        titre="Tournoi Inexistant",
+        description="Description du tournoi",
+        date_debut="2024-01-01",
+        date_fin="2024-01-02",
+        organisateur=organisateur_mock,
+    )
+
+    # WHEN
+    resultat = tournoi_service.supprimer_tournoi(tournoi)
+
+    # THEN
+    assert resultat == "Le tournoi spécifié n'existe pas."
+
+    # Vérifier que delete_tournoi n'a pas été appelé dans ce cas
+    tournoi_dao_mock.delete_tournoi.assert_not_called()
 
 
 if __name__ == "__main__":
