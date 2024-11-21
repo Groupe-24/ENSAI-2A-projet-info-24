@@ -1,12 +1,8 @@
 import requests
-from dao.db_connection import DBConnection
-from datetime import date, datetime
 from dao.equipe_dao import EquipeDAO
 from dao.joueur_dao import JoueursDAO
 from dao.match_dao import MatchDAO
-from dao.pari_dao import ParisDAO
 from dao.statistique_dao import StatistiquesDAO
-from dao.utilisateur_dao import UtilisateurDAO
 from dao.tournoi_dao import TournoiDAO
 from uuid import uuid4
 
