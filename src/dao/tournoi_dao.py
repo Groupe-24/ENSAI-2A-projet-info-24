@@ -86,8 +86,9 @@ class TournoiDAO:
     def rajout_equipe(self, id_tournoi, id_equipe):
         if self.is_in_tournoi(id_tournoi):
             table = self.get_tournoi_by_id(id_tournoi=id_tournoi)
-            if table["equipe"] is None:
-                self.update_tournoi(id_equipe=id_equipe)
-            else:
-                list_equipe = table["equipe"] + ", " + id_equipe
-                self.update_tournoi(id_equipe=list_equipe)
+            liste_equipe_sans_modif = table["id_equipe"]
+            if liste_equipe_sans_modif is None:
+                self.update_tournoi(id_tournoi=id_tournoi, id_equipe=id_equipe)
+            elif not (id_equipe in liste_equipe_sans_modif):
+                list_equipe = liste_equipe_sans_modif + ", " + id_equipe
+                self.update_tournoi(id_tournoi=id_tournoi, id_equipe=list_equipe)

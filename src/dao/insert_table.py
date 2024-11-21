@@ -4,6 +4,7 @@ from dao.joueur_dao import JoueursDAO
 from dao.match_dao import MatchDAO
 from dao.statistique_dao import StatistiquesDAO
 from dao.tournoi_dao import TournoiDAO
+from datetime import *
 from uuid import uuid4
 
 reponseMatches_init = requests.get("https://api.rlcstatistics.net/matches?page=1000&page_size=30")
