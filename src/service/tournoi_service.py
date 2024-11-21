@@ -99,18 +99,18 @@ class TournoiService:
                 liste_tournois.append(tournoi)
         return liste_tournois
 
-    def supprimer_tournoi(self, tournoi):
+    def supprimer_tournoi(self, id_tournoi):
         """Supprimer un tournoi
 
         Parameters
         ----------
-        tournoi: Tournoi
+        id_tournoi: str
             Tournoi à supprimer
         """
-        resultat = self.tournoi_dao.get_tournoi_by_id(tournoi.id_tournoi)
+        resultat = self.tournoi_dao.get_tournoi_by_id(id_tournoi)
         if not resultat:
             raise ValueError("Le tournoi spécifié n'existe pas.")
-        self.tournoi_dao.delete_tournoi(tournoi.id_tournoi)
+        self.tournoi_dao.delete_tournoi(id_tournoi)
         return "Le tournoi a bien été supprimé."
 
     def inscrire_tournoi(self, tournoi, pseudo_utilisateur, joueur1, joueur2):
