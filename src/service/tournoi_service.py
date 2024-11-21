@@ -13,7 +13,8 @@ class TournoiService:
         description=None,
         date_debut=None,
         date_fin=None,
-        organisateur=None,
+        id_organisateur=None,
+        id_equipe=None,
     ):
         id_tournoi = str(uuid.uuid4())
         tournoi = Tournoi(
@@ -22,7 +23,8 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=id_organisateur,
+            id_equipe=id_equipe,
         )
         self.tournoi_dao.insert_tournoi(
             id_tournoi=id_tournoi,
@@ -30,7 +32,8 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            organisateur=organisateur.pseudo,
+            id_organisateur=id_organisateur,
+            id_equipe=id_equipe,
         )
         return tournoi
 
@@ -45,7 +48,8 @@ class TournoiService:
                     description=un_tournoi["description"],
                     date_debut=un_tournoi["date_debut"],
                     date_fin=un_tournoi["date_fin"],
-                    organisateur=un_tournoi["id_organisateur"],
+                    id_organisateur=un_tournoi["id_organisateur"],
+                    id_equipe=un_tournoi["id_equipe"],
                 )
                 liste_tournois.append(tournoi)
         return liste_tournois
@@ -62,6 +66,7 @@ class TournoiService:
                     date_debut=un_tournoi["date_debut"],
                     date_fin=un_tournoi["date_fin"],
                     organisateur=un_tournoi["id_organisateur"],
+                    id_equipe=un_tournoi["id_equipe"],
                 )
                 liste_tournois.append(tournoi)
         return liste_tournois
@@ -70,6 +75,7 @@ class TournoiService:
         resultat = self.tournoi_dao.get_tournoi_by_id(tournoi.id_tournoi)
         if resultat:
             self.tournoi_dao.delete_tournoi(tournoi.id_tournoi)
+            return "Le tournoi a bien été supprimé."
+
         else:
             return "Le tournoi spécifié n'existe pas."
-        return "Le tournoi a bien été supprimé."
