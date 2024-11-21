@@ -75,3 +75,30 @@ class MatchDAO:
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Matches WHERE Date > %s ORDER BY Date);", (Date,))
             return cursor.fetchall()
+
+    def get_match_by_parameters(
+        self, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None
+    ):
+        """
+        Recherche des matchs en fonction des critères donnés.
+        """
+        with closing(self.connection.cursor()) as cursor:
+            query = "SELECT * FROM Matches WHERE 1=1"  # Condition toujours vraie pour faciliter l'ajout dynamique de filtres
+            params = []
+
+            if date:
+                query += " AND Date = %s"
+                params.append(date)
+            if id_tournoi:
+                query += " AND Id_Tournois = %s"
+                params.append(id_tournoi)
+            if equipe_orange:
+                query += " AND Equipe_Orange = %s"
+                params.append(equipe_orange)
+            if equipe_bleu:
+                query += " AND Equipe_Bleu = %s"
+                params.append(equipe_bleu)
+
+            query += " ORDER BY Date;"
+            cursor.execute(query, params)
+            return cursor.fetchall()

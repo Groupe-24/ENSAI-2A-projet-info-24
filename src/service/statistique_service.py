@@ -1,3 +1,9 @@
+from dao.joueur_dao import JoueursDAO
+from dao.equipe_dao import EquipeDAO
+from dao.match_dao import MatchDAO
+from dao.statistique_dao import StatistiquesDAO
+
+
 class StatistiqueService:
     def __init__(self, statistiques_dao):
         self.dao = statistiques_dao
@@ -53,12 +59,12 @@ class StatistiqueService:
         if not result:
             return f"Aucune statistique trouvée pour l'équipe {equipe}."
         return {
-            "equipe": result[0],
-            "total_goals": result[1],
-            "total_score": result[2],
-            "total_assists": result[3],
-            "total_saves": result[4],
-            "total_shots": result[5],
+            "equipe": result["equipe"],
+            "total_goals": result["goals"],
+            "total_score": result["score"],
+            "total_assists": result["assists"],
+            "total_saves": result["saves"],
+            "total_shots": result["shots"],
         }
 
     def obtenir_statistiques_match(self, match):
@@ -68,12 +74,12 @@ class StatistiqueService:
             return f"Aucune statistique trouvée pour le match {match}."
         return [
             {
-                "match": r[0],
-                "total_goals": r[1],
-                "total_score": r[2],
-                "total_assists": r[3],
-                "total_saves": r[4],
-                "total_shots": r[5],
+                "match": r["match"],
+                "total_goals": r["goals"],
+                "total_score": r["score"],
+                "total_assists": r["assists"],
+                "total_saves": r["saves"],
+                "total_shots": r["shots"],
             }
             for r in result
         ]
@@ -84,10 +90,37 @@ class StatistiqueService:
         if not result:
             return f"Aucune statistique trouvée pour le joueur {joueur}."
         return {
-            "joueur": result[0],
-            "total_goals": result[1],
-            "total_score": result[2],
-            "total_assists": result[3],
-            "total_saves": result[4],
-            "total_shots": result[5],
+            "joueur": result["joueur"],
+            "total_goals": result["goals"],
+            "total_score": result["score"],
+            "total_assists": result["assists"],
+            "total_saves": result["saves"],
+            "total_shots": result["shots"],
         }
+
+    def obtenir_list_stat(self, joueur=None, equipe1=None, equipe2=None):
+        if not (joueur is None):
+            id_joueur = JoueursDAO().get_joueur_by_pseudo(joueur)["id_joueurs"]
+            return self.dao.get_statistique_by_parameters(joueur=id_joueur)
+        if (not (equipe1 is None)) and (equipe2 is None):
+            id_equipe = EquipeDAO().get_equipe_by_nom(equipe1)["id_equipe"]
+            return self.dao.get_statistique_by_parameters(equipe=id_equipe)
+        if equipe2 is not None:
+            id_equipe1 = EquipeDAO().get_equipe_by_nom(equipe1)["id_equipe"]
+            id_equipe2 = EquipeDAO().get_equipe_by_nom(equipe2)["id_equipe"]
+            id_matches = MatchDAO().get_match_by_parameters(
+                equipe_bleu=id_equipe1, equipe_orange=id_equipe2
+            )
+            id_matches2 = MatchDAO().get_match_by_parameters(
+                equipe_bleu=id_equipe2, equipe_orange=id_equipe1
+            )
+            id_matches = id_matches + id_matches2
+            if bool(id_matches):
+                statistiques_des_matches = []
+                for id_match in id_matches:
+                    statistiques_des_matches.append(
+                        self.dao.get_statistique_by_parameters(match=id_match)
+                    )
+                return statistiques_des_matches
+        else:
+            return None

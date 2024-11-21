@@ -18,11 +18,11 @@ class MatchService:
             return "Aucun match prévu."
         calendrier = {}
         for match in matches:
-            id_match = match[0]
-            date = match[1]
-            id_tournoi = match[2]
-            equipe_orange = match[3]
-            equipe_bleu = match[4]
+            id_match = match["id_matches"]
+            date = match["date"]
+            id_tournoi = match["id_tournois"]
+            equipe_orange = match["equipe_orange"]
+            equipe_bleu = match["equipe_bleu"]
             if date not in calendrier:
                 calendrier[date] = []
             calendrier[date].append(
@@ -67,6 +67,6 @@ class MatchService:
         return f"Match avec l'ID {id_match} supprimé avec succès."
 
 
-from dao.match_dao import MatchDAO
+# from dao.match_dao import MatchDAO
 
-MatchService(MatchDAO()).afficher_calendrier()
+# MatchService(MatchDAO()).afficher_calendrier()

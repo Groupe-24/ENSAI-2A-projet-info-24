@@ -8,7 +8,16 @@ class StatistiquesDAO:
         self.connection = DBConnection().connection
 
     def insert_statistique(
-        self, id_statistique = None, joueur, match, equipe, goals, assists, saves, shots, score
+        self,
+        id_statistique=None,
+        joueur=None,
+        match=None,
+        equipe=None,
+        goals=None,
+        assists=None,
+        saves=None,
+        shots=None,
+        score=None,
     ):
         if id_statistique is None:
             id_statistique = str(uuid4())
@@ -128,3 +137,59 @@ class StatistiquesDAO:
                 (joueur,),
             )
             return cursor.fetchone()
+
+    def get_statistique_by_parameters(
+        self,
+        id_statistique=None,
+        joueur=None,
+        match=None,
+        equipe=None,
+        goals=None,
+        shots=None,
+        assists=None,
+        saves=None,
+        score=None,
+    ):
+        query = "SELECT * FROM Statistiques WHERE 1=1"
+        params = []
+
+        # Construction dynamique de la requête
+        if id_statistique is not None:
+            query += " AND Id_Statistique = %s"
+            params.append(id_statistique)
+
+        if joueur is not None:
+            query += " AND Joueur = %s"
+            params.append(joueur)
+
+        if match is not None:
+            query += " AND Match = %s"
+            params.append(match)
+
+        if equipe is not None:
+            query += " AND Equipe = %s"
+            params.append(equipe)
+
+        if goals is not None:
+            query += " AND Goals = %s"
+            params.append(goals)
+
+        if shots is not None:
+            query += " AND Shots = %s"
+            params.append(shots)
+
+        if assists is not None:
+            query += " AND Assists = %s"
+            params.append(assists)
+
+        if saves is not None:
+            query += " AND Saves = %s"
+            params.append(saves)
+
+        if score is not None:
+            query += " AND Score = %s"
+            params.append(score)
+
+        with closing(self.connection.cursor()) as cursor:
+            cursor.execute(query, params)
+            return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants

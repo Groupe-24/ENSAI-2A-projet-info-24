@@ -1,6 +1,7 @@
 from dao.db_connection import DBConnection
 from contextlib import closing
-from uuid import uuid4()
+from uuid import uuid4
+
 
 # Classe pour la table Joueurs
 class JoueursDAO:
@@ -9,7 +10,7 @@ class JoueursDAO:
 
     def insert_joueur(self, id_joueur=None, pseudo=None, equipe=None, professionnel=None):
         if id_joueur is None:
-            id_jouer = str(uuid4())
+            id_joueur = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
                 "INSERT INTO Joueurs(Id_Joueurs, Pseudo, Equipe, Professionnel)"

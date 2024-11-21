@@ -4,6 +4,8 @@ from service.match_service import MatchService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.statistique_dao import StatistiquesDAO
 from service.statistique_service import StatistiqueService
+from abstract_view.menu_statistique_vue import MenuStatistiqueVue
+
 
 class MenuUtilisateurVue(VueAbstraite):
     """Menu des utilisateurs authentifiés"""
@@ -30,12 +32,10 @@ class MenuUtilisateurVue(VueAbstraite):
                 MatchService(MatchDAO()).afficher_calendrier()
 
             case "Consulter les statistiques":
-                StatistiqueService(StatistiquesDAO()).lister_statistiques()
+                return MenuStatistiqueVue()
 
             case "S'inscrire à un tournoi":
-                
+                pass
 
             case "Parier sur des matchs":
-                MatchService(MatchDAO()).afficher_calendrier()
-
-                
+                pass

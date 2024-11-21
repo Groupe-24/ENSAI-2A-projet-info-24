@@ -2,6 +2,7 @@ from InquirerPy import inquirer
 from service.match_service import MatchService
 from dao.match_dao import MatchDAO
 from abstract_view.vue_abstraite import VueAbstraite
+from abstract_view.menu_statistique_vue import MenuStatistiqueVue
 
 
 class VisiteurVue(VueAbstraite):
@@ -27,4 +28,4 @@ class VisiteurVue(VueAbstraite):
                 MatchService(MatchDAO()).afficher_calendrier()
 
             case "Consulter les statistiques":
-                pass
+                return MenuStatistiqueVue()
