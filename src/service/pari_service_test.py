@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import MagicMock
-from business_object.pari import Pari
 from service.pari_service import PariService
 from io import StringIO
 import sys
@@ -8,13 +7,9 @@ import sys
 
 class TestPariService(unittest.TestCase):
     def setUp(self):
-        """Initialisation avant chaque test"""
-        # Création du mock pour PariDAO
         self.pari_dao = MagicMock()
-        # Création du service avec le mock de PariDAO
         self.pari_service = PariService(self.pari_dao)
 
-        # Mocks communs pour les tests
         self.match_mock = MagicMock()
         self.match_mock.id_match = "1"
         self.match_mock.equipe_bleu.id_equipe = "bleu_id"
@@ -31,17 +26,6 @@ class TestPariService(unittest.TestCase):
         # GIVEN
         mise = 100
         gain = 200
-
-        # Créer un pari simulé
-        id_pari = "123"
-        pari_mock = Pari(
-            id_pari=id_pari,
-            match=self.match_mock,
-            equipe=self.equipe_mock,
-            utilisateur=self.utilisateur_mock,
-            mise=mise,
-            gain=gain,
-        )
 
         self.pari_dao.insert_pari.return_value = None  # Pas de retour attendu pour l'insertion
 

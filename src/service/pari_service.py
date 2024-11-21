@@ -111,9 +111,10 @@ class PariService:
         if equipe.id_equipe not in [match.equipe_orange.id_equipe, match.equipe_bleu.id_equipe]:
             raise ValueError("L'équipe doit jouer dans le match spécifié.")
         cotes = self.afficher_cote(match)
-        if "cote_equipe_" + equipe.id_equipe not in cotes:
+        nom_equipe = "bleu" if equipe.id_equipe == match.equipe_bleu.id_equipe else "orange"
+        if f"cote_equipe_{nom_equipe}" not in cotes:
             raise KeyError(f"L'équipe {equipe.id_equipe} n'a pas de cote pour ce match.")
-        cote = cotes["cote_equipe_" + equipe.id_equipe]
+        cote = cotes[f"cote_equipe_{nom_equipe}"]
         return (cote + 1) * mise
 
     def supprimer_pari(self, pari):
