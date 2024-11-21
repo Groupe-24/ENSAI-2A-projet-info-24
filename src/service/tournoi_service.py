@@ -13,8 +13,7 @@ class TournoiService:
         description=None,
         date_debut=None,
         date_fin=None,
-        id_organisateur=None,
-        id_equipe=None,
+        organisateur=None,
     ):
         id_tournoi = str(uuid.uuid4())
         tournoi = Tournoi(
@@ -23,8 +22,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            id_organisateur=id_organisateur,
-            id_equipe=id_equipe,
+            id_organisateur=organisateur.id,
         )
         self.tournoi_dao.insert_tournoi(
             id_tournoi=id_tournoi,
@@ -32,8 +30,7 @@ class TournoiService:
             description=description,
             date_debut=date_debut,
             date_fin=date_fin,
-            id_organisateur=id_organisateur,
-            id_equipe=id_equipe,
+            id_organisateur=organisateur.id,
         )
         return tournoi
 
@@ -43,7 +40,7 @@ class TournoiService:
         if resultat:
             for un_tournoi in resultat:
                 tournoi = Tournoi(
-                    id_tournoi=un_tournoi["id_tournoi"],
+                    id_tournoi=un_tournoi["id_tournois"],
                     titre=un_tournoi["titre"],
                     description=un_tournoi["description"],
                     date_debut=un_tournoi["date_debut"],
@@ -51,7 +48,7 @@ class TournoiService:
                     id_organisateur=un_tournoi["id_organisateur"],
                     id_equipe=un_tournoi["id_equipe"],
                 )
-                liste_tournois.append(tournoi)
+                liste_tournois.append(tournoi.titre)
         return liste_tournois
 
     def rechercher_tournoi_nom(self, nom):

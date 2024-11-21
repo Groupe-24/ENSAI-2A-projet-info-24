@@ -9,7 +9,15 @@ class UtilisateurDAO:
         self.connection = DBConnection().connection
 
     def insert_utilisateur(
-        self, id_utilisateur, pseudo, email, password, id_joueur, administrateur, date_de_naissance
+        self,
+        id_utilisateur,
+        pseudo,
+        email,
+        password,
+        id_joueur,
+        administrateur,
+        organisateur,
+        date_de_naissance,
     ):
         with closing(self.connection.cursor()) as cursor:
             print("maybe")
@@ -81,9 +89,9 @@ class UtilisateurDAO:
             cursor.execute(update_query, params)
         self.connection.commit()
 
-    def delete_utilisateur(self, id_utilisateur):
+    def delete_utilisateur(self, pseudo):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute("DELETE FROM Utilisateurs WHERE Id_Utilisateur = %s;", (id_utilisateur,))
+            cursor.execute("DELETE FROM Utilisateurs WHERE Pseudo = %s;", (pseudo,))
         self.connection.commit()
 
     def list_utilisateurs(self):
