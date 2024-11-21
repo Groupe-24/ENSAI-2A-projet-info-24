@@ -27,7 +27,7 @@ class TestPariService(unittest.TestCase):
         mise = 100
         gain = 200
 
-        self.pari_dao.insert_pari.return_value = None  # Pas de retour attendu pour l'insertion
+        self.pari_dao.insert_pari.return_value = None
 
         # WHEN
         pari = self.pari_service.parier(
@@ -47,9 +47,8 @@ class TestPariService(unittest.TestCase):
         self.assertEqual(pari.gain, gain)
 
     def test_afficher_cote(self):
-        """Test de l'affichage des cotes"""
+        """Test de l'affichage de la cote d'un match"""
         # GIVEN
-        # Simuler des paris
         self.pari_dao.list_pari_match.return_value = [
             {"id_equipe": "bleu_id", "mise": 50},
             {"id_equipe": "orange_id", "mise": 50},
@@ -59,8 +58,8 @@ class TestPariService(unittest.TestCase):
         cotes = self.pari_service.afficher_cote(self.match_mock)
 
         # THEN
-        self.assertEqual(cotes["cote_equipe_bleu"], 0.5)
-        self.assertEqual(cotes["cote_equipe_orange"], 0.5)
+        self.assertEqual(cotes["cote_equipe_bleu"], 2)
+        self.assertEqual(cotes["cote_equipe_orange"], 2)
 
     def test_gain_potentiel(self):
         """Test du calcul du gain potentiel"""

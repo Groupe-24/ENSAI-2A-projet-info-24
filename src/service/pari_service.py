@@ -76,10 +76,10 @@ class PariService:
 
         total_paris = paris_equipe_bleu + paris_equipe_orange
         if total_paris == 0:
-            cote_equipe_bleu = cote_equipe_orange = 1.0  # Exemple: cotes par défaut égales
+            cote_equipe_bleu = cote_equipe_orange = None
         else:
-            cote_equipe_bleu = paris_equipe_bleu / total_paris
-            cote_equipe_orange = paris_equipe_orange / total_paris
+            cote_equipe_bleu = total_paris / paris_equipe_bleu
+            cote_equipe_orange = total_paris / paris_equipe_orange
 
         print(
             f"Cote equipe bleu : {cote_equipe_bleu}\n" f"Cote equipe orange : {cote_equipe_orange}"

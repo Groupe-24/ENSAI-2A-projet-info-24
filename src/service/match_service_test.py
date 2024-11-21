@@ -6,8 +6,8 @@ import io
 
 class TestMatchService(unittest.TestCase):
     def setUp(self):
-        self.matchDao = Mock()
-        self.match_service = MatchService(self.matchDao)
+        self.match_dao = Mock()
+        self.match_service = MatchService(self.match_dao)
 
     def test_rechercher_match_par_date(self):
         """Test de la recherche d'un match existant selon une date"""

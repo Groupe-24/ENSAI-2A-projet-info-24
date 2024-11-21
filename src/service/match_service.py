@@ -2,8 +2,8 @@ from business_object.match import Match
 
 
 class MatchService:
-    def __init__(self, matchDao):
-        self.matchDao = matchDao
+    def __init__(self, match_dao):
+        self.match_dao = match_dao
 
     def rechercher_match_par_date(self, date):
         matches = self.matchDao.get_match_by_date(date)
@@ -38,7 +38,8 @@ class MatchService:
         for date, matchs in sorted(calendrier.items()):
             output += f"Date : {date}\n"
             for match in matchs:
-                output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs {match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
+                output += f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs "
+                f"{match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
             output += "\n"  # Assurer un retour à la ligne après chaque date
 
         print(output.strip())

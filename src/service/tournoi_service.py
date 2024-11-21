@@ -79,3 +79,23 @@ class TournoiService:
 
         else:
             return "Le tournoi spécifié n'existe pas."
+
+    def inscrire_tournoi(self, tournoi, pseudo_utilisateur, joueur1, joueur2):
+        """S'inscrire à un tournoi
+
+        Parameters
+        ----------
+        tournoi: Tournoi
+            Tournoi spécifique pour lequel l'utilisateur souhaite s'inscire
+        joueur1: str
+            Nom du 1er joueur avec lequel l'utilisateur souhaite s'inscrire
+        joueur2: str
+            Nom du 2eme joueur
+        """
+        resultat = self.tournoi_dao.get_tournoi_by_id(tournoi.id_tournoi)
+        if not resultat:
+            raise ValueError("Le tournoi spécifié n'existe pas.")
+        self.tournoi_dao.update_tournoi(
+            id_tournoi=tournoi.id_tournoi,
+            id_equipe=resultat["id_equipe"].append([pseudo_utilisateur, joueur1, joueur2]),
+        )
