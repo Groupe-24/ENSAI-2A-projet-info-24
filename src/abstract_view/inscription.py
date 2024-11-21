@@ -62,6 +62,7 @@ class InscriptionVue(VueAbstraite):
             mdp=mdp,
             administrateur=admin,
             organisateur=orga,
+            id=None,
         )
 
         # Si l'Utilisateur a été créé
