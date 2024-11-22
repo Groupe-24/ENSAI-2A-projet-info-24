@@ -1,4 +1,34 @@
 class Tournoi:
+    """
+    Classe représentant un Tournoi.
+
+    Attributs
+    ---------
+    id_tournoi: str
+        ID du tournoi
+    titre: str
+        Titre du tournoi
+    description: str
+        Description du tournoi
+    date_debut: str
+        Date du début du tournoi
+    date_fin: str
+        Date de fin du tournoi
+    id_organisateur: str
+        ID de l'organisateur
+    id_equipe: list[str]
+        Liste des ID des équipes participantes
+    Parameters
+    ----------
+    id_tournoi: str
+    titre: str
+    description: str
+    date_debut: str
+    date_fin: str
+    id_organisateur: str
+    id_equipe: list[str]
+    """
+
     def __init__(
         self,
         id_tournoi=None,

@@ -1,4 +1,29 @@
 class Match:
+    """
+    Classe représentant un Match.
+
+    Attributs
+    ---------
+    id_match: str
+        ID du match
+    id_tournoi: str
+        ID du tournoi auquel le match appartient
+    date: str
+        Date du match
+    equipe_orange: Equipe
+        Equipe orange
+    equipe_bleu: Equipe
+        Equipe bleue
+
+    Parameters
+    ----------
+    id_match: str
+    id_tournoi: str
+    date: str
+    equipe_orange: Equipe
+    equipe_bleu: Equipe
+    """
+
     def __init__(self, id_match, date, id_tournoi, equipe_orange, equipe_bleu):
         """Constructeur"""
         self.id_match = id_match
