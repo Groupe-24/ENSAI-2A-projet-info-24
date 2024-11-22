@@ -22,6 +22,18 @@ class Statistics:
         Nombre de tirs
     score: float
         Score total
+
+    Parameters
+    ----------
+    id_statistique: str
+    joueur: str
+    match: str
+    equipe: str
+    goals: int
+    assists: int
+    saves: int
+    shots: int
+    score: float
     """
 
     def __init__(
