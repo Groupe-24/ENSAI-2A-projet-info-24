@@ -10,10 +10,15 @@ class Equipe:
         Nom de l'équipe
     professionnel : bool
         Statut professionnel de l'équipe (True pour professionnel, False sinon)
+
+    Parameters
+    ----------
+    id_equipe : int
+    nom : str
+    professionnel : bool
     """
 
     def __init__(self, nom, id_equipe=None, professionnel=False):
-        """Constructeur"""
         self.id_equipe = id_equipe
         self.nom = nom
         self.professionnel = professionnel
