@@ -1,4 +1,35 @@
 class Statistics:
+    """
+    Classe représentant une Statistique.
+
+    Attributs
+    ---------
+    id_statistique: str
+        ID de la statistique
+    equipe: str
+        nom de l'équipe concernée
+    match: str
+        ID du match concerné
+    joueur: str
+        pseudo du joueur concerné
+    but: int
+        Nombre de but inscrit (None par défaut)
+    score_de_match: float
+        Score total dans le match
+    consommation_boost: float
+        Consommation total de boost (None par défaut)
+
+    Parameters
+    ----------
+    id_statistique: str
+    equipe: str
+    match: str
+    joueur: str
+    but: int
+    score_de_match: float
+    consommation_boost: float
+    """
+
     def __init__(
         self,
         id_statistique,
