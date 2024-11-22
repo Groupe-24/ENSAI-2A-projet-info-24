@@ -4,7 +4,7 @@ from dao.joueur_dao import JoueursDAO
 from dao.match_dao import MatchDAO
 from dao.statistique_dao import StatistiquesDAO
 from dao.tournoi_dao import TournoiDAO
-from datetime import *
+from datetime import date
 from uuid import uuid4
 
 reponseMatches_init = requests.get("https://api.rlcstatistics.net/matches?page=1000&page_size=30")
@@ -34,7 +34,7 @@ while 30 * pages < totalCount:
         )
 
     for match in reponseMatches.json()["matches"]:
-        if date.fromisoformat(match["date"][:10]) < date.today():
+        if date.fromisoformat(match["date"][:10]) < date.fromisoformat("2024-06-11"):
             id_match = match["id_match"]
             # print(dict_equipe)
             reponseStatistique = requests.get("https://api.rlcstatistics.net/match/" + id_match)
@@ -101,8 +101,8 @@ while 30 * pages < totalCount:
                                 id_match=stat["_id"],
                                 id_tournoi=stat["event"]["_id"],
                                 date=stat["date"],
-                                equipe_orange=dict_equipe[stat[color]["team"]["team"]["name"]],
-                                equipe_bleu=dict_equipe[stat[color]["team"]["team"]["name"]],
+                                equipe_orange=dict_equipe[stat["orange"]["team"]["team"]["name"]],
+                                equipe_bleu=dict_equipe[stat["blue"]["team"]["team"]["name"]],
                             )
                         if stat[color].get("players") is not None:
                             StatistiquesDAO().insert_statistique(
