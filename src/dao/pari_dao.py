@@ -8,7 +8,9 @@ class ParisDAO:
     def __init__(self):
         self.connection = DBConnection().connection
 
-    def insert_pari(self, id_pari = None, id_match, id_equipe, id_utilisateur, mise, gain):
+    def insert_pari(
+        self, id_pari=None, id_match=None, id_equipe=None, id_utilisateur=None, mise=None, gain=None
+    ):
         if id_pari is None:
             id_pari = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
@@ -69,5 +71,5 @@ class ParisDAO:
 
     def list_pari_match(self, id_match):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute("SELECT * FROM Paris WHERE id_matches = %s);", (id_match,))
+            cursor.execute("SELECT * FROM Paris WHERE id_matches = %s;", (id_match,))
             return cursor.fetchall()

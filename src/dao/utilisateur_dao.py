@@ -160,3 +160,4 @@ class UtilisateurDAO:
 #     organisateur=False,
 #     date_de_naissance="23/07/2002",
 # )
+# print(UtilisateurDAO().list_utilisateurs()[0])

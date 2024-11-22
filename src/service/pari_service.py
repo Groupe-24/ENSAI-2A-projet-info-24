@@ -1,5 +1,7 @@
 from business_object.pari import Pari
 import uuid
+from business_object.equipe import Equipe
+from business_object.match import Match
 
 
 class PariService:
@@ -39,7 +41,7 @@ class PariService:
             id_pari=id_pari,
             id_match=match.id_match,
             id_equipe=equipe.id_equipe,
-            id_utilisateur=utilisateur.id_utilisateur,
+            id_utilisateur=utilisateur.id,
             mise=mise,
             gain=gain,
         )
@@ -62,7 +64,7 @@ class PariService:
         id_equipe_bleu = match.equipe_bleu.id_equipe
         id_equipe_orange = match.equipe_orange.id_equipe
 
-        resultat = self.pari_dao.list_pari_match(match.id_match)
+        resultat = self.pari_dao.list_pari_match(id_match=match.id_match)
 
         paris_equipe_bleu = paris_equipe_orange = 0
         if resultat:
@@ -113,6 +115,8 @@ class PariService:
         if f"cote_equipe_{nom_equipe}" not in cotes:
             raise KeyError(f"L'équipe {equipe.id_equipe} n'a pas de cote pour ce match.")
         cote = cotes[f"cote_equipe_{nom_equipe}"]
+        if cote is None:
+            return 0
         return (cote + 1) * mise
 
     def supprimer_pari(self, pari):

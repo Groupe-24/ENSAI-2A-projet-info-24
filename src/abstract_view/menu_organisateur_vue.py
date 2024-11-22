@@ -2,6 +2,7 @@ from InquirerPy import inquirer
 from service.match_service import MatchService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.match_dao import MatchDAO
+from abstract_view.menu_gestion_tournoi_vu import MenuGestionTournoiVue
 
 
 class MenuOrganisateurVue(VueAbstraite):
@@ -15,6 +16,7 @@ class MenuOrganisateurVue(VueAbstraite):
             choices=[
                 "Modifier les informations d'un match",
                 "Créer un tournoi",
+                "Gestion d'un tournoi",
                 "Quitter",
             ],
         ).execute()
@@ -78,3 +80,7 @@ class MenuOrganisateurVue(VueAbstraite):
                 from abstract_view.creer_tournoi_vue import CreationTournoiVue
 
                 return CreationTournoiVue("Création de tournoi")
+
+            case "Gestion d'un tournoi":
+                pseudo_tournoi = inquirer.text(message="Saisir le nom du tournoi : ").execute()
+                return MenuGestionTournoiVue(message="aaaaah", pseudo_tournoi=pseudo_tournoi)
