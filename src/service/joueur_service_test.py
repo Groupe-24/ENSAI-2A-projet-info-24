@@ -58,11 +58,13 @@ class TestJoueurService(unittest.TestCase):
         self.joueur_dao.exists_by_id.return_value = False
         self.joueur_dao.get_joueur_by_parameters.return_value = [{"pseudo": "PseudoTest"}]
 
-        # WHEN
-        result = self.joueur_service.creer_joueur(1, "PseudoTest", "EquipeTest", True)
+        # WHEN & THEN
+        with self.assertRaises(ValueError) as context:
+            self.joueur_service.creer_joueur(1, "PseudoTest", "EquipeTest", True)
 
-        # THEN
-        self.assertEqual(result, "Un joueur avec le pseudo 'PseudoTest' existe déjà.")
+        self.assertEqual(
+            str(context.exception), "Un joueur avec le pseudo 'PseudoTest' existe déjà."
+        )
         self.joueur_dao.insert_joueur.assert_not_called()
 
     def test_creer_joueur_id_existant(self):
@@ -70,11 +72,11 @@ class TestJoueurService(unittest.TestCase):
         # GIVEN
         self.joueur_dao.exists_by_id.return_value = True
 
-        # WHEN
-        result = self.joueur_service.creer_joueur(1, "PseudoTest", "EquipeTest", True)
+        # WHEN & THEN
+        with self.assertRaises(ValueError) as context:
+            self.joueur_service.creer_joueur(1, "PseudoTest", "EquipeTest", True)
 
-        # THEN
-        self.assertEqual(result, "Un joueur avec l'ID 1 existe déjà.")
+        self.assertEqual(str(context.exception), "Un joueur avec l'ID 1 existe déjà.")
         self.joueur_dao.insert_joueur.assert_not_called()
 
     def test_supprimer_joueur_succes(self):
@@ -94,11 +96,11 @@ class TestJoueurService(unittest.TestCase):
         # GIVEN
         self.joueur_dao.exists_by_id.return_value = False
 
-        # WHEN
-        result = self.joueur_service.supprimer_joueur(1)
+        # WHEN & THEN
+        with self.assertRaises(ValueError) as context:
+            self.joueur_service.supprimer_joueur(1)
 
-        # THEN
-        self.assertEqual(result, "Le joueur avec l'ID 1 n'existe pas.")
+        self.assertEqual(str(context.exception), "Le joueur avec l'ID 1 n'existe pas.")
         self.joueur_dao.delete_joueur.assert_not_called()
 
 
