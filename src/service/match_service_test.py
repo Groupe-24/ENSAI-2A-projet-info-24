@@ -1,12 +1,12 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import MagicMock
 from service.match_service import MatchService
 import io
 
 
 class TestMatchService(unittest.TestCase):
     def setUp(self):
-        self.matchDao = Mock()
+        self.matchDao = MagicMock()
         self.match_service = MatchService(self.matchDao)
 
     def test_rechercher_match_par_date(self):
@@ -50,7 +50,8 @@ class TestMatchService(unittest.TestCase):
 
     def test_afficher_calendrier_avec_match(self):
         """Test de l'affichage du calendrier des matchs avec des valeurs"""
-        # Given
+
+        # GIVEN
         matches = [
             {
                 "id_matches": 1,
@@ -69,19 +70,32 @@ class TestMatchService(unittest.TestCase):
         ]
         self.matchDao.list_matches.return_value = matches
 
+        self.equipeDao_mock = MagicMock()
+        self.equipeDao_mock.get_equipe_by_id = MagicMock(
+            side_effect=lambda equipe_id: {"nom": equipe_id}
+        )
+        self.tournoiDao_mock = MagicMock()
+        self.tournoiDao_mock.get_tournoi_by_id = MagicMock(
+            side_effect=lambda tournoi_id: {"titre": f"Tournoi {tournoi_id}"}
+        )
         expected_output = (
             "Date : 2024-10-25\n"
-            "  Match 1 : Team A vs Team B (Tournoi: 101)\n\n"
+            "  Match 1 : Team A vs Team B (Tournoi: Tournoi 101)\n\n"
             "Date : 2024-10-26\n"
-            "  Match 2 : Team C vs Team D (Tournoi: 102)\n\n"
+            "  Match 2 : Team C vs Team D (Tournoi: Tournoi 102)\n\n"
         )
 
-        # When
+        # WHEN
         with unittest.mock.patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
-            self.match_service.afficher_calendrier()
+            with unittest.mock.patch("service.match_service.EquipeDAO") as mock_EquipeDAO:
+                mock_EquipeDAO.return_value = self.equipeDao_mock
+                with unittest.mock.patch("service.match_service.TournoiDAO") as mock_TournoiDAO:
+                    mock_TournoiDAO.return_value = self.tournoiDao_mock
+                    self.match_service.afficher_calendrier()
+
             output = mock_stdout.getvalue()
 
-        # Then
+        # THEN
         self.assertEqual(output.strip(), expected_output.strip())
 
     def test_creer_match(self):
