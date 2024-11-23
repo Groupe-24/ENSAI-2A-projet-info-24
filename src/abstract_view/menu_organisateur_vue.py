@@ -50,7 +50,7 @@ class MenuOrganisateurVue(VueAbstraite):
                         MatchService(MatchDAO()).modifier_match(id_match=match, date=Date)
                         return MenuOrganisateurVue("Retour au Menu Organisateur")
 
-                    case "Id_tournois":
+                    case "Id_tournoi":
                         Id_tournoi = inquirer.text(
                             message="Saisir le nouveau id du tournoi : "
                         ).execute()
