@@ -13,6 +13,7 @@ from dao.match_dao import MatchDAO
 from dao.equipe_dao import EquipeDAO
 from dao.tournoi_dao import TournoiDAO
 from business_object.equipe import Equipe
+from abstract_view.menu_inscription_vue import MenuInscriptionVue
 
 
 class MenuUtilisateurVue(VueAbstraite):
@@ -30,7 +31,7 @@ class MenuUtilisateurVue(VueAbstraite):
             choices=[
                 "Consulter le Calendrier",
                 "Consulter les statistiques",
-                "S'inscrire à un tournoi",
+                "Inscription",
                 "Parier sur des matchs",
                 "Quitter",
             ],
@@ -46,8 +47,8 @@ class MenuUtilisateurVue(VueAbstraite):
             case "Consulter les statistiques":
                 return MenuStatistiqueVue()
 
-            case "S'inscrire à un tournoi":
-                pass
+            case "Inscription":
+                return MenuInscriptionVue(message="", utilisateur=self.utilisateur)
 
             case "Parier sur des matchs":
                 equipe_orange = inquirer.text(

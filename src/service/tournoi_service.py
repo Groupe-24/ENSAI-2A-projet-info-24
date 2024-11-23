@@ -1,5 +1,6 @@
 import uuid
 from business_object.tournoi import Tournoi
+from dao.tournoi_dao import TournoiDAO
 
 
 class TournoiService:
@@ -129,3 +130,22 @@ class TournoiService:
             id_tournoi=tournoi.id_tournoi,
             id_equipe=resultat["id_equipe"].append([pseudo_utilisateur, joueur1, joueur2]),
         )
+
+    def equipe_dans_le_tournoi(self, tournoi_titre, nom_equipe):
+        string_equipe = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)[0]["id_equipe"]
+        if string_equipe is None:
+            return False
+        list_equipe = string_equipe.sep(", ")
+        return nom_equipe in list_equipe
+
+    def ajout_equipe(self, tournoi_titre, nom_equipe):
+        if not self.equipe_dans_le_tournoi(tournoi_titre, nom_equipe):
+            tournoi = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)[0]
+            if tournoi["id_equipe"] is None:
+                string_equipe = nom_equipe
+            else:
+                string_equipe = tournoi["id_equipe"] + ", " + nom_equipe
+            self.tournoi_dao.update_tournoi(
+                id_tournoi=tournoi["id_tournois"],
+                id_equipe=string_equipe,
+            )

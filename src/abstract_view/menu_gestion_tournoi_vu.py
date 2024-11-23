@@ -110,4 +110,37 @@ class MenuGestionTournoiVue(VueAbstraite):
                 return MenuGestionTournoiVue(pseudo_tournoi=self.pseudo_tournoi)
 
             case "Modifier les informations d'un Tournoi":
-                pass
+                choix = inquirer.select(
+                    message="Que voulez vous modifier ? : ",
+                    choices=[
+                        "Description",
+                        "Date de début",
+                        "Date de fin",
+                        "Quitter",
+                    ],
+                ).execute()
+
+                match choix:
+                    case "Description":
+                        description = inquirer.text(
+                            message="Entrez la nouvelle description"
+                        ).execute()
+                        TournoiDAO().update_tournoi(id_tournoi=id_tournoi, description=description)
+                        return MenuGestionTournoiVue(pseudo_tournoi=self.pseudo_tournoi)
+
+                    case "Date de début":
+                        date_de_debut = inquirer.text(
+                            message="Entrez la nouvelle date de debut"
+                        ).execute()
+                        TournoiDAO().update_tournoi(id_tournoi=id_tournoi, date_debut=date_de_debut)
+                        return MenuGestionTournoiVue(pseudo_tournoi=self.pseudo_tournoi)
+
+                    case "Date de fin":
+                        date_de_fin = inquirer.text(
+                            message="Entrez la nouvelle date de fin"
+                        ).execute()
+                        TournoiDAO().update_tournoi(id_tournoi=id_tournoi, date_fin=date_de_fin)
+                        return MenuGestionTournoiVue(pseudo_tournoi=self.pseudo_tournoi)
+
+                    case "Quitter":
+                        return MenuGestionTournoiVue(pseudo_tournoi=self.pseudo_tournoi)
