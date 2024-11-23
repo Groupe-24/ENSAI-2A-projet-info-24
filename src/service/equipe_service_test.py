@@ -6,13 +6,13 @@ from business_object.equipe import Equipe
 
 class TestEquipeService(unittest.TestCase):
     def setUp(self):
-        self.equipeDao = MagicMock()
-        self.equipe_service = EquipeService(self.equipeDao)
+        self.equipe_dao = MagicMock()
+        self.equipe_service = EquipeService(self.equipe_dao)
 
     def test_lister_equipes(self):
         """Test de la liste de toutes les équipes"""
         # Given
-        self.equipeDao.list_equipes.return_value = [
+        self.equipe_dao.list_equipes.return_value = [
             {"id_equipe": 1, "nom": "Equipe 1"},
             {"id_equipe": 2, "nom": "Equipe 2"},
         ]
@@ -29,7 +29,7 @@ class TestEquipeService(unittest.TestCase):
     def test_rechercher_equipe_existe(self):
         """Test de la recherche d'une équipe existante selon l'id"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Equipe 1"}
+        self.equipe_dao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Equipe 1"}
 
         # When
         result = self.equipe_service.rechercher_equipe(1)
@@ -42,7 +42,7 @@ class TestEquipeService(unittest.TestCase):
     def test_rechercher_equipe_n_existe_pas(self):
         """Test de la recherche d'une équipe inexistante selon l'id"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = None
+        self.equipe_dao.get_equipe_by_id.return_value = None
 
         # When & Then
         with self.assertRaises(ValueError):
@@ -51,44 +51,47 @@ class TestEquipeService(unittest.TestCase):
     def test_ajouter_equipe(self):
         """Test d'ajout d'une équipe"""
         # Given
-        self.equipeDao.insert_equipe.return_value = True
+        self.equipe_dao.insert_equipe.return_value = True
 
         # When
         self.equipe_service.ajouter_equipe("Nouvelle Equipe")
 
         # Then
-        self.equipeDao.insert_equipe.assert_called_once_with("Nouvelle Equipe")
+        self.equipe_dao.insert_equipe.assert_called_once_with("Nouvelle Equipe")
 
     def test_modifier_equipe(self):
         """Test de modification d'une information d'une équipe"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Ancienne Equipe"}
+        self.equipe_dao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Ancienne Equipe"}
 
         # When
         result = self.equipe_service.modifier_equipe(1, nom_modif="Nouvelle Equipe")
 
         # Then
         self.assertEqual(result.nom, "Nouvelle Equipe")
-        self.equipeDao.update_equipe.assert_called_once_with(
+        self.equipe_dao.update_equipe.assert_called_once_with(
             {"id_equipe": 1, "nom": "Nouvelle Equipe"}
         )
 
     def test_supprimer_equipe(self):
         """Test de suppression d'une équipe"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Equipe à supprimer"}
+        self.equipe_dao.get_equipe_by_id.return_value = {
+            "id_equipe": 1,
+            "nom": "Equipe à supprimer",
+        }
 
         # When
         result = self.equipe_service.supprimer_equipe(1)
 
         # Then
         self.assertEqual(result, "Équipe supprimée avec succès")
-        self.equipeDao.delete_equipe.assert_called_once_with(1)
+        self.equipe_dao.delete_equipe.assert_called_once_with(1)
 
     def test_lister_equipes_par_nom(self):
         """Test de la liste d'équipes selon le nom"""
         # Given
-        self.equipeDao.list_equipes_by_name.return_value = [
+        self.equipe_dao.list_equipes_by_name.return_value = [
             {"id_equipe": 1, "nom": "Equipe A"},
             {"id_equipe": 2, "nom": "Equipe B"},
         ]
@@ -104,7 +107,7 @@ class TestEquipeService(unittest.TestCase):
     def test_lister_equipes_par_tournoi(self):
         """Test de la liste d'équipes selon le tournoi"""
         # Given
-        self.equipeDao.list_equipes_by_tournoi.return_value = [
+        self.equipe_dao.list_equipes_by_tournoi.return_value = [
             {"id_equipe": 1, "nom": "Equipe A"},
             {"id_equipe": 2, "nom": "Equipe B"},
         ]
@@ -120,7 +123,7 @@ class TestEquipeService(unittest.TestCase):
     def test_equipe_existe(self):
         """Test de l'existence d'une équipe"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Equipe Existant"}
+        self.equipe_dao.get_equipe_by_id.return_value = {"id_equipe": 1, "nom": "Equipe Existant"}
 
         # When
         result = self.equipe_service.equipe_existe(1)
@@ -131,7 +134,7 @@ class TestEquipeService(unittest.TestCase):
     def test_equipe_n_existe_pas(self):
         """Test de l'absence d'une équipe"""
         # Given
-        self.equipeDao.get_equipe_by_id.return_value = None
+        self.equipe_dao.get_equipe_by_id.return_value = None
 
         # When
         result = self.equipe_service.equipe_existe(999)

@@ -6,8 +6,8 @@ import io
 
 class TestMatchService(unittest.TestCase):
     def setUp(self):
-        self.match_dao = Mock()
-        self.match_service = MatchService(self.match_dao)
+        self.matchDao = Mock()
+        self.match_service = MatchService(self.matchDao)
 
     def test_rechercher_match_par_date(self):
         """Test de la recherche d'un match existant selon une date"""
@@ -52,8 +52,20 @@ class TestMatchService(unittest.TestCase):
         """Test de l'affichage du calendrier des matchs avec des valeurs"""
         # Given
         matches = [
-            (1, "2024-10-25", 101, "Team A", "Team B"),
-            (2, "2024-10-26", 102, "Team C", "Team D"),
+            {
+                "id_matches": 1,
+                "date": "2024-10-25",
+                "id_tournois": 101,
+                "equipe_orange": "Team A",
+                "equipe_bleu": "Team B",
+            },
+            {
+                "id_matches": 2,
+                "date": "2024-10-26",
+                "id_tournois": 102,
+                "equipe_orange": "Team C",
+                "equipe_bleu": "Team D",
+            },
         ]
         self.matchDao.list_matches.return_value = matches
 

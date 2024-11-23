@@ -19,7 +19,7 @@ class TestPariService(unittest.TestCase):
         self.equipe_mock.id_equipe = "bleu_id"
 
         self.utilisateur_mock = MagicMock()
-        self.utilisateur_mock.id_utilisateur = "user1"
+        self.utilisateur_mock.id = "user1"
 
     def test_parier(self):
         """Test de la création d'un pari"""
@@ -39,7 +39,7 @@ class TestPariService(unittest.TestCase):
             id_pari=pari.id_pari,
             id_match=self.match_mock.id_match,
             id_equipe=self.equipe_mock.id_equipe,
-            id_utilisateur=self.utilisateur_mock.id_utilisateur,
+            id_utilisateur=self.utilisateur_mock.id,
             mise=mise,
             gain=gain,
         )
