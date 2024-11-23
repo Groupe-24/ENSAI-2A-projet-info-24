@@ -36,7 +36,7 @@ class EquipeService:
         equipe = self.equipe_dao.get_equipe_by_id(id_equipe)
         if not equipe:
             raise ValueError("Il n'y a pas d'équipe avec cet ID.")
-        return Equipe(id_equipe=equipe["id_equipe"], nom=equipe["id_equipe"])
+        return Equipe(id_equipe=equipe["id_equipe"], nom=equipe["nom"])
 
     def equipe_existe(self, id_equipe):
         """Vérifier si une équipe existe selon son ID
@@ -116,7 +116,7 @@ class EquipeService:
         liste_equipe = []
         for une_equipe in equipes:
             equipe = Equipe(id_equipe=une_equipe["id_equipe"], nom=une_equipe["nom"])
-        liste_equipe.append(equipe)
+            liste_equipe.append(equipe)
         return liste_equipe
 
     def lister_equipes_par_tournoi(self, id_tournoi):
