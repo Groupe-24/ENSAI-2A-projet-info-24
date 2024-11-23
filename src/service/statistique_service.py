@@ -91,3 +91,8 @@ class StatistiqueService:
             "total_saves": result[4],
             "total_shots": result[5],
         }
+
+
+from dao.statistique_dao import StatistiquesDAO
+
+print(StatistiqueService(StatistiquesDAO()).lister_statistiques())

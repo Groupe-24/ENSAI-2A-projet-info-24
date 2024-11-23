@@ -17,12 +17,13 @@ class MatchService:
         if not matches:
             return "Aucun match prévu."
         calendrier = {}
+        print(matches)
         for match in matches:
-            id_match = match[0]
-            date = match[1]
-            id_tournoi = match[2]
-            equipe_orange = match[3]
-            equipe_bleu = match[4]
+            id_match = match["id_matches"]
+            date = match["date"]
+            id_tournoi = match["id_tournois"]
+            equipe_orange = match["equipe_orange"]
+            equipe_bleu = match["equipe_bleu"]
             if date not in calendrier:
                 calendrier[date] = []
             calendrier[date].append(
