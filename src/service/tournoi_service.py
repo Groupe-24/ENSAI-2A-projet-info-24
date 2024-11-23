@@ -65,7 +65,8 @@ class TournoiService:
                     id_organisateur=un_tournoi["id_organisateur"],
                     id_equipe=un_tournoi["id_equipe"],
                 )
-                liste_tournois.append(print(tournoi))
+                print(tournoi)
+                liste_tournois.append(tournoi)
         return liste_tournois
 
     def rechercher_tournoi_nom(self, titre):
@@ -93,7 +94,8 @@ class TournoiService:
                     id_organisateur=un_tournoi["id_organisateur"],
                     id_equipe=un_tournoi["id_equipe"],
                 )
-                liste_tournois.append(print(tournoi))
+                print(tournoi)
+                liste_tournois.append(tournoi)
         return liste_tournois
 
     def supprimer_tournoi(self, id_tournoi):
@@ -110,34 +112,40 @@ class TournoiService:
         self.tournoi_dao.delete_tournoi(id_tournoi)
         return "Le tournoi a bien été supprimé."
 
-    def inscrire_tournoi(self, tournoi, pseudo_utilisateur, joueur1, joueur2):
-        """S'inscrire à un tournoi
+    def equipe_dans_le_tournoi(self, tournoi_titre, nom_equipe):
+        """Vérifier si une équipe existe déjà dans un tournoi.
 
         Parameters
         ----------
-        tournoi: Tournoi
-            Tournoi spécifique pour lequel l'utilisateur souhaite s'inscire
-        joueur1: str
-            Nom du 1er joueur avec lequel l'utilisateur souhaite s'inscrire
-        joueur2: str
-            Nom du 2eme joueur
-        """
-        resultat = self.tournoi_dao.get_tournoi_by_id(tournoi.id_tournoi)
-        if not resultat:
-            raise ValueError("Le tournoi spécifié n'existe pas.")
-        self.tournoi_dao.update_tournoi(
-            id_tournoi=tournoi.id_tournoi,
-            id_equipe=resultat["id_equipe"].append([pseudo_utilisateur, joueur1, joueur2]),
-        )
+        tournoi_titre: str
+            Titre du tournoi
+        nom_equipe: str
+            Nom de l'équipe à vérifier
 
-    def equipe_dans_le_tournoi(self, tournoi_titre, nom_equipe):
-        string_equipe = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)[0]["id_equipe"]
+        Return
+        ------
+        bool
+            True si l'équipe existe dans le tournoi, False sinon
+        """
+        tournoi = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)
+        if not tournoi:
+            return False
+        string_equipe = tournoi[0].get("id_equipe", None)
         if string_equipe is None:
             return False
         list_equipe = string_equipe.split(", ")
         return nom_equipe in list_equipe
 
     def ajout_equipe(self, tournoi_titre, nom_equipe):
+        """Ajouter une équipe à un tournoi
+
+        Parameters
+        ----------
+        tournoi_titre: str
+            Titre du tournoi
+        nom_equipe: str
+            Nom de l'équipe à inscrire
+        """
         if not self.equipe_dans_le_tournoi(tournoi_titre, nom_equipe):
             tournoi = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)[0]
             if tournoi["id_equipe"] is None:
