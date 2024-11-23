@@ -9,17 +9,13 @@ from business_object.users.utilisateur import Utilisateur
 from utils.function import generer_hash
 from abstract_view.menu_administrateur_inter import ConnexionAdminVue
 
-# from service.joueur_service import JoueurService
-
 
 class ConnexionVue(VueAbstraite):
     """Vue de Connexion (saisie de pseudo et mdp)"""
 
     def choisir_menu(self):
-        # Demande à l'utilisateur de saisir pseudo et mot de passe
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = generer_hash(inquirer.secret(message="Entrez votre mot de passe :").execute())
-        # Si le joueur a été trouvé à partir des ses identifiants de connexion
 
         if UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp):
             message = f"Vous êtes connecté sous le pseudo {pseudo}"

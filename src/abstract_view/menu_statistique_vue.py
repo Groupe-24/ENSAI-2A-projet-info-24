@@ -30,7 +30,6 @@ class MenuStatistiqueVue(VueAbstraite):
                     message="Quel Joueur vous voulez regarder les statistiques ?",
                     validate=EmptyInputValidator(message="Veuillez rentrer un joueur"),
                 ).execute()
-                # print(StatistiqueService(StatistiquesDAO()).obtenir_list_stat(joueur=joueur))
                 print(
                     StatistiqueService(statistiques_dao=StatistiquesDAO()).statistique_de_joueur(
                         joueur
@@ -48,11 +47,6 @@ class MenuStatistiqueVue(VueAbstraite):
                     message="equipe bleu ?",
                     validate=EmptyInputValidator(message="Veuillez rentrer une equipe"),
                 ).execute()
-                # print(
-                #     StatistiqueService(StatistiquesDAO()).obtenir_list_stat(
-                #         equipe1=equipe_orange, equipe2=equipe_bleu
-                #     )
-                # )
                 print(
                     StatistiqueService(StatistiquesDAO()).statistique_match(
                         equipe1=equipe_orange, equipe2=equipe_bleu
@@ -65,9 +59,6 @@ class MenuStatistiqueVue(VueAbstraite):
                     message="Quelle equipe ?",
                     validate=EmptyInputValidator(message="Veuillez rentrer une equipe"),
                 ).execute()
-                # print(
-                #     StatistiqueService(StatistiquesDAO()).obtenir_list_stat(equipe1=equipe_orange)
-                # )
                 print(
                     StatistiqueService(StatistiquesDAO()).statistique_equipe(equipe=equipe_orange)
                 )

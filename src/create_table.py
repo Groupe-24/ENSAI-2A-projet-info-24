@@ -1,7 +1,7 @@
-import requests
 from dao.db_connection import DBConnection
 
-# Le fichier sert à créer les différentes tables et les drops si elles existent déjà, il faut créer son .env
+# Le fichier sert à créer les différentes
+# tables et les drops si elles existent déjà, il faut créer son .env
 
 create_match_request = """
 DROP TABLE IF EXISTS Matches CASCADE;
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Matches (
 );
 """
 
-create_tournois_request = """ 
+create_tournois_request = """
 DROP TABLE IF EXISTS Tournois CASCADE;
 CREATE TABLE IF NOT EXISTS Tournois (
     Id_Tournois VARCHAR PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Tournois (
 );
 """
 
-create_paris_request = """ 
+create_paris_request = """
 DROP TABLE IF EXISTS Paris CASCADE;
 CREATE TABLE IF NOT EXISTS Paris (
     Id_Paris VARCHAR PRIMARY KEY,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Paris (
 );
 """
 
-create_utilisateurs_request = """ 
+create_utilisateurs_request = """
 DROP TABLE IF EXISTS Utilisateurs CASCADE;
 CREATE TABLE IF NOT EXISTS Utilisateurs (
     Id_Utilisateur VARCHAR PRIMARY KEY,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Statistiques (
 );
 """
 
-create_equipe_request = """ 
+create_equipe_request = """
 DROP TABLE IF EXISTS Equipe CASCADE;
 CREATE TABLE IF NOT EXISTS Equipe (
     Id_Equipe VARCHAR PRIMARY KEY,
@@ -115,13 +115,15 @@ alter_statements = [
     """,
     """
     ALTER TABLE Tournois
-    ADD CONSTRAINT fk_organisateur FOREIGN KEY (Id_Organisateur) REFERENCES Utilisateurs(Id_Utilisateur);
+    ADD CONSTRAINT fk_organisateur FOREIGN KEY (Id_Organisateur)
+    REFERENCES Utilisateurs(Id_Utilisateur);
     """,
     """
     ALTER TABLE Paris
     ADD CONSTRAINT fk_matches FOREIGN KEY (Id_Matches) REFERENCES Matches(Id_Matches),
     ADD CONSTRAINT fk_equipe FOREIGN KEY (Id_Equipe) REFERENCES Equipe(Id_Equipe),
-    ADD CONSTRAINT fk_utilisateur FOREIGN KEY (Id_Utilisateur) REFERENCES Utilisateurs(Id_Utilisateur);
+    ADD CONSTRAINT fk_utilisateur FOREIGN KEY (Id_Utilisateur)
+    REFERENCES Utilisateurs(Id_Utilisateur);
     """,
     """
     ALTER TABLE Utilisateurs

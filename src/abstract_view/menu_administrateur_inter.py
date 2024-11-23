@@ -3,8 +3,7 @@ from abstract_view.vue_abstraite import VueAbstraite
 from abstract_view.menu_administrateur_vue import MenuAdministrateurVue
 from abstract_view.menu_organisateur_vue import MenuOrganisateurVue
 from abstract_view.menu_utilisateur_vue import MenuUtilisateurVue
-
-# from service.joueur_service import JoueurService
+from abstract_view.accueil_vue import AccueilVue
 
 
 class ConnexionAdminVue(VueAbstraite):
@@ -15,7 +14,7 @@ class ConnexionAdminVue(VueAbstraite):
 
     def choisir_menu(self):
         choix = inquirer.select(
-            message="Choisissez dabs quel menu vous voulez rentrer : ",
+            message="Choisissez dans quel menu vous voulez rentrer : ",
             choices=[
                 "Utilisateur",
                 "Administrateur",
@@ -32,4 +31,4 @@ class ConnexionAdminVue(VueAbstraite):
             case "Organisateur":
                 return MenuOrganisateurVue()
             case "Quitter":
-                pass
+                return AccueilVue(message="retour à l'acceuil")

@@ -82,7 +82,7 @@ class MenuInscriptionVue(VueAbstraite):
                 )
 
             case "Consulter les tournois":
-                print(TournoiService(TournoiDAO()).lister_tournois)
+                print(TournoiService(TournoiDAO()).lister_tournois())
                 return MenuInscriptionVue(
                     message="retour au Menu Inscription", utilisateur=self.utilisateur
                 )

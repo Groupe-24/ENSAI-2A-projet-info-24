@@ -209,10 +209,3 @@ class StatistiqueService:
         sum_goals_2 = 0
         list_reponse.append({"nombre de rencontre": len(list_reponse)})
         return list_reponse
-
-
-print(
-    StatistiqueService(statistiques_dao=StatistiquesDAO()).statistique_match(
-        equipe1="NaNi Esports", equipe2="Esport BERG"
-    )
-)

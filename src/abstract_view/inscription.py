@@ -14,7 +14,6 @@ from utils.function import generer_hash
 class InscriptionVue(VueAbstraite):
 
     def choisir_menu(self):
-        # Demande à l'utilisateur de saisir pseudo, mot de passe...
         pseudo = inquirer.text(
             message="Entrez votre pseudo : ",
             validate=EmptyInputValidator(message="Veuillez rentrer un pseudo"),
@@ -58,7 +57,6 @@ class InscriptionVue(VueAbstraite):
             reject_letter="n",
         ).execute()
 
-        # Appel du service pour créer l'utilisateur
         utilisateur = UtilisateurService(UtilisateurDAO()).creer_compte(
             pseudo=pseudo,
             id=None,
@@ -69,9 +67,11 @@ class InscriptionVue(VueAbstraite):
             organisateur=orga,
         )
 
-        # Si l'Utilisateur a été créé
         if UtilisateurService(UtilisateurDAO()).pseudo_exist(pseudo=pseudo):
-            message = f"Votre compte {utilisateur.pseudo} a été créé. Vous pouvez maintenant vous connecter."
+            message = (
+                f"Votre compte {utilisateur.pseudo} a été créé."
+                "Vous pouvez maintenant vous connecter."
+            )
         else:
             message = "Erreur de connexion (pseudo ou mot de passe invalide)"
 

@@ -1,6 +1,5 @@
 import uuid
 from business_object.tournoi import Tournoi
-from dao.tournoi_dao import TournoiDAO
 
 
 class TournoiService:
@@ -135,7 +134,7 @@ class TournoiService:
         string_equipe = self.tournoi_dao.get_tournoi_by_titre(tournoi_titre)[0]["id_equipe"]
         if string_equipe is None:
             return False
-        list_equipe = string_equipe.sep(", ")
+        list_equipe = string_equipe.split(", ")
         return nom_equipe in list_equipe
 
     def ajout_equipe(self, tournoi_titre, nom_equipe):

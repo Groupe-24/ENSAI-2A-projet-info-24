@@ -22,7 +22,6 @@ class UtilisateurDAO:
         if id_utilisateur is None:
             id_utilisateur = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
-            print("maybe")
             cursor.execute(
                 "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, "
                 "Id_Joueur, Administrateur, Organisateur, Date_de_naissance) "
@@ -38,7 +37,6 @@ class UtilisateurDAO:
                     date_de_naissance,
                 ),
             )
-        print("alors là c'est bizarre")
         self.connection.commit()
 
     def get_utilisateur_by_id(self, id_utilisateur):
