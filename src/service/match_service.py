@@ -1,4 +1,6 @@
 from business_object.match import Match
+from dao.equipe_dao import EquipeDAO
+from dao.tournoi_dao import TournoiDAO
 
 
 class MatchService:
@@ -46,9 +48,12 @@ class MatchService:
         for date, matchs in sorted(calendrier.items()):
             output += f"Date : {date}\n"
             for match in matchs:
+                equipe_orange = EquipeDAO().get_equipe_by_id(match["Equipe_Orange"])["nom"]
+                equipe_bleu = EquipeDAO().get_equipe_by_id(match["Equipe_Bleu"])["nom"]
+                nom_tournoi = TournoiDAO().get_tournoi_by_id(match["Tournoi"])["titre"]
                 output += (
-                    f"  Match {match['Id_Match']} : {match['Equipe_Orange']} vs "
-                    f"{match['Equipe_Bleu']} (Tournoi: {match['Tournoi']})\n"
+                    f"  Match {match['Id_Match']} : {equipe_orange} vs "
+                    f"{equipe_bleu} (Tournoi: {nom_tournoi})\n"
                 )
             output += "\n"
 
