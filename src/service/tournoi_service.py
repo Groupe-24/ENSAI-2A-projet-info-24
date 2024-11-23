@@ -81,7 +81,7 @@ class TournoiService:
         ------
         list[Tournoi]
         """
-        resultat = self.tournoi_dao.tournoi_by_titre(titre)
+        resultat = self.tournoi_dao.get_tournoi_by_titre(titre=titre)
         liste_tournois = []
         if resultat:
             for un_tournoi in resultat:

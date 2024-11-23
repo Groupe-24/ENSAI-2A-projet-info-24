@@ -2,6 +2,7 @@ from business_object.pari import Pari
 import uuid
 from business_object.equipe import Equipe
 from business_object.match import Match
+from decimal import Decimal
 
 
 class PariService:
@@ -75,7 +76,7 @@ class PariService:
                     paris_equipe_orange += un_pari["mise"]
 
         total_paris = paris_equipe_bleu + paris_equipe_orange
-        if total_paris == 0:
+        if paris_equipe_bleu == 0 or paris_equipe_orange == 0:
             cote_equipe_bleu = cote_equipe_orange = None
         else:
             cote_equipe_bleu = total_paris / paris_equipe_bleu
@@ -117,7 +118,7 @@ class PariService:
         cote = cotes[f"cote_equipe_{nom_equipe}"]
         if cote is None:
             return 0
-        return (cote + 1) * mise
+        return (cote + 1) * Decimal(str(mise))
 
     def supprimer_pari(self, pari):
         """Supprimer un pari

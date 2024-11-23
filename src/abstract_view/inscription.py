@@ -8,6 +8,8 @@ from service.utilisateur_service import UtilisateurService
 
 from dao.utilisateur_dao import UtilisateurDAO
 
+from utils.function import generer_hash
+
 
 class InscriptionVue(VueAbstraite):
 
@@ -22,15 +24,17 @@ class InscriptionVue(VueAbstraite):
 
             return AccueilVue(f"Le pseudo {pseudo} est déjà utilisé.")
 
-        mdp = inquirer.secret(
-            message="Entrez votre mot de passe : ",
-            validate=PasswordValidator(
-                length=8,
-                cap=True,
-                number=True,
-                message="Au moins 8 caractères, incluant une majuscule et un chiffre",
-            ),
-        ).execute()
+        mdp = generer_hash(
+            inquirer.secret(
+                message="Entrez votre mot de passe : ",
+                validate=PasswordValidator(
+                    length=8,
+                    cap=True,
+                    number=True,
+                    message="Au moins 8 caractères, incluant une majuscule et un chiffre",
+                ),
+            ).execute()
+        )
 
         mail = inquirer.text(
             message="Quel est votre mail ?",
