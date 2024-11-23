@@ -1,7 +1,5 @@
 from InquirerPy import inquirer
-from InquirerPy.validator import PasswordValidator, EmptyInputValidator
-from dao.match_dao import MatchDAO
-from service.match_service import MatchService
+from InquirerPy.validator import EmptyInputValidator
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.statistique_dao import StatistiquesDAO
 from service.statistique_service import StatistiqueService
@@ -38,6 +36,7 @@ class MenuStatistiqueVue(VueAbstraite):
                         joueur
                     )
                 )
+                return MenuStatistiqueVue(message="retour au menu statistique")
 
             case "Statistique d'un Match":
                 print("Choisissez les deux équipes des matches que vous souhaitez")
@@ -59,6 +58,7 @@ class MenuStatistiqueVue(VueAbstraite):
                         equipe1=equipe_orange, equipe2=equipe_bleu
                     )
                 )
+                return MenuStatistiqueVue(message="retour au menu statistique")
 
             case "Statistique d'une Equipe":
                 equipe_orange = inquirer.text(
@@ -71,3 +71,4 @@ class MenuStatistiqueVue(VueAbstraite):
                 print(
                     StatistiqueService(StatistiquesDAO()).statistique_equipe(equipe=equipe_orange)
                 )
+                return MenuStatistiqueVue(message="retour au menu statistique")

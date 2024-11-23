@@ -1,15 +1,10 @@
 from InquirerPy import inquirer
-from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
-from dao.utilisateur_dao import UtilisateurDAO
 from dao.tournoi_dao import TournoiDAO
 from dao.statistique_dao import StatistiquesDAO
 from dao.equipe_dao import EquipeDAO
 from dao.joueur_dao import JoueursDAO
 from dao.match_dao import MatchDAO
-
-from service.tournoi_service import TournoiService
-from abc import *
 
 
 class MenuGestionTournoiVue(VueAbstraite):

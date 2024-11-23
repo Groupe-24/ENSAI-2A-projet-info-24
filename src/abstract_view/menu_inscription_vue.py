@@ -1,13 +1,8 @@
 from InquirerPy import inquirer
-from service.match_service import MatchService
 from abstract_view.vue_abstraite import VueAbstraite
-from dao.match_dao import MatchDAO
-from abstract_view.menu_gestion_tournoi_vu import MenuGestionTournoiVue
 from dao.joueur_dao import JoueursDAO
 from dao.equipe_dao import EquipeDAO
-from service.joueur_service import JoueurService
 from business_object.users.joueur import Joueur
-from business_object.users.utilisateur import Utilisateur
 from dao.utilisateur_dao import UtilisateurDAO
 from uuid import uuid4
 from service.tournoi_service import TournoiService
@@ -15,14 +10,14 @@ from dao.tournoi_dao import TournoiDAO
 
 
 class MenuInscriptionVue(VueAbstraite):
-    """Menu des organisateurs"""
+    """Menu Inscription"""
 
     def __init__(self, message="", utilisateur=None):
         super().__init__(message)
         self.utilisateur = utilisateur
 
     def choisir_menu(self):
-        print("\n" + "-" * 25 + "\nVue organisateur\n" + "-" * 25 + "\n")
+        print("\n" + "-" * 25 + "\nMenu Inscription\n" + "-" * 25 + "\n")
 
         choix = inquirer.select(
             message="Que voulez vous faire ?",
@@ -42,7 +37,9 @@ class MenuInscriptionVue(VueAbstraite):
                 id_joueur = UtilisateurDAO().get_utilisateur_by_id(self.utilisateur.id)["id_joueur"]
                 if id_joueur is None:
                     print("Vous devez d'abord créer une équipe")
-                    return MenuInscriptionVue(message=self.message, utilisateur=self.utilisateur)
+                    return MenuInscriptionVue(
+                        message="retour au Menu Inscription", utilisateur=self.utilisateur
+                    )
                 else:
                     Joueur
                     tournoi_pseudo = inquirer.text(
@@ -55,7 +52,9 @@ class MenuInscriptionVue(VueAbstraite):
                         tournoi_titre=tournoi_pseudo, nom_equipe=nom_equipe
                     )
                     print("vous êtes bien inscrit")
-                    return MenuInscriptionVue(message=self.message, utilisateur=self.utilisateur)
+                    return MenuInscriptionVue(
+                        message="retour au Menu Inscription", utilisateur=self.utilisateur
+                    )
 
             case "Créer une équipe":
                 id_joueur = UtilisateurDAO().get_utilisateur_by_id(self.utilisateur.id)["id_joueur"]
@@ -78,8 +77,12 @@ class MenuInscriptionVue(VueAbstraite):
                 id_equipe = EquipeDAO().get_equipe_by_nom(nom_equipe)["id_equipe"]
                 JoueursDAO().update_joueur(id_joueur=id_joueur, equipe=id_equipe)
                 print("equipe bien ajoutée")
-                return MenuInscriptionVue(message=self.message, utilisateur=self.utilisateur)
+                return MenuInscriptionVue(
+                    message="retour au Menu Inscription", utilisateur=self.utilisateur
+                )
 
             case "Consulter les tournois":
                 print(TournoiService(TournoiDAO()).lister_tournois)
-                return MenuInscriptionVue(message=self.message, utilisateur=self.utilisateur)
+                return MenuInscriptionVue(
+                    message="retour au Menu Inscription", utilisateur=self.utilisateur
+                )

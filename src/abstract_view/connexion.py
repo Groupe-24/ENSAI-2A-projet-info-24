@@ -3,7 +3,6 @@ from InquirerPy import inquirer
 from service.utilisateur_service import UtilisateurService
 from abstract_view.vue_abstraite import VueAbstraite
 from dao.utilisateur_dao import UtilisateurDAO
-from abstract_view.menu_administrateur_vue import MenuAdministrateurVue
 from abstract_view.menu_organisateur_vue import MenuOrganisateurVue
 from abstract_view.menu_utilisateur_vue import MenuUtilisateurVue
 from business_object.users.utilisateur import Utilisateur

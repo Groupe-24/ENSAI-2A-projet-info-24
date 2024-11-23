@@ -2,18 +2,15 @@ from InquirerPy import inquirer
 from dao.match_dao import MatchDAO
 from service.match_service import MatchService
 from abstract_view.vue_abstraite import VueAbstraite
-from dao.statistique_dao import StatistiquesDAO
-from service.statistique_service import StatistiqueService
 from abstract_view.menu_statistique_vue import MenuStatistiqueVue
 from abstract_view.menu_gestion_pari import MenuGestionPariVue
-from business_object.users.utilisateur import Utilisateur
 from business_object.match import Match
-from InquirerPy.validator import PasswordValidator, EmptyInputValidator
-from dao.match_dao import MatchDAO
+from InquirerPy.validator import EmptyInputValidator
 from dao.equipe_dao import EquipeDAO
 from dao.tournoi_dao import TournoiDAO
 from business_object.equipe import Equipe
 from abstract_view.menu_inscription_vue import MenuInscriptionVue
+from abstract_view.accueil_vue import AccueilVue
 
 
 class MenuUtilisateurVue(VueAbstraite):
@@ -39,10 +36,13 @@ class MenuUtilisateurVue(VueAbstraite):
 
         match choix:
             case "Quitter":
-                pass
+                return AccueilVue(message="retour au menu Connexion")
 
             case "Consulter le Calendrier":
                 MatchService(MatchDAO()).afficher_calendrier()
+                return MenuUtilisateurVue(
+                    message="retour au Menu Utilisateur", utilisateur=self.utilisateur
+                )
 
             case "Consulter les statistiques":
                 return MenuStatistiqueVue()

@@ -48,6 +48,7 @@ class MenuOrganisateurVue(VueAbstraite):
                             message="Saisir la nouvelle date du match : "
                         ).execute()
                         MatchService(MatchDAO()).modifier_match(id_match=match, date=Date)
+                        return MenuOrganisateurVue("Retour au Menu Organisateur")
 
                     case "Id_tournois":
                         Id_tournoi = inquirer.text(
@@ -56,6 +57,7 @@ class MenuOrganisateurVue(VueAbstraite):
                         MatchService(MatchDAO()).modifier_match(
                             id_match=match, id_tournoi=Id_tournoi
                         )
+                        return MenuOrganisateurVue("Retour au Menu Organisateur")
 
                     case "Nom équipe orange":
                         Nom_orange = inquirer.text(
@@ -64,6 +66,7 @@ class MenuOrganisateurVue(VueAbstraite):
                         MatchService(MatchDAO()).modifier_match(
                             id_match=match, equipe_orange=Nom_orange
                         )
+                        return MenuOrganisateurVue("Retour au Menu Organisateur")
 
                     case "Nom équipe bleu":
                         Nom_bleu = inquirer.text(
@@ -72,6 +75,7 @@ class MenuOrganisateurVue(VueAbstraite):
                         MatchService(MatchDAO()).modifier_match(
                             id_match=match, equipe_bleu=Nom_bleu
                         )
+                        return MenuOrganisateurVue("Retour au Menu Organisateur")
 
                     case "Retour":
                         return MenuOrganisateurVue("Retour au Menu Organisateur")

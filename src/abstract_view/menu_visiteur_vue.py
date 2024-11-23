@@ -3,6 +3,7 @@ from service.match_service import MatchService
 from dao.match_dao import MatchDAO
 from abstract_view.vue_abstraite import VueAbstraite
 from abstract_view.menu_statistique_vue import MenuStatistiqueVue
+from abstract_view.accueil_vue import AccueilVue
 
 
 class VisiteurVue(VueAbstraite):
@@ -22,7 +23,7 @@ class VisiteurVue(VueAbstraite):
 
         match choix:
             case "Quitter":
-                pass
+                return AccueilVue(message="retour au menu Connexion")
 
             case "Consulter le Calendrier":
                 MatchService(MatchDAO()).afficher_calendrier()
