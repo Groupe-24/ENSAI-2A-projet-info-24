@@ -8,6 +8,7 @@ from abstract_view.menu_organisateur_vue import MenuOrganisateurVue
 from abstract_view.menu_utilisateur_vue import MenuUtilisateurVue
 from business_object.users.utilisateur import Utilisateur
 from utils.function import generer_hash
+from abstract_view.menu_administrateur_inter import ConnexionAdminVue
 
 # from service.joueur_service import JoueurService
 
@@ -35,7 +36,7 @@ class ConnexionVue(VueAbstraite):
             )
             if UtilisateurService(UtilisateurDAO()).se_connecter_administrateur(pseudo, mdp):
 
-                return MenuAdministrateurVue(message)
+                return ConnexionAdminVue(message=message, utilisateur=user)
 
             if UtilisateurService(UtilisateurDAO()).se_connecter_organisateur(pseudo, mdp):
 

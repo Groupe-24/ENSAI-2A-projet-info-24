@@ -71,5 +71,5 @@ class ParisDAO:
 
     def list_pari_match(self, id_match):
         with closing(self.connection.cursor()) as cursor:
-            cursor.execute("SELECT * FROM Paris WHERE id_matches = %s;", (id_match,))
+            cursor.execute("SELECT * FROM Paris WHERE Id_Matches = %s;", (id_match,))
             return cursor.fetchall()
