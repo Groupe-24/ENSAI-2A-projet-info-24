@@ -7,6 +7,7 @@ from abstract_view.menu_administrateur_vue import MenuAdministrateurVue
 from abstract_view.menu_organisateur_vue import MenuOrganisateurVue
 from abstract_view.menu_utilisateur_vue import MenuUtilisateurVue
 from business_object.users.utilisateur import Utilisateur
+from utils.function import generer_hash
 
 # from service.joueur_service import JoueurService
 
@@ -17,8 +18,7 @@ class ConnexionVue(VueAbstraite):
     def choisir_menu(self):
         # Demande à l'utilisateur de saisir pseudo et mot de passe
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-        mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
-
+        mdp = generer_hash(inquirer.secret(message="Entrez votre mot de passe :").execute())
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
 
         if UtilisateurService(UtilisateurDAO()).connection_ok(pseudo, mdp):

@@ -63,6 +63,6 @@ class CreationTournoiVue(VueAbstraite):
 
             case "Chercher un tournoi par nom":
                 titre = inquirer.text(message="Saisir le nom du tournoi : ").execute()
-                print(TournoiService(TournoiDAO()).rechercher_tournoi_titre(nom=titre))
+                print(TournoiService(tournoi_dao=TournoiDAO()).rechercher_tournoi_nom(titre=titre))
 
                 return CreationTournoiVue("Retour au Menu de Création des Tournois")
