@@ -23,7 +23,8 @@ class StatistiquesDAO:
             id_statistique = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Statistiques(Id_Statistique, Joueur, Match, Equipe, Goals, Assists, Saves, Shots, Score) "
+                "INSERT INTO Statistiques(Id_Statistique, "
+                "Joueur, Match, Equipe, Goals, Assists, Saves, Shots, Score) "
                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);",
                 (id_statistique, joueur, match, equipe, goals, assists, saves, shots, score),
             )
@@ -34,7 +35,7 @@ class StatistiquesDAO:
             cursor.execute(
                 "SELECT * FROM Statistiques WHERE Id_Statistique = %s;", (id_statistique,)
             )
-            return cursor.fetchone()  # Retourne une seule statistique
+            return cursor.fetchone()
 
     def update_statistique(
         self,
@@ -77,7 +78,7 @@ class StatistiquesDAO:
                 updates.append("Shots = %s")
                 params.append(shots)
 
-            params.append(id_statistique)  # Ajouter l'ID statistique à la fin des paramètres
+            params.append(id_statistique)
             update_query = (
                 "UPDATE Statistiques SET " + ", ".join(updates) + " WHERE Id_Statistique = %s;"
             )
@@ -90,7 +91,7 @@ class StatistiquesDAO:
                 cursor.execute(
                     "DELETE FROM Statistiques WHERE Id_Statistique = %s;", (id_statistique,)
                 )
-                if cursor.rowcount == 0:  # Vérifie si une ligne a été affectée
+                if cursor.rowcount == 0:
                     raise ValueError("Statistique non trouvée")
                 self.connection.commit()
         except ValueError as ve:
@@ -101,7 +102,7 @@ class StatistiquesDAO:
     def list_statistiques(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Statistiques;")
-            return cursor.fetchall()  # Récupérer toutes les statistiques
+            return cursor.fetchall()
 
     def exists_by_id(self, id_statistique):
         with closing(self.connection.cursor()) as cursor:
@@ -109,12 +110,13 @@ class StatistiquesDAO:
                 "SELECT EXISTS(SELECT 1 FROM Statistiques WHERE Id_Statistique = %s);",
                 (id_statistique,),
             )
-            return cursor.fetchone()[0]  # Renvoie True ou False
+            return cursor.fetchone()[0]
 
     def statistique_equipe(self, equipe):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "SELECT Equipe, SUM(Goals), SUM(Score),SUM(assists),SUM(Saves),SUM(Saves),SUM(Shots)"
+                "SELECT Equipe, SUM(Goals), SUM(Score),"
+                "SUM(assists),SUM(Saves),SUM(Saves),SUM(Shots)"
                 "FROM Statistiques WHERE Equipe = %s GROUP BY Equipe;",
                 (equipe,),
             )
@@ -153,7 +155,6 @@ class StatistiquesDAO:
         query = "SELECT * FROM Statistiques WHERE 1=1"
         params = []
 
-        # Construction dynamique de la requête
         if id_statistique is not None:
             query += " AND Id_Statistique = %s"
             params.append(id_statistique)
@@ -192,4 +193,4 @@ class StatistiquesDAO:
 
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(query, params)
-            return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants
+            return cursor.fetchall()

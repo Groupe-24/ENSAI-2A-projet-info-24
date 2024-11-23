@@ -15,7 +15,8 @@ class MatchDAO:
             id_match = str(uuid4())
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(
-                "INSERT INTO Matches(Id_Matches, Date, Id_Tournois, Equipe_Orange, Equipe_Bleu) VALUES (%s, %s, %s, %s, %s);",
+                "INSERT INTO Matches(Id_Matches, Date, Id_Tournois, "
+                "Equipe_Orange, Equipe_Bleu) VALUES (%s, %s, %s, %s, %s);",
                 (id_match, date, id_tournoi, equipe_orange, equipe_bleu),
             )
             self.connection.commit()
@@ -23,7 +24,7 @@ class MatchDAO:
     def get_match_by_id(self, id_match):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Matches WHERE Id_Matches = %s;", (id_match,))
-            return cursor.fetchone()  # Retourne un seul match
+            return cursor.fetchone()
 
     def update_match(
         self, id_match, date=None, id_tournoi=None, equipe_orange=None, equipe_bleu=None
@@ -44,7 +45,7 @@ class MatchDAO:
                 updates.append("Equipe_Bleu = %s")
                 params.append(equipe_bleu)
 
-            params.append(id_match)  # Ajouter l'ID match à la fin des paramètres
+            params.append(id_match)
             update_query = "UPDATE Matches SET " + ", ".join(updates) + " WHERE Id_Matches = %s;"
             cursor.execute(update_query, params)
             self.connection.commit()
@@ -57,14 +58,9 @@ class MatchDAO:
     def list_matches(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Matches;")
-            return cursor.fetchall()  # Récupérer tous les matchs
+            return cursor.fetchall()
 
     def is_in_match(self, id_match):
-        # with closing(self.connection.cursor()) as cursor:
-        #     cursor.execute(
-        #         "SELECT EXISTS(SELECT 1 FROM Matches WHERE Id_Matches = %s);", (id_match,)
-        #     )
-        #     return cursor.fetchone()[0]  # Renvoie True ou False
         a = self.get_match_by_id(id_match=id_match)
         if a is None:
             return False
@@ -83,7 +79,7 @@ class MatchDAO:
         Recherche des matchs en fonction des critères donnés.
         """
         with closing(self.connection.cursor()) as cursor:
-            query = "SELECT * FROM Matches WHERE 1=1"  # Condition toujours vraie pour faciliter l'ajout dynamique de filtres
+            query = "SELECT * FROM Matches WHERE 1=1"
             params = []
 
             if date:

@@ -24,7 +24,8 @@ class UtilisateurDAO:
         with closing(self.connection.cursor()) as cursor:
             print("maybe")
             cursor.execute(
-                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, Id_Joueur, Administrateur, Organisateur, Date_de_naissance) "
+                "INSERT INTO Utilisateurs (Id_Utilisateur, Pseudo, Email, Password, "
+                "Id_Joueur, Administrateur, Organisateur, Date_de_naissance) "
                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s);",
                 (
                     id_utilisateur,
@@ -45,7 +46,7 @@ class UtilisateurDAO:
             cursor.execute(
                 "SELECT * FROM Utilisateurs WHERE Id_Utilisateur = %s;", (id_utilisateur,)
             )
-            return cursor.fetchone()  # Récupérer un seul utilisateur
+            return cursor.fetchone()
 
     def update_utilisateur(
         self,
@@ -59,7 +60,6 @@ class UtilisateurDAO:
         date_de_naissance=None,
     ):
         with closing(self.connection.cursor()) as cursor:
-            # Créer la liste des colonnes à mettre à jour
             updates = []
             params = []
             if pseudo is not None:
@@ -84,7 +84,7 @@ class UtilisateurDAO:
                 updates.append("Date_de_naissance = %s")
                 params.append(date_de_naissance)
 
-            params.append(id_utilisateur)  # Ajouter l'ID utilisateur à la fin des paramètres
+            params.append(id_utilisateur)
             update_query = (
                 "UPDATE Utilisateurs SET " + ", ".join(updates) + " WHERE Id_Utilisateur = %s;"
             )
@@ -99,7 +99,7 @@ class UtilisateurDAO:
     def list_utilisateurs(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Utilisateurs;")
-            return cursor.fetchall()  # Récupérer tous les utilisateurs
+            return cursor.fetchall()
 
     def get_utilisateur_by_parameters(
         self,
@@ -113,7 +113,6 @@ class UtilisateurDAO:
         query = "SELECT * FROM Utilisateurs WHERE 1=1"
         params = []
 
-        # Construction dynamique de la requête
         if pseudo is not None:
             query += " AND Pseudo = %s"
             params.append(pseudo)
@@ -140,7 +139,7 @@ class UtilisateurDAO:
 
         with closing(self.connection.cursor()) as cursor:
             cursor.execute(query, params)
-            return cursor.fetchall()  # Récupérer tous les utilisateurs correspondants
+            return cursor.fetchall()
 
     def is_in_utilisateur(self, id_utilisateur):
         with closing(self.connection.cursor()) as cursor:
@@ -148,16 +147,4 @@ class UtilisateurDAO:
                 "SELECT EXISTS(SELECT 1 FROM Utilisateurs WHERE Id_Utilisateur = %s);",
                 (id_utilisateur,),
             )
-            return cursor.fetchone()[0]  # Renvoie True ou False
-
-
-# UtilisateurDAO().insert_utilisateur(
-#     id_utilisateur="1234",
-#     pseudo="user",
-#     email="user@email.com",
-#     password="AZERTY123",
-#     administrateur=False,
-#     organisateur=False,
-#     date_de_naissance="23/07/2002",
-# )
-# print(UtilisateurDAO().list_utilisateurs()[0])
+            return cursor.fetchone()[0]

@@ -3,7 +3,6 @@ from contextlib import closing
 from uuid import uuid4
 
 
-# Classe pour la table Équipe
 class EquipeDAO:
     def __init__(self):
         self.connection = DBConnection().connection
@@ -21,7 +20,7 @@ class EquipeDAO:
     def get_equipe_by_id(self, id_equipe):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Equipe WHERE Id_Equipe = %s;", (id_equipe,))
-            return cursor.fetchone()  # Retourne une seule équipe
+            return cursor.fetchone()
 
     def get_equipe_by_nom(self, nom):
         with closing(self.connection.cursor()) as cursor:
@@ -36,7 +35,7 @@ class EquipeDAO:
                 updates.append("Nom = %s")
                 params.append(nom)
 
-            params.append(id_equipe)  # Ajouter l'ID équipe à la fin des paramètres
+            params.append(id_equipe)
             update_query = "UPDATE Equipe SET " + ", ".join(updates) + " WHERE Id_Equipe = %s;"
             cursor.execute(update_query, params)
             self.connection.commit()
@@ -49,14 +48,9 @@ class EquipeDAO:
     def list_equipes(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Equipe;")
-            return cursor.fetchall()  # Récupérer toutes les équipes
+            return cursor.fetchall()
 
     def is_in_equipe(self, id_equipe):
-        # with closing(self.connection.cursor()) as cursor:
-        #     cursor.execute(
-        #         "SELECT EXISTS(SELECT 1 FROM Equipe WHERE Id_Equipe = %s);", (id_equipe,)
-        #     )
-        #     return cursor.fetchone()[0]  # Renvoie True ou False
         a = self.get_equipe_by_id(id_equipe=id_equipe)
         if a is None:
             return False

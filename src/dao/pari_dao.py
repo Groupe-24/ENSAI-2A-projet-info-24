@@ -3,7 +3,6 @@ from contextlib import closing
 from uuid import uuid4
 
 
-# Classe pour la table Paris
 class ParisDAO:
     def __init__(self):
         self.connection = DBConnection().connection
@@ -24,7 +23,7 @@ class ParisDAO:
     def get_pari_by_id(self, id_pari):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Paris WHERE Id_Paris = %s;", (id_pari,))
-            return cursor.fetchone()  # Retourne un seul pari
+            return cursor.fetchone()
 
     def update_pari(
         self, id_pari, id_match=None, id_equipe=None, id_utilisateur=None, mise=None, gain=None
@@ -49,7 +48,7 @@ class ParisDAO:
                 updates.append("Gain = %s")
                 params.append(gain)
 
-            params.append(id_pari)  # Ajouter l'ID pari à la fin des paramètres
+            params.append(id_pari)
             update_query = "UPDATE Paris SET " + ", ".join(updates) + " WHERE Id_Paris = %s;"
             cursor.execute(update_query, params)
             self.connection.commit()
@@ -62,12 +61,12 @@ class ParisDAO:
     def list_paris(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Paris;")
-            return cursor.fetchall()  # Récupérer tous les paris
+            return cursor.fetchall()
 
     def exists_by_id(self, id_pari):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT EXISTS(SELECT 1 FROM Paris WHERE Id_Paris = %s);", (id_pari,))
-            return cursor.fetchone()[0]  # Renvoie True ou False
+            return cursor.fetchone()[0]
 
     def list_pari_match(self, id_match):
         with closing(self.connection.cursor()) as cursor:

@@ -36,7 +36,6 @@ while 30 * pages < totalCount:
     for match in reponseMatches.json()["matches"]:
         if date.fromisoformat(match["date"][:10]) < date.fromisoformat("2024-06-11"):
             id_match = match["id_match"]
-            # print(dict_equipe)
             reponseStatistique = requests.get("https://api.rlcstatistics.net/match/" + id_match)
             if reponseStatistique.status_code != 200:
                 raise Exception(
@@ -48,7 +47,6 @@ while 30 * pages < totalCount:
                 stat = reponseStatistique.json()
                 id_orange = str(uuid4())
                 id_bleu = str(uuid4())
-                # dict_color_clef = {"blue": id_bleu, "orange": id_orange}
                 if not EquipeDAO().is_in_equipe_by_name(nom=stat["blue"]["team"]["team"]["name"]):
                     EquipeDAO().insert_equipe(
                         id_equipe=id_bleu,
@@ -84,7 +82,6 @@ while 30 * pages < totalCount:
                                     id_joueur=id_ou_None,
                                     equipe=dict_equipe[stat[color]["team"]["team"]["name"]],
                                 )
-                        # if i == 3 and color == "orange":
                         if not TournoiDAO().is_in_tournoi(stat["event"]["_id"]):
                             TournoiDAO().insert_tournoi(
                                 id_tournoi=stat["event"]["_id"],

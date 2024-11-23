@@ -3,7 +3,6 @@ from contextlib import closing
 from uuid import uuid4
 
 
-# Classe pour la table Tournoi
 class TournoiDAO:
     def __init__(self):
         self.connection = DBConnection().connection
@@ -31,12 +30,12 @@ class TournoiDAO:
     def get_tournoi_by_id(self, id_tournoi):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Tournois WHERE Id_Tournois = %s;", (id_tournoi,))
-            return cursor.fetchone()  # Retourne un seul tournoi
+            return cursor.fetchone()
 
     def get_tournoi_by_titre(self, titre):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Tournois WHERE Titre = %s;", (titre,))
-            return cursor.fetchall()  # Retourne tous les tournois
+            return cursor.fetchall()
 
     def update_tournoi(
         self,
@@ -70,7 +69,7 @@ class TournoiDAO:
                 updates.append("Id_Equipe = %s")
                 params.append(id_equipe)
 
-            params.append(id_tournoi)  # Ajouter l'ID tournoi à la fin des paramètres
+            params.append(id_tournoi)
             update_query = "UPDATE Tournois SET " + ", ".join(updates) + " WHERE Id_Tournois = %s;"
             cursor.execute(update_query, params)
             self.connection.commit()
@@ -83,7 +82,7 @@ class TournoiDAO:
     def list_tournois(self):
         with closing(self.connection.cursor()) as cursor:
             cursor.execute("SELECT * FROM Tournois;")
-            return cursor.fetchall()  # Récupérer tous les tournois
+            return cursor.fetchall()
 
     def is_in_tournoi(self, id_tournoi):
         table = self.get_tournoi_by_id(id_tournoi=id_tournoi)
